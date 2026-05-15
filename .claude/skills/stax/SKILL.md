@@ -44,11 +44,36 @@ curl -s -X POST https://api.staxlabs.org/api/v1/backtest \
 
 ## Endpoints
 
+### Core
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/api/v1/backtest` | Run a full backtest |
 | `POST` | `/api/v1/screen` | Screen universe against filters |
 | `GET` | `/api/v1/health` | Health check (no auth) |
+
+### Strategies
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/strategies` | List your saved strategies |
+| `POST` | `/api/v1/strategies` | Save a new strategy |
+| `GET` | `/api/v1/strategies/:id` | Get a strategy by ID |
+| `PUT` | `/api/v1/strategies/:id` | Update a strategy |
+| `DELETE` | `/api/v1/strategies/:id` | Delete a strategy |
+
+### Account
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/account` | Your tier, rate limits, usage |
+| `GET` | `/api/v1/account/keys` | List your API keys |
+| `POST` | `/api/v1/account/keys` | Create a new API key |
+| `DELETE` | `/api/v1/account/keys/:id` | Revoke an API key |
+
+### Community
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/v1/community/strategies` | Browse public strategies |
+| `GET` | `/api/v1/community/strategies/:id` | Get a public strategy |
+| `POST` | `/api/v1/community/strategies/:id/fork` | Fork to your account |
 
 ---
 
@@ -448,9 +473,160 @@ curl -s -X POST https://api.staxlabs.org/api/v1/screen \
 
 ---
 
+## Strategies
+
+### Save a strategy
+```bash
+curl -s -X POST https://api.staxlabs.org/api/v1/strategies \
+  -H "Authorization: Bearer $STAX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "My Value Strategy",
+    "description": "Low P/E, high ROE mega caps",
+    "tags": ["value", "large-cap"],
+    "parameters": {
+      "schemaVersion": 4,
+      "fundamentalFilters": [
+        { "metric": "return_on_equity", "operator": "gte", "value": 15 },
+        { "metric": "price_to_earnings_ratio", "operator": "lte", "value": 20 }
+      ],
+      "ranking": { "momentumWeight": 50, "fundamentalWeight": 50, "momentumLookback": 6, "topN": 10 },
+      "positionSizing": { "maxPositionSize": 0.15, "minPositionSize": 0.02 },
+      "riskManagement": { "hardStopLoss": 0.20, "maxDrawdown": 0.35, "exitFailedImmediately": true },
+      "rebalancing": { "frequency": "monthly", "weightingMethod": "equal", "reconstitutionFrequency": "quarterly" },
+      "tradingCosts": { "commission": { "type": "per_share", "value": 0.005 }, "slippage": { "type": "percentage", "value": 0.001 } }
+    }
+  }' | jq .
+```
+
+Response: `{ "success": true, "strategy": { "id": "uuid", "name": "...", "created_at": "..." } }`
+
+### List your strategies
+```bash
+curl -s "https://api.staxlabs.org/api/v1/strategies?limit=10&search=value" \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+Query params: `limit` (max 100), `offset`, `search` (name filter)
+
+### Get a strategy by ID
+```bash
+curl -s https://api.staxlabs.org/api/v1/strategies/STRATEGY_ID \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+Returns the full strategy including `parameters` (the strategy JSON you can pass to `/backtest`).
+
+### Update a strategy
+```bash
+curl -s -X PUT https://api.staxlabs.org/api/v1/strategies/STRATEGY_ID \
+  -H "Authorization: Bearer $STAX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Updated Name", "is_public": true }' | jq .
+```
+
+Updatable fields: `name`, `description`, `parameters`, `tags`, `is_public`
+
+### Delete a strategy
+```bash
+curl -s -X DELETE https://api.staxlabs.org/api/v1/strategies/STRATEGY_ID \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+---
+
+## Account
+
+### Get account info
+```bash
+curl -s https://api.staxlabs.org/api/v1/account \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+Returns: tier, rate limits, requests remaining, active key count, subscription info.
+
+### List API keys
+```bash
+curl -s https://api.staxlabs.org/api/v1/account/keys \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+### Create a new API key
+```bash
+curl -s -X POST https://api.staxlabs.org/api/v1/account/keys \
+  -H "Authorization: Bearer $STAX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "My Script" }' | jq .
+```
+
+The full key is returned **once** — store it immediately.
+
+### Revoke an API key
+```bash
+curl -s -X DELETE https://api.staxlabs.org/api/v1/account/keys/KEY_ID \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+---
+
+## Community
+
+### Browse public strategies
+```bash
+curl -s "https://api.staxlabs.org/api/v1/community/strategies?sort=sharpe&limit=10" \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+Sort options: `popularity` (default), `newest`, `sharpe`, `returns`, `backtests`
+
+### Fork a public strategy
+```bash
+curl -s -X POST https://api.staxlabs.org/api/v1/community/strategies/STRATEGY_ID/fork \
+  -H "Authorization: Bearer $STAX_API_KEY" | jq .
+```
+
+Creates a copy in your account that you can modify and backtest.
+
+---
+
+## Workflow: Build → Save → Iterate
+
+The typical API workflow:
+
+1. **Screen** — Find which metrics produce interesting universes
+2. **Backtest** — Test a strategy configuration
+3. **Save** — Store the strategy if results are promising
+4. **Iterate** — Load, modify parameters, re-backtest
+5. **Share** — Set `is_public: true` for the community
+
+```bash
+# 1. Screen for high-ROE stocks
+curl -s -X POST $API/screen -H "$AUTH" -H "Content-Type: application/json" \
+  -d '{"filters": [{"metric": "return_on_equity", "operator": "gte", "value": 20}]}' | jq '.result.passedSymbols | length'
+
+# 2. Backtest a strategy
+RESULT=$(curl -s -X POST $API/backtest -H "$AUTH" -H "Content-Type: application/json" \
+  -d '{"strategy": {...}, "startDate": "2022-01-01", "endDate": "2024-12-31", "initialCapital": 100000}')
+
+# 3. Save if Sharpe > 1.0
+echo $RESULT | jq '.result.metrics.sharpeRatio'
+curl -s -X POST $API/strategies -H "$AUTH" -H "Content-Type: application/json" \
+  -d '{"name": "High ROE v1", "parameters": {...}}'
+
+# 4. Load, tweak, re-backtest
+STRATEGY=$(curl -s $API/strategies/ID -H "$AUTH" | jq '.strategy.parameters')
+# Modify filters, re-run backtest...
+
+# 5. Share with community
+curl -s -X PUT $API/strategies/ID -H "$AUTH" -H "Content-Type: application/json" \
+  -d '{"is_public": true}'
+```
+
+---
+
 ## Guardrails
 
-- Max 2000 symbols per backtest
+- Max 1000 symbols per backtest
 - Max 5 years date range
 - Max $100M initial capital
 - No ML in API (use Stax Labs UI for ML)
@@ -465,7 +641,7 @@ curl -s -X POST https://api.staxlabs.org/api/v1/screen \
 To install this skill in Claude Code:
 
 ```bash
-git clone https://github.com/stax-labs/stax-skill.git ~/.claude/skills/stax
+git clone https://github.com/Stax-app/stax-skill.git ~/.claude/skills/stax
 ```
 
 Then use `/stax` in any Claude Code session.
