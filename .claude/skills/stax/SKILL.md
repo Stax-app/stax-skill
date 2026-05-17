@@ -2,10 +2,11 @@
 name: stax
 version: 1.0.0
 description: |
-  Stax Labs backtesting and strategy management API. Build investment strategies,
-  backtest them against historical data, and screen the stock universe — all from
-  Claude Code. Use when the user asks to "build a strategy", "backtest", "screen stocks",
-  "test a value strategy", or anything related to quantitative investing.
+  Stax Labs — build, backtest, deploy, and manage investment strategies.
+  Two modes: CLI (short commands) or API (curl/JSON). Use CLI when installed,
+  fall back to API otherwise. Use when the user asks to "build a strategy",
+  "backtest", "screen stocks", "test a value strategy", or anything related
+  to quantitative investing.
 allowed-tools:
   - Bash
   - Read
@@ -13,27 +14,72 @@ allowed-tools:
   - AskUserQuestion
 ---
 
-# Stax Labs API
+# Stax Labs
 
-Build, backtest, and screen investment strategies programmatically through the Stax Labs API.
+Build, backtest, deploy, and manage investment strategies — via CLI or API.
 
-## Setup
+## Install
 
-The user needs an API key. If they don't have one configured, ask them to:
-1. Get a key from their Stax Labs account (Pro tier or above)
-2. Set it: `export STAX_API_KEY=sk_...`
-
-## API Base
-
-```
-https://api.staxlabs.org/api/v1
+```bash
+git clone https://github.com/Stax-app/stax-skill.git ~/.claude/skills/stax
+cd ~/.claude/skills/stax/cli && npm install && npm run build
+export STAX_API_KEY=sk_...
 ```
 
-All requests require: `Authorization: Bearer $STAX_API_KEY`
+This gives you the Claude Code skill (`/stax`) AND the CLI in one download.
 
-## How to Call the API
+**CLI path:** `~/.claude/skills/stax/cli/dist/index.js`
 
-Use `curl` via the Bash tool:
+```bash
+# Optional alias
+alias stax="node ~/.claude/skills/stax/cli/dist/index.js"
+```
+
+## Which mode to use
+
+- **CLI** (preferred) — short commands, formatted output
+- **API** (`curl`) — when CLI isn't built, or for scripting raw JSON
+- Both use the same `STAX_API_KEY` and the same backend at `https://api.staxlabs.org/api/v1`
+
+---
+
+## CLI Quick Reference
+
+```bash
+# Screen the universe
+stax screen --roe ">15" --pe "<20" --mcap ">10000000000" --date 2024-12-31
+
+# Backtest a strategy
+stax backtest strategy.json --start 2022-01-01 --end 2024-12-31 --capital 100000
+
+# Manage strategies
+stax strategies list [--search "value"]
+stax strategies get <id>
+stax strategies delete <id>
+
+# Deploy (paper trading)
+stax deploy strategy.json --name "My Deploy" --capital 50000
+stax deployments list
+stax deployments stop <id>
+
+# Account & keys
+stax account
+stax keys list
+stax keys create --name "New Key"
+
+# Community
+stax community --sort sharpe --limit 10
+```
+
+**Screen shortcuts:** `--roe`, `--pe`, `--pb`, `--ps`, `--de`, `--mcap`, `--margin`, `--roic`, `--fcf`, `--div`, `--cr`
+
+**Operators in values:** `">15"`, `">=15"`, `"<20"`, `"<=20"`, `"=10"`, `"5..25"` (between)
+
+---
+
+## API Reference
+
+Use `curl` when CLI is not installed:
 
 ```bash
 curl -s -X POST https://api.staxlabs.org/api/v1/backtest \
@@ -67,6 +113,16 @@ curl -s -X POST https://api.staxlabs.org/api/v1/backtest \
 | `GET` | `/api/v1/account/keys` | List your API keys |
 | `POST` | `/api/v1/account/keys` | Create a new API key |
 | `DELETE` | `/api/v1/account/keys/:id` | Revoke an API key |
+
+### Deployments
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/v1/deploy` | Deploy for paper trading |
+| `GET` | `/api/v1/deployments` | List your deployments |
+| `GET` | `/api/v1/deployments/:id` | Get deployment + positions + trades |
+| `POST` | `/api/v1/deployments/:id/stop` | Stop a deployment |
+| `POST` | `/api/v1/deployments/:id/pause` | Pause a deployment |
+| `POST` | `/api/v1/deployments/:id/resume` | Resume a paused deployment |
 
 ### Community
 | Method | Path | Description |

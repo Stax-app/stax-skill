@@ -1,0 +1,20 @@
+{
+  "name": "@stax-labs/cli",
+  "version": "0.1.0",
+  "description": "Stax Labs CLI — build, backtest, and deploy investment strategies from your terminal",
+  "bin": {
+    "stax": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/index.js --banner:js='#!/usr/bin/env node'",
+    "dev": "tsx src/index.ts"
+  },
+  "files": ["dist"],
+  "keywords": ["stax", "backtest", "investing", "quant", "cli"],
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.20.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.3.0"
+  }
+}
