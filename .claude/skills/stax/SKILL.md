@@ -22,24 +22,40 @@ Build, backtest, deploy, and manage investment strategies — via CLI or API.
 
 ```bash
 git clone https://github.com/Stax-app/stax-skill.git ~/.claude/skills/stax
-cd ~/.claude/skills/stax/cli && npm install && npm run build
-export STAX_API_KEY=sk_...
+cd ~/.claude/skills/stax/cli && ./setup.sh
+stax login
 ```
 
-This gives you the Claude Code skill (`/stax`) AND the CLI in one download.
+One clone, one setup, one login. Key saves to `~/.stax/config.json` — never paste it again.
 
-**CLI path:** `~/.claude/skills/stax/cli/dist/index.js`
+## Auth
 
 ```bash
-# Optional alias
-alias stax="node ~/.claude/skills/stax/cli/dist/index.js"
+stax login              # guided: open browser or paste key (saves permanently)
+stax login --key sk_... # one-liner for agents/CI (no prompts)
+stax whoami             # check auth status
+stax logout             # remove saved key
+```
+
+Key resolution order:
+1. `STAX_API_KEY` env var (agents/CI override)
+2. `~/.stax/config.json` (from `stax login`)
+3. Auto-prompts login if neither exists
+
+## Usage
+
+```bash
+stax              # interactive mode — guided menus, build strategies step by step
+stax backtest     # direct commands — fast for agents and scripts
+stax --help       # see all commands
 ```
 
 ## Which mode to use
 
-- **CLI** (preferred) — short commands, formatted output
-- **API** (`curl`) — when CLI isn't built, or for scripting raw JSON
-- Both use the same `STAX_API_KEY` and the same backend at `https://api.staxlabs.org/api/v1`
+- **Interactive** (`stax` with no args) — guided menus, for humans building strategies
+- **CLI** (`stax backtest`, `stax screen`, etc.) — direct commands, for agents/scripts
+- **API** (`curl`) — raw JSON, when CLI isn't installed
+- All use the same auth and the same backend at `https://api.staxlabs.org/api/v1`
 
 ---
 

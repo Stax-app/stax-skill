@@ -17,17 +17,9 @@
 const API = 'https://api.staxlabs.org/api/v1'
 const VERSION = '0.1.0'
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+import { getKey, loginFlow, logout, showAuthStatus } from './auth'
 
-function getKey(): string {
-  const key = process.env.STAX_API_KEY
-  if (!key) {
-    console.error('Error: STAX_API_KEY not set.')
-    console.error('  export STAX_API_KEY=sk_...')
-    process.exit(1)
-  }
-  return key
-}
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 async function api(method: string, path: string, body?: unknown): Promise<unknown> {
   const res = await fetch(`${API}${path}`, {
@@ -326,6 +318,10 @@ Stax Labs CLI v${VERSION}
 Usage: stax <command> [options]
 
 Commands:
+  (no args)                Interactive mode (guided menus)
+  login                    Authenticate (browser or paste key)
+  logout                   Remove saved credentials
+  whoami                   Show auth status
   backtest <file.json>     Run a backtest
   screen                   Screen the stock universe
   strategies               Manage saved strategies
@@ -336,16 +332,18 @@ Commands:
   community                Browse public strategies
 
 Examples:
+  stax                     # interactive strategy builder
+  stax login               # authenticate (saves to ~/.stax/config.json)
+  stax login --key sk_...  # one-liner auth for agents/scripts
   stax backtest strategy.json --start 2022-01-01 --end 2024-12-31
   stax screen --roe ">15" --pe "<20" --mcap ">10000000000"
   stax strategies list --search "value"
   stax deploy strategy.json --name "My Paper Trade" --capital 50000
-  stax deployments list
-  stax account
-  stax community --sort sharpe --limit 5
 
-Environment:
-  STAX_API_KEY    Your API key (sk_...)
+Auth precedence:
+  1. STAX_API_KEY env var     (for agents/CI)
+  2. ~/.stax/config.json      (from stax login)
+  3. Prompts you to login
 
 Docs: https://staxlabs.org/docs
 Skill: git clone https://github.com/Stax-app/stax-skill.git ~/.claude/skills/stax
@@ -357,6 +355,10 @@ async function main() {
   const rest = args.slice(1)
 
   switch (cmd) {
+    case 'login':       return loginFlow(rest)
+    case 'logout':      return logout()
+    case 'status':
+    case 'whoami':      return showAuthStatus()
     case 'backtest':    return cmdBacktest(rest)
     case 'screen':      return cmdScreen(rest)
     case 'strategies':  return cmdStrategies(rest)
@@ -368,8 +370,13 @@ async function main() {
     case '--version':
     case '-v':          console.log(VERSION); return
     case '--help':
-    case '-h':
-    case undefined:     console.log(HELP); return
+    case '-h':          console.log(HELP); return
+    case 'interactive':
+    case 'i':
+    case undefined: {
+      const { startRepl } = await import('./repl')
+      return startRepl()
+    }
     default:
       console.error(`Unknown command: ${cmd}`)
       console.log(HELP)

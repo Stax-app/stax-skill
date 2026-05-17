@@ -9,12 +9,23 @@
     "build": "esbuild src/index.ts --bundle --platform=node --target=node18 --outfile=dist/index.js --banner:js='#!/usr/bin/env node'",
     "dev": "tsx src/index.ts"
   },
-  "files": ["dist"],
-  "keywords": ["stax", "backtest", "investing", "quant", "cli"],
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "stax",
+    "backtest",
+    "investing",
+    "quant",
+    "cli"
+  ],
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.20.0",
     "tsx": "^4.0.0",
     "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.4.0"
   }
 }
