@@ -135,7 +135,7 @@ async function cmdBacktest(args: string[]) {
   const fmt = (label: string, v: unknown, pct = false) => {
     if (v === undefined || v === null) return
     const n = Number(v)
-    const display = pct ? `${(n * 100).toFixed(1)}%` : n.toFixed(2)
+    const display = pct ? `${n.toFixed(1)}%` : n.toFixed(2)
     console.log(`  ${label.padEnd(20)} ${display}`)
   }
 
@@ -147,7 +147,7 @@ async function cmdBacktest(args: string[]) {
   // winRate comes from engine as percentage (33.3) not decimal (0.333)
   if (metrics.winRate !== undefined) {
     const wr = Number(metrics.winRate)
-    console.log(`  ${'Win Rate'.padEnd(20)} ${wr > 1 ? wr.toFixed(1) : (wr * 100).toFixed(1)}%`)
+    console.log(`  ${'Win Rate'.padEnd(20)} ${wr.toFixed(1)}%`)
   }
   fmt('Profit Factor', metrics.profitFactor)
   console.log(`  ${'Trades'.padEnd(20)} ${(result.trades as unknown[])?.length ?? '?'}`)
