@@ -1,83 +1,110 @@
-# Stax Labs — Claude Code Skill
+# Stax Labs
 
-Build, backtest, and screen investment strategies from [Claude Code](https://claude.ai/code).
+Build, backtest, deploy, and manage investment strategies from your terminal or any AI coding agent.
 
-68 fundamental metrics. 5-year backtests. Risk management, position sizing, rebalancing — all configurable from natural language.
+Works with **Claude Code**, **Codex**, and the **Stax CLI**.
 
 ## Install
 
+**Claude Code:**
 ```bash
 git clone https://github.com/Stax-app/stax-skill.git ~/.claude/skills/stax
 ```
 
-Then use `/stax` in any Claude Code session.
-
-## Setup
-
-1. Get an API key from your [Stax Labs](https://staxlabs.org) account (Pro tier or above)
-2. Set your key:
+**Codex:**
 ```bash
-export STAX_API_KEY=sk_your_key_here
+git clone https://github.com/Stax-app/stax-skill.git ~/.agents/skills/stax
 ```
 
-## What You Can Do
-
-**Build strategies in plain English:**
-> "Build me a value strategy with P/E under 15, ROE above 15%, and low debt"
-
-**Backtest against real data:**
-> "Test this strategy from 2020 to 2024 with $100K"
-
-**Screen the universe:**
-> "What stocks pass a quality filter right now — high margins, low debt, large cap?"
-
-**Iterate and compare:**
-> "Try increasing momentum weight to 70% and adding a trailing stop"
-
-## Example
-
-```
-You: Build a quality momentum strategy and backtest it
-
-Claude: I'll create a strategy with quality filters (high margins, strong ROE)
-        and momentum-heavy ranking, then backtest 2020-2024...
-
-        Results:
-        - Total Return: 142%
-        - Sharpe Ratio: 1.4
-        - Max Drawdown: -18%
-        - Win Rate: 58%
-
-        The quality filters narrowed to 180 stocks. ROE > 15% was the
-        tightest filter. Want to try adding a PE cap?
+**CLI (optional — adds `stax` command globally):**
+```bash
+cd ~/.claude/skills/stax/cli && ./setup.sh
+stax login
 ```
 
-## 68 Available Metrics
+`stax login` opens your browser, you sign in with Google, and your terminal is connected automatically. No key pasting.
 
-| Category | Metrics | Examples |
-|----------|---------|---------|
-| Valuation | 15 | P/E, P/B, EV/EBITDA, PEG, earnings yield |
-| Profitability | 11 | ROE, ROA, ROIC, gross/net/operating margins |
-| Quality | 5 | Income quality, intangibles ratio, SBC/revenue |
-| Growth | 5 | EPS, revenue/share, book value/share |
-| Safety | 10 | Current ratio, D/E, interest coverage |
-| Efficiency | 11 | Asset turnover, DSO, cash conversion cycle |
-| Size | 1 | Market cap |
-| Cash Flow | 10 | FCF yield, dividend yield, capex coverage |
+## What You Get
 
-Full metric reference with operators and value ranges is in the [skill file](.claude/skills/stax/SKILL.md).
+### AI Agent Skill
+
+Use `/stax` in Claude Code or mention the skill in Codex to build strategies with natural language:
+
+```
+You: Build me a value strategy — high ROE, low debt, large caps — and backtest it
+
+Agent: 181 symbols screened, 105 trades over 2 years.
+       +14.7% return, 0.25 Sharpe, 14.3% max drawdown, 53% win rate.
+       Want to add a trailing stop or adjust the momentum weight?
+```
+
+### Interactive CLI
+
+Run `stax` with no arguments for a guided strategy builder:
+
+- **5 presets** with trailing stops (Momentum Quality, Classic Value, Dividend Compounder, Cash Machine, Large Cap Core)
+- **13 traits** in plain English ("Uses money efficiently", "Pays shareholders")
+- **68 metrics** grouped by category
+- **Trade-by-trade results** after each backtest
+- **Tweak and compare** — change a filter, auto-rerun, see the delta
+- **Save, deploy, fork** — full strategy lifecycle from the terminal
+
+### Direct Commands
+
+```bash
+stax backtest strategy.json --start 2022-01-01 --end 2024-12-31
+stax screen --roe ">15" --pe "<20"
+stax strategies list
+stax deploy strategy.json --name "Paper Trade" --capital 10000
+stax community --sort sharpe
+```
+
+## Auth
+
+```bash
+stax login              # opens browser, auto-connects (zero paste)
+stax login --key sk_... # one-liner for CI/agents
+stax whoami             # check status
+stax logout
+```
+
+## Presets
+
+| Preset | Momentum | Filters | Top N |
+|--------|----------|---------|-------|
+| Momentum Quality | 80% | ROE > 12%, Gross Margin > 30%, MCap > $5B | 10 |
+| Classic Value | 50% | ROE > 15%, D/E < 1.5, MCap > $10B | 15 |
+| Dividend Compounder | 30% | Div Yield > 2%, D/E < 1.5, MCap > $5B | 20 |
+| Cash Machine | 50% | FCF Yield > 5%, Op Margin > 15%, MCap > $2B | 15 |
+| Large Cap Core | 50% | ROE > 10%, MCap > $20B | 20 |
+
+All include 15% hard stop, 8-10% trailing stop (activates at 10% profit), 25% max drawdown circuit breaker.
+
+## 68 Metrics
+
+| Category | Examples |
+|----------|---------|
+| Valuation | P/E, P/B, EV/EBITDA, PEG, earnings yield, FCF yield |
+| Profitability | ROE, ROA, ROIC, gross/net/operating margins |
+| Growth | EPS, revenue/share, book value/share, FCF/share |
+| Safety | Current ratio, D/E, interest coverage, net debt/EBITDA |
+| Efficiency | Asset turnover, inventory turnover, DSO, cash conversion cycle |
+| Cash Flow | Dividend yield, payout ratio, OCF ratio, capex/OCF |
+
+Full reference: [SKILL.md](.claude/skills/stax/SKILL.md)
+
+## API
+
+21 endpoints at `api.staxlabs.org/api/v1/` — backtest, screen, strategies, deployments, account, community. Full docs in the skill file.
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code) (CLI, desktop app, or IDE extension)
-- Stax Labs account with Pro tier or above
-- API key (`sk_...`)
+- AI coding agent (Claude Code, Codex) or Node.js 18+
+- [Stax Labs](https://staxlabs.org) account (Pro tier for API)
 
 ## Links
 
-- [Stax Labs](https://staxlabs.org) — the platform
-- [API Documentation](.claude/skills/stax/SKILL.md) — full schema reference
-
-## License
+- [staxlabs.org](https://staxlabs.org)
+- [Skill reference](.claude/skills/stax/SKILL.md)
 
 MIT
