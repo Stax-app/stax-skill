@@ -63,17 +63,44 @@ function metricLabel(metric: string): string {
 
 // ─── Build Strategy Object ────────────────────────────────────────────────────
 
+// Helper: convert decimal (0.15) or whole (15) to integer percentage
+const toPct = (v: number | null): number => v == null ? 0 : (v < 1 && v > 0 ? Math.round(v * 100) : Math.round(v))
+
 function buildStrategy(): Record<string, unknown> {
+  const topN = state.topN
   return {
     schemaVersion: 4,
     fundamentalFilters: state.filters.map(f => ({
       metric: f.metric, operator: f.operator, value: f.value, ...(f.value2 !== undefined && { value2: f.value2 }),
     })),
-    ranking: { momentumWeight: state.momentum, fundamentalWeight: 100 - state.momentum, momentumLookback: state.lookback, topN: state.topN },
-    positionSizing: { maxPositionSize: state.maxPos, minPositionSize: state.minPos },
-    riskManagement: { hardStopLoss: state.stop, trailingStopLoss: state.trail, takeProfit: state.tp, maxDrawdown: state.maxDD, exitFailedImmediately: true },
-    rebalancing: { frequency: state.rebal, weightingMethod: state.weight, reconstitutionFrequency: state.recon },
-    tradingCosts: { commission: { type: 'per_share', value: 0.005 }, slippage: { type: 'percentage', value: 0.001 } },
+    ranking: { momentumWeight: state.momentum, fundamentalWeight: 100 - state.momentum, momentumLookback: state.lookback, topN },
+    // Full UnifiedStrategy shape — matches frontend exactly
+    positionSizing: {
+      entrySize: Math.max(1, Math.round(100 / Math.max(topN, 1))),
+      maxSize: toPct(state.maxPos),
+      minSize: toPct(state.minPos),
+      maxPositions: topN,
+      fullyInvested: true,
+    },
+    riskManagement: {
+      stopLoss: {
+        hardStop: { enabled: state.stop != null, mode: 'fixed', fixedPercent: toPct(state.stop), atrPeriod: 14, atrMultiplier: 2.5 },
+        trailing: { enabled: state.trail != null, trailPercent: toPct(state.trail), activationMode: 'profit', activationPercent: 10, activationDays: 30 },
+        takeProfitWithTrailing: 'enabled',
+      },
+      takeProfit: { type: 'percent', value: toPct(state.tp), enabled: state.tp != null },
+      maxDrawdown: toPct(state.maxDD),
+      exitFailedImmediately: true,
+    },
+    rebalancing: {
+      weighting: state.weight,
+      reconstitutionFrequency: state.recon,
+      rebalanceFrequency: state.rebal,
+      driftThreshold: 5,
+      filterEvaluationMode: 'continuous',
+      exitFailedImmediately: true,
+    },
+    tradingCosts: { commission: 0.001, slippage: 0.0005 },
   }
 }
 
