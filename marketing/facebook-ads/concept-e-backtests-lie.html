@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stax Ad — Concept E: Most Backtests Lie</title>
+<style>
+  :root{--bg:#0B0F17;--panel:#131926;--panel2:#0F1420;--ink:#F4F7FB;--muted:#8A97AB;--line:#232E40;--gain:#12E29A;--gain-dim:#0BAE77;--red:#FF6B6B}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#05070c;display:flex;flex-direction:column;align-items:center;gap:18px;padding:40px;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  .label{color:#5b6577;font:600 13px/1.4 system-ui;letter-spacing:.14em;text-transform:uppercase}
+  .ad{width:1080px;height:1080px;transform:scale(.62);transform-origin:top center;
+    background:radial-gradient(120% 110% at 50% 0%, #141c2b 0%, var(--bg) 55%);
+    color:var(--ink);border-radius:34px;overflow:hidden;position:relative;padding:82px;display:flex;flex-direction:column}
+  .brandrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:70px}
+  .logo{display:flex;align-items:center;gap:16px}
+  .logo .mark{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--gain),var(--gain-dim));display:flex;align-items:flex-end;flex-direction:column;justify-content:center;padding:9px;gap:5px}
+  .logo .mark i{display:block;height:6px;border-radius:3px;background:#04120c;opacity:.85}
+  .logo .mark i:nth-child(1){width:14px}.logo .mark i:nth-child(2){width:22px}.logo .mark i:nth-child(3){width:30px}
+  .logo .name{font:800 34px/1 system-ui;letter-spacing:-.02em}
+  .tag{color:var(--muted);font:600 22px/1 system-ui}
+  .hero{font:800 92px/1.02 system-ui;letter-spacing:-.03em}
+  .hero .u{color:var(--gain)}
+  .sub{color:#c4cdda;font:500 32px/1.45 system-ui;margin-top:34px;max-width:860px}
+  .sub b{color:#fff}
+  .proof{margin-top:48px;display:flex;flex-direction:column;gap:18px}
+  .row{display:flex;align-items:center;gap:20px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 28px}
+  .row .ic{width:44px;height:44px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font:800 26px/1 system-ui;background:rgba(18,226,154,.14);color:var(--gain)}
+  .row .tx{font:600 28px/1.3 system-ui;color:#e2e9f2}
+  .row .tx b{color:#fff}
+  .footer{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+  .cta{background:var(--gain);color:#04120c;font:800 36px/1 system-ui;padding:30px 48px;border-radius:16px}
+  .foot-note{color:var(--muted);font:500 20px/1.45 system-ui;text-align:right;max-width:360px}
+  .foot-note b{color:#cdd6e3}
+</style>
+</head>
+<body>
+  <div class="label">Concept E · &ldquo;Most Backtests Lie&rdquo; · rigor / credibility · 1080 × 1080</div>
+  <div class="ad">
+    <div class="brandrow">
+      <div class="logo"><div class="mark"><i></i><i></i><i></i></div><div class="name">Stax</div></div>
+      <div class="tag">staxlabs.org</div>
+    </div>
+    <div class="hero">Most backtests lie.<br><span class="u">Yours won&rsquo;t.</span></div>
+    <div class="sub"><b>The reason your last backtest looked amazing?</b> It cheated &mdash; peeking at data it couldn&rsquo;t have known in real time. Stax doesn&rsquo;t let it.</div>
+    <div class="proof">
+      <div class="row"><div class="ic">✓</div><div class="tx"><b>Point-in-time data</b> &mdash; no hindsight, no survivorship bias</div></div>
+      <div class="row"><div class="ic">✓</div><div class="tx"><b>Lookahead-biased metrics blocked</b> (Piotroski, Altman-Z) so results don&rsquo;t leak the future</div></div>
+      <div class="row"><div class="ic">✓</div><div class="tx"><b>Trading costs &amp; slippage modeled</b> &mdash; a forecast, not a fantasy</div></div>
+    </div>
+    <div class="footer">
+      <div class="cta">Run an honest backtest →</div>
+      <div class="foot-note"><b>Backtesting tool.</b> Not investment advice.</div>
+    </div>
+  </div>
+</body>
+</html>

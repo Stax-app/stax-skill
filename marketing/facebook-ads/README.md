@@ -111,6 +111,69 @@ baked into both creatives:
   doesn't guarantee future results." (Present in both mockups.)
 - Avoid implying personalized financial advice; Stax is a **research/backtesting tool.**
 
+---
+
+# Round 2 — Pain-point & proof-driven concepts (C–F)
+
+Same verified playbook, aimed squarely at the pains this audience (DIY/systematic retail investors,
+finance-Twitter / r/algotrading-adjacent, AI-tool-comfortable) actually feels.
+
+**On "real proof numbers":** the API is unreachable from the build sandbox (network-blocked, no key), so I
+did **not** fabricate results. Every number below is one of: (a) a **real Stax backtest output documented in
+this repo** — the Classic Value example in `README.md` (`181 symbols · 105 trades / 2yr · +14.7% · 0.25
+Sharpe · 14.3% max DD · 53% win`); (b) a **documented benchmark** — S&P 500 baseline from `SKILL.md`
+(~10%/yr, Sharpe ~0.5, max DD ~34% COVID); or (c) a **defensible external anchor** — Bloomberg Terminal
+≈ $28K/yr. **Swap in your own strongest real backtest before spending** — and if you drop me a Stax API key
+(or run one backtest and paste the JSON), I'll wire genuine, fresh numbers into these.
+
+| # | Concept | Pain it hits | Proof used |
+|---|---|---|---|
+| **C** | **Beat the Market** → `concept-c-beat-the-market.html` | "Am I actually beating the S&P, or lying to myself?" | Real Classic Value stats, head-to-head vs S&P 500 line |
+| **D** | **Stop Trading on Vibes** → `concept-d-stop-trading-on-vibes.html` | "My 'system' is a group chat + a gut feeling" | — (emotional hook; proof lives on the landing page) |
+| **E** | **Most Backtests Lie** → `concept-e-backtests-lie.html` | "Every backtest looks great until real money — they cheat" | Real product rigor: point-in-time data, Piotroski/Altman-Z blocked, costs modeled |
+| **F** | **$28K vs $0** → `concept-f-bloomberg-anchor.html` | "Real quant tools are gatekept behind five figures" | Bloomberg Terminal ≈ $28K/yr anchor |
+
+### Concept C — "Beat the Market" (proof / comparison)
+- **Headline:** *Are you **actually** beating the market?*
+- **Visual:** Your-strategy curve (solid green, `+14.7%`) vs. a dashed S&P 500 line, four real stat chips below.
+- **CTA:** *See your strategy vs. the S&P →*
+- **Caption:** *You think you're beating the market. Are you? Stax backtests your idea against real history and puts it head-to-head with the S&P 500 — return, Sharpe, drawdown, win rate. Find out before you risk a dollar → staxlabs.org*
+- **Honesty note:** the example's 0.25 Sharpe is *below* the S&P's typical ~0.5, so the ad sells **"know the truth,"** not "we always win." Swap in a real backtest that genuinely out-Sharpes the index and this becomes a knockout. The benchmark line is illustrative — render it from a real S&P series for the exact window.
+
+### Concept D — "Stop Trading on Vibes" (emotional)
+- **Hero:** *Your "strategy" is a group chat and a gut feeling.*
+- **Sub:** *Prove it before you bet on it.* → plain-English backtest.
+- **CTA:** *Backtest your idea free →*
+- **Caption:** *Screenshots in a group chat. A hot take from an anon. A gut feeling. That's not a strategy — it's a coin flip with extra steps. Describe your idea to Stax and see how it actually would've performed. → staxlabs.org*
+- **Variants:** (1) *You call it a strategy. Your P&L calls it a coin flip.* (2) *"Trust me bro" is not a backtest.* (3) *You've been backtesting in your head. It's called hope.*
+
+### Concept E — "Most Backtests Lie" (rigor / credibility — the sleeper)
+- **Hero:** *Most backtests lie. **Yours won't.***
+- **Proof rows:** point-in-time data (no survivorship bias) · lookahead-biased metrics blocked (Piotroski, Altman-Z) · trading costs + slippage modeled.
+- **CTA:** *Run an honest backtest →*
+- **Caption:** *The reason your last backtest looked incredible? It cheated — peeking at data it couldn't have known in real time. Stax uses point-in-time data, blocks lookahead-biased metrics like Piotroski and Altman-Z, and models trading costs. A forecast, not a fantasy. → staxlabs.org*
+- **Why it's the sleeper:** this is insider-credible to the exact skeptics who click AI-finance ads and *don't* convert because they assume it's snake oil. It pre-empts the objection. Highest trust, likely lower volume — great retargeting / mid-funnel creative.
+
+### Concept F — "$28K vs $0" (cost / gatekeeping)
+- **Hero:** *~~$28,000/yr~~ → **$0.***
+- **Sub:** what a Bloomberg Terminal costs vs. your first backtested strategy on Stax.
+- **CTA:** *Build one free →*
+- **Caption:** *A Bloomberg Terminal costs about $28,000 a year. It's how the pros screen and backtest. Stax gives you plain-English screening + backtesting for $0 to start. The quant desk, un-gatekept. → staxlabs.org*
+- **Note:** confirm the $28K figure against a source you're comfortable citing (2-yr contract ≈ $27,660/yr; single ≈ $31,980/yr). Round or hedge ("~$28K") to stay safe.
+
+### Pain-point map (for briefing more variants later)
+- **Complexity / "I can't code a backtest"** → Concept A, D
+- **Cost / gatekeeping** → Concept F
+- **Distrust of backtests & gurus (overfitting, lookahead bias)** → Concept E
+- **Underperformance anxiety** → Concept C
+- **Emotional/impulsive trading** → Concept D
+- **Status ("hedge-fund tooling for me")** → Concept B, F
+
+### What would make these even stronger (needs your input / real data)
+- **Real testimonial + number** ("Found a 1.8-Sharpe strategy in a weekend — @handle") — I didn't fabricate one. Give me 1–2 real quotes and I'll build a social-proof creative (a verified high-leverage lever).
+- **Live community proof** — "X strategies shared, top Sharpe on the leaderboard is Y" — pullable from your `/community` endpoint once I have API access.
+- **Your single best real backtest** — the one strategy that genuinely beats the S&P on return *and* Sharpe. That becomes the hero number across C and A.
+
 ## Notes / knobs for you
 
 - **Brand colors are placeholders** (dark canvas + gains-green `#12E29A`). Swap to Stax's real palette.
