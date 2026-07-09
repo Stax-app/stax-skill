@@ -1,0 +1,353 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 7 — Comment BUDDI (CTA, final frame). Everything the runtime needs lives inside <template>. -->
+  </head>
+  <body>
+    <template>
+      <script src="assets/vendor/gsap.min.js"></script>
+
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 100 900;
+          font-display: block;
+        }
+
+        /* Root styled via #root (scoper special-case) — no background here; the ground is a clip. */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Inter", system-ui, sans-serif;
+        }
+
+        /* ---- Track 0: full-bleed dark ground + closing rings atmosphere ---- */
+        .cb-bg {
+          position: absolute;
+          inset: 0;
+          background: #08080c;
+          z-index: 0;
+        }
+        #cb-rings {
+          position: absolute;
+          inset: 0;
+          transform-origin: 540px 850px;
+          will-change: transform, opacity;
+        }
+        .cb-ring {
+          position: absolute;
+          border-radius: 50%;
+          border: 1.5px solid rgba(77, 93, 255, 0.12);
+        }
+        #cb-ring-1 {
+          width: 760px;
+          height: 760px;
+          left: 160px;
+          top: 470px;
+          border-color: rgba(77, 93, 255, 0.2);
+        }
+        #cb-ring-2 {
+          width: 1140px;
+          height: 1140px;
+          left: -30px;
+          top: 280px;
+          border-color: rgba(77, 93, 255, 0.13);
+        }
+        #cb-ring-3 {
+          width: 1480px;
+          height: 1480px;
+          left: -200px;
+          top: 110px; /* bottom edge 1590 — stays above the y=1600 caption keep-out */
+          border-color: rgba(77, 93, 255, 0.08);
+        }
+
+        /* ---- Track 1: the CTA stack (all content held above y=1600 caption keep-out) ---- */
+        .cb-stack {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+
+        /* Beat 1 — "Comment" h1 */
+        #cb-h1 {
+          position: absolute;
+          top: 462px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          font-size: 172px;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: #f4f5fa;
+          will-change: transform, filter, opacity;
+        }
+
+        /* Beat 2 — the comment-input pill (tinted card, pill radius, no shadow) */
+        #cb-pill {
+          position: absolute;
+          top: 724px;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 620px;
+          height: 148px;
+          border-radius: 100px;
+          background: rgba(77, 93, 255, 0.12);
+          border: 1.5px solid rgba(77, 93, 255, 0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          will-change: transform, opacity;
+        }
+        .cb-type-wrap {
+          width: 258px; /* fixed measure >= final "BUDDI" width — no right-edge jitter while typing */
+          text-align: left;
+          white-space: nowrap;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          font-size: 64px;
+          letter-spacing: 0.04em;
+          color: #f4f5fa;
+          line-height: 1;
+        }
+        #cb-caret {
+          display: inline-block;
+          width: 5px;
+          height: 54px;
+          margin-left: 7px;
+          vertical-align: -6px;
+          background: #4d5dff;
+          opacity: 0; /* deterministic sin-blink driver owns this */
+        }
+
+        /* Beat 3 — big cobalt down-arrow (SVG, no emoji font on the render box) */
+        #cb-arrow {
+          position: absolute;
+          top: 952px;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 204px;
+          height: 258px;
+          will-change: transform, opacity;
+        }
+        #cb-arrow svg {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Beat 4 — muted sub-line */
+        #cb-sub {
+          position: absolute;
+          top: 1278px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Inter", system-ui, sans-serif;
+          font-weight: 400;
+          font-size: 40px;
+          line-height: 1.4;
+          color: #a6acc4;
+          will-change: transform, opacity;
+        }
+
+        /* Beat 5 — lowercase buddi wordmark (typeset; no logo file exists) */
+        #cb-wordmark {
+          position: absolute;
+          top: 1372px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          font-size: 84px;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          color: #f4f5fa;
+          text-transform: lowercase;
+          will-change: transform, opacity;
+        }
+
+        /* Beat 6 — disclaimer fine print, just above the y=1600 caption keep-out */
+        #cb-fine {
+          position: absolute;
+          top: 1536px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Inter", system-ui, sans-serif;
+          font-weight: 400;
+          font-size: 25px;
+          line-height: 1.3;
+          color: #767c94;
+          will-change: opacity;
+        }
+      </style>
+
+      <div id="root" data-composition-id="07-comment-buddi" data-width="1080" data-height="1920">
+        <!-- Ground + closing-rings atmosphere (allowed on the closing frame only) -->
+        <div class="cb-bg clip" data-start="0" data-duration="3.797" data-track-index="0">
+          <div id="cb-rings">
+            <div class="cb-ring" id="cb-ring-1"></div>
+            <div class="cb-ring" id="cb-ring-2"></div>
+            <div class="cb-ring" id="cb-ring-3"></div>
+          </div>
+        </div>
+
+        <!-- CTA stack -->
+        <div class="cb-stack clip" data-start="0" data-duration="3.797" data-track-index="1">
+          <div id="cb-h1">Comment</div>
+
+          <div id="cb-pill">
+            <div class="cb-type-wrap"><span id="cb-type"></span><span id="cb-caret"></span></div>
+          </div>
+
+          <div id="cb-arrow">
+            <svg viewBox="0 0 140 180" aria-hidden="true">
+              <path
+                d="M70 14 V128 M22 92 L70 146 L118 92"
+                stroke="#4D5DFF"
+                stroke-width="26"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div id="cb-sub">free to try &middot; link in your DMs</div>
+
+          <div id="cb-wordmark">buddi</div>
+
+          <div id="cb-fine">
+            Backtests are hypothetical &mdash; past performance doesn&rsquo;t guarantee future results.
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // ---- kinetic-beat-slam: ONE beat array drives every entrance (VO-paced) ----
+        // VO (3.797s): "Comment | 'BUDDI' | and I'll DM you | the link | to try it free."
+        const BEATS = {
+          h1: 0.1, // "Comment" — slam as the word is spoken
+          pill: 0.68, // "BUDDI" — the comment pill pops
+          type: 0.85, // "BUDDI" types into the pill
+          arrow: 1.6, // "and I'll DM you" — the arrow settles in
+          sub: 2.3, // "the link" — sub-line fades up
+          mark: 2.7, // "try it free" — wordmark seats
+          fine: 3.02, // disclaimer holds above the caption band
+        };
+        // Locked static from ~3.47s to the final frame (end-card hold).
+
+        // Rings ground: quiet settle-in behind everything, then dead still.
+        tl.fromTo(
+          "#cb-rings",
+          { opacity: 0, scale: 0.94 },
+          { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" },
+          0,
+        );
+
+        // Beat 1 — "Comment" slams in dead-center (scale + blur, hard attack).
+        tl.fromTo(
+          "#cb-h1",
+          { scale: 1.45, opacity: 0, filter: "blur(14px)" },
+          { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power4.out" },
+          BEATS.h1,
+        );
+
+        // Beat 2 — the comment pill spring-pops (smooth long-tail settle, no overshoot).
+        tl.fromTo(
+          "#cb-pill",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" },
+          BEATS.pill,
+        );
+
+        // Beat 2b — "BUDDI" types character-by-character (smooth-slice typewriter).
+        const CTA_WORD = "BUDDI";
+        const typeEl = document.getElementById("cb-type");
+        const typeLen = { v: 0 };
+        tl.to(
+          typeLen,
+          {
+            v: CTA_WORD.length,
+            duration: 0.62,
+            ease: "power1.inOut",
+            onUpdate: () => {
+              typeEl.textContent = CTA_WORD.substring(0, Math.floor(typeLen.v));
+            },
+          },
+          BEATS.type,
+        );
+
+        // Caret — deterministic sin-blink from pill pop through post-type beat,
+        // ending at sin(4π)=0 → hidden, so the end-card locks with no blinking.
+        const caretEl = document.getElementById("cb-caret");
+        const blink = { p: 0 };
+        tl.to(
+          blink,
+          {
+            p: Math.PI * 2 * 2,
+            duration: 1.48,
+            ease: "none",
+            onUpdate: () => {
+              caretEl.style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
+            },
+          },
+          BEATS.pill,
+        );
+
+        // Beat 3 — the big down-arrow drops in under the pill on a smooth settle.
+        tl.fromTo(
+          "#cb-arrow",
+          { y: -90, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+          BEATS.arrow,
+        );
+
+        // Beat 4 — muted sub-line fades up.
+        tl.fromTo(
+          "#cb-sub",
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" },
+          BEATS.sub,
+        );
+
+        // Beat 5 — the buddi wordmark seats at the bottom of the stack.
+        tl.fromTo(
+          "#cb-wordmark",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+          BEATS.mark,
+        );
+
+        // Beat 6 — disclaimer fine print, quiet fade only.
+        tl.fromTo(
+          "#cb-fine",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.45, ease: "power1.out" },
+          BEATS.fine,
+        );
+
+        window.__timelines["07-comment-buddi"] = tl;
+      </script>
+    </template>
+  </body>
+</html>

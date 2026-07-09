@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 5 — Backtest result. Everything the runtime needs lives inside <template>. -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* Root styled via #root (never a class on the data-composition-id element) */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed dark ground — a dedicated clip layer, never the root itself */
+        .f05-bg {
+          position: absolute;
+          inset: 0;
+          background: #08080C;
+        }
+
+        .f05-stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* Ambient glow layer — sits BEHIND the chart card */
+        .f05-glow {
+          position: absolute;
+          z-index: 1;
+          left: -90px;
+          top: 286px;
+          width: 1260px;
+          height: 1260px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(77, 93, 255, 0.9) 0%,
+            rgba(77, 93, 255, 0.32) 40%,
+            rgba(77, 93, 255, 0) 68%
+          );
+          opacity: 0;
+          transform-origin: 50% 50%;
+          pointer-events: none;
+          will-change: transform, opacity;
+        }
+
+        /* "BACKTEST RESULT" tag pill — top-center */
+        .f05-pill {
+          position: absolute;
+          z-index: 2;
+          left: 0;
+          right: 0;
+          top: 148px;
+          margin: 0 auto;
+          width: max-content;
+          padding: 20px 42px;
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 29px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #4D5DFF;
+          transform-origin: 50% 50%;
+          will-change: transform, opacity;
+        }
+
+        /* Hero return metric — counts up in sync with the curve draw */
+        .f05-hero {
+          position: absolute;
+          z-index: 2;
+          left: 0;
+          right: 0;
+          top: 262px;
+          margin: 0 auto;
+          width: max-content;
+          display: flex;
+          align-items: baseline;
+          gap: 26px;
+          will-change: transform, opacity;
+        }
+        .f05-hero-num {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 110px;
+          line-height: 1;
+          letter-spacing: -0.01em;
+          font-variant-numeric: tabular-nums;
+          color: #4D5DFF;
+        }
+        .f05-hero-lbl {
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 28px;
+          letter-spacing: 0.01em;
+          color: #A6ACC4;
+        }
+
+        /* Chart card — tinted card, the hero */
+        .f05-card {
+          position: absolute;
+          z-index: 2;
+          left: 88px;
+          top: 470px;
+          width: 904px;
+          height: 892px;
+          padding: 52px;
+          background: rgba(77, 93, 255, 0.1);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          border-radius: 14px;
+          box-shadow: none;
+          transform-origin: 50% 50%;
+          will-change: transform, opacity;
+        }
+        .f05-svg {
+          display: block;
+          width: 800px;
+          height: 740px;
+        }
+        .f05-line {
+          fill: none;
+          stroke: #4D5DFF;
+          stroke-width: 7;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f05-area {
+          fill: rgba(77, 93, 255, 0.2);
+          stroke: none;
+        }
+        .f05-gl {
+          stroke: rgba(244, 245, 250, 0.1);
+          stroke-width: 2;
+        }
+        .f05-gl-base {
+          stroke: rgba(244, 245, 250, 0.18);
+          stroke-width: 2;
+        }
+        .f05-dot-ring {
+          fill: rgba(77, 93, 255, 0.27);
+        }
+        .f05-dot-core {
+          fill: #4D5DFF;
+          stroke: #08080C;
+          stroke-width: 3;
+        }
+
+        /* "$1,000 · start" marker chip at the curve's origin (script-sourced figure) */
+        .f05-marker {
+          position: absolute;
+          left: 60px;
+          top: 592px;
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          width: max-content;
+          padding: 12px 24px;
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          transform-origin: 0% 100%;
+          will-change: transform, opacity;
+        }
+        .f05-marker-num {
+          font-weight: 700;
+          font-size: 27px;
+          color: #4D5DFF;
+        }
+        .f05-marker-lbl {
+          font-weight: 500;
+          font-size: 22px;
+          color: #A6ACC4;
+        }
+
+        /* "$1,384" end-value chip — pops beside the end dot when the draw lands */
+        .f05-endchip {
+          position: absolute;
+          top: 120px;
+          right: 112px;
+          width: max-content;
+          padding: 12px 24px;
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 27px;
+          color: #4D5DFF;
+          transform-origin: 100% 50%;
+          will-change: transform, opacity;
+        }
+
+        /* Muted stat row under the chart card */
+        .f05-stats {
+          position: absolute;
+          z-index: 2;
+          left: 0;
+          right: 0;
+          top: 1392px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 26px;
+          letter-spacing: 0.01em;
+          color: #A6ACC4;
+          will-change: transform, opacity;
+        }
+
+        /* Muted axis caption under the plot — types on */
+        .f05-axis {
+          margin-top: 14px;
+          padding-left: 24px;
+          min-height: 34px;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 24px;
+          letter-spacing: 0.02em;
+          color: #767C94;
+          white-space: nowrap;
+        }
+
+        /* Disclaimer fine print — just above the caption keep-out (~y1600) */
+        .f05-disclaimer {
+          position: absolute;
+          z-index: 2;
+          left: 150px;
+          right: 150px;
+          top: 1474px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 22px;
+          line-height: 1.55;
+          color: #767C94;
+          will-change: transform, opacity;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="05-backtest-result"
+        data-duration="4.553"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div
+          id="f05-bg"
+          class="clip f05-bg"
+          data-start="0"
+          data-duration="4.053"
+          data-track-index="0"
+        ></div>
+
+        <div
+          id="f05-stage"
+          class="clip f05-stage"
+          data-start="0"
+          data-duration="4.053"
+          data-track-index="1"
+        >
+          <div class="f05-glow" id="f05-glow"></div>
+
+          <div class="f05-pill" id="f05-pill">Backtest Result</div>
+
+          <div class="f05-hero" id="f05-hero">
+            <span class="f05-hero-num" id="f05-hero-num">+0.0%</span>
+            <span class="f05-hero-lbl">2-year backtest</span>
+          </div>
+
+          <div class="f05-card" id="f05-card">
+            <svg
+              class="f05-svg"
+              id="f05-svg"
+              viewBox="0 0 800 740"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- faint gridlines + baseline -->
+              <line class="f05-gl f05-grid" x1="24" y1="120" x2="776" y2="120" />
+              <line class="f05-gl f05-grid" x1="24" y1="260" x2="776" y2="260" />
+              <line class="f05-gl f05-grid" x1="24" y1="400" x2="776" y2="400" />
+              <line class="f05-gl f05-grid" x1="24" y1="540" x2="776" y2="540" />
+              <line class="f05-gl-base f05-grid" x1="24" y1="680" x2="776" y2="680" />
+
+              <!-- translucent cobalt area fill beneath the curve -->
+              <path
+                class="f05-area"
+                id="f05-area"
+                fill-opacity="0"
+                d="M 24 660
+                   C 62 646, 92 652, 126 632
+                   S 176 646, 208 618
+                   S 258 566, 292 570
+                   S 338 606, 368 586
+                   S 412 512, 446 502
+                   S 490 528, 520 512
+                   S 564 430, 596 418
+                   S 638 446, 664 424
+                   S 706 316, 732 278
+                   S 764 140, 776 96
+                   L 776 680 L 24 680 Z"
+              />
+
+              <!-- the equity curve — draws left→right -->
+              <path
+                class="f05-line"
+                id="f05-line"
+                d="M 24 660
+                   C 62 646, 92 652, 126 632
+                   S 176 646, 208 618
+                   S 258 566, 292 570
+                   S 338 606, 368 586
+                   S 412 512, 446 502
+                   S 490 528, 520 512
+                   S 564 430, 596 418
+                   S 638 446, 664 424
+                   S 706 316, 732 278
+                   S 764 140, 776 96"
+              />
+
+              <!-- cobalt end-dot where the draw finishes -->
+              <g id="f05-dot">
+                <circle class="f05-dot-ring" cx="776" cy="96" r="19" />
+                <circle class="f05-dot-core" cx="776" cy="96" r="9.5" />
+              </g>
+            </svg>
+
+            <div class="f05-axis"><span id="f05-axis-text"></span></div>
+
+            <div class="f05-marker" id="f05-marker">
+              <span class="f05-marker-num">$1,000</span>
+              <span class="f05-marker-lbl">· start</span>
+            </div>
+
+            <div class="f05-endchip" id="f05-endchip">$1,384</div>
+          </div>
+
+          <div class="f05-stats" id="f05-stats">
+            Win rate 57% · Max drawdown −9.8%
+          </div>
+
+          <div class="f05-disclaimer" id="f05-disclaimer">
+            Backtests are hypothetical — past performance doesn't guarantee future results.
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/vendor/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        /* ── Scene 1 (0.0–0.97s, compressed from 0–1.2s): stage set —
+           tag pill spring-pops (power3 settle, no overshoot), empty chart
+           card rises beneath, faint gridlines wash in. ─────────────────── */
+        tl.fromTo(
+          "#f05-pill",
+          { scale: 0, opacity: 0, y: 22 },
+          { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+          0.04
+        );
+        tl.fromTo(
+          "#f05-card",
+          { opacity: 0, y: 48, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" },
+          0.16
+        );
+        const f05Grid = gsap.utils.toArray(".f05-grid");
+        f05Grid.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.4, ease: "power2.out" },
+            0.42 + i * 0.05
+          );
+        });
+
+        /* ── Scene 2 (0.97–2.76s, from 1.2–3.4s): the evidence arrives —
+           "$1,000 · start" marker pops at the origin, the equity curve
+           DRAWS left→right (svg-path-draw: dasharray = measured length),
+           the translucent area develops beneath, a cobalt end-dot lands
+           as the draw finishes, the muted axis caption types on. ───────── */
+        // hero return metric — rises in late in scene 1, then COUNTS UP
+        // 0.0 → 38.4 locked to the exact curve-draw window (1.05s, 1.42s, linear)
+        tl.fromTo(
+          "#f05-hero",
+          { opacity: 0, y: 26 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+          0.72
+        );
+        const f05RetEl = document.getElementById("f05-hero-num");
+        const f05Ret = { v: 0 };
+        tl.fromTo(
+          f05Ret,
+          { v: 0 },
+          {
+            v: 38.4,
+            duration: 1.42,
+            ease: "none",
+            onUpdate: () => {
+              f05RetEl.textContent = "+" + f05Ret.v.toFixed(1) + "%";
+            },
+          },
+          1.05
+        );
+
+        tl.fromTo(
+          "#f05-marker",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          0.95
+        );
+
+        const f05Line = document.getElementById("f05-line");
+        const f05Len = f05Line.getTotalLength() * 1.02;
+        f05Line.style.strokeDasharray = String(f05Len);
+        f05Line.style.strokeDashoffset = String(f05Len);
+        tl.fromTo(
+          f05Line,
+          { strokeDashoffset: f05Len },
+          { strokeDashoffset: 0, duration: 1.42, ease: "none" },
+          1.05
+        );
+
+        tl.fromTo(
+          "#f05-area",
+          { fillOpacity: 0 },
+          { fillOpacity: 1, duration: 0.95, ease: "power1.inOut" },
+          1.45
+        );
+
+        tl.fromTo(
+          "#f05-dot",
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.45,
+            ease: "power3.out",
+            svgOrigin: "776 96",
+          },
+          2.44
+        );
+
+        // "$1,384" end-value chip — spring-pops beside the dot as the draw lands
+        tl.fromTo(
+          "#f05-endchip",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+          2.5
+        );
+
+        // axis caption "actual past prices" — smooth character slice on its VO cue
+        const f05AxisFull = "actual past prices";
+        const f05AxisEl = document.getElementById("f05-axis-text");
+        const f05AxisLen = { v: 0 };
+        tl.to(
+          f05AxisLen,
+          {
+            v: f05AxisFull.length,
+            duration: 0.55,
+            ease: "none",
+            onUpdate: () => {
+              f05AxisEl.textContent = f05AxisFull.substring(
+                0,
+                Math.floor(f05AxisLen.v)
+              );
+            },
+          },
+          2.52
+        );
+
+        /* ── Scene 3 (2.76–4.053s, from 3.4–5.0s): resolve — soft cobalt
+           glow blooms behind the card (bloom-and-hold, no breathe: held
+           read per direction), disclaimer fine print fades up. No exit. ── */
+        tl.fromTo(
+          "#f05-glow",
+          { opacity: 0, scale: 0.88 },
+          { opacity: 0.34, scale: 1, duration: 0.85, ease: "power2.out" },
+          2.7
+        );
+        tl.fromTo(
+          "#f05-stats",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          3.0
+        );
+        tl.fromTo(
+          "#f05-disclaimer",
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          3.08
+        );
+
+        window.__timelines["05-backtest-result"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
