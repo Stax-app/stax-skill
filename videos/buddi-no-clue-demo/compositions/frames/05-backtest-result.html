@@ -71,21 +71,52 @@
           z-index: 2;
           left: 0;
           right: 0;
-          top: 318px;
+          top: 148px;
           margin: 0 auto;
           width: max-content;
           padding: 20px 42px;
-          background: rgba(30, 43, 250, 0.08);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
           font-weight: 600;
           font-size: 29px;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #1e2bfa;
+          color: #4D5DFF;
           transform-origin: 50% 50%;
           will-change: transform, opacity;
+        }
+
+        /* Hero return metric — counts up in sync with the curve draw */
+        .f05-hero {
+          position: absolute;
+          z-index: 2;
+          left: 0;
+          right: 0;
+          top: 262px;
+          margin: 0 auto;
+          width: max-content;
+          display: flex;
+          align-items: baseline;
+          gap: 26px;
+          will-change: transform, opacity;
+        }
+        .f05-hero-num {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 110px;
+          line-height: 1;
+          letter-spacing: -0.01em;
+          font-variant-numeric: tabular-nums;
+          color: #4D5DFF;
+        }
+        .f05-hero-lbl {
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 28px;
+          letter-spacing: 0.01em;
+          color: #A6ACC4;
         }
 
         /* Chart card — tinted card, the hero */
@@ -97,8 +128,8 @@
           width: 904px;
           height: 892px;
           padding: 52px;
-          background: rgba(30, 43, 250, 0.04);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.1);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 14px;
           box-shadow: none;
           transform-origin: 50% 50%;
@@ -111,29 +142,29 @@
         }
         .f05-line {
           fill: none;
-          stroke: #1e2bfa;
+          stroke: #4D5DFF;
           stroke-width: 7;
           stroke-linecap: round;
           stroke-linejoin: round;
         }
         .f05-area {
-          fill: rgba(30, 43, 250, 0.1);
+          fill: rgba(77, 93, 255, 0.2);
           stroke: none;
         }
         .f05-gl {
-          stroke: rgba(30, 43, 250, 0.09);
+          stroke: rgba(244, 245, 250, 0.1);
           stroke-width: 2;
         }
         .f05-gl-base {
-          stroke: rgba(30, 43, 250, 0.18);
+          stroke: rgba(244, 245, 250, 0.18);
           stroke-width: 2;
         }
         .f05-dot-ring {
-          fill: rgba(30, 43, 250, 0.15);
+          fill: rgba(77, 93, 255, 0.27);
         }
         .f05-dot-core {
-          fill: #1e2bfa;
-          stroke: #fdfae7;
+          fill: #4D5DFF;
+          stroke: #08080C;
           stroke-width: 3;
         }
 
@@ -147,8 +178,8 @@
           gap: 10px;
           width: max-content;
           padding: 12px 24px;
-          background: rgba(30, 43, 250, 0.08);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
           transform-origin: 0% 100%;
@@ -157,12 +188,46 @@
         .f05-marker-num {
           font-weight: 700;
           font-size: 27px;
-          color: #1e2bfa;
+          color: #4D5DFF;
         }
         .f05-marker-lbl {
           font-weight: 500;
           font-size: 22px;
-          color: #6b6b6b;
+          color: #A6ACC4;
+        }
+
+        /* "$1,384" end-value chip — pops beside the end dot when the draw lands */
+        .f05-endchip {
+          position: absolute;
+          top: 120px;
+          right: 112px;
+          width: max-content;
+          padding: 12px 24px;
+          background: rgba(77, 93, 255, 0.14);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 27px;
+          color: #4D5DFF;
+          transform-origin: 100% 50%;
+          will-change: transform, opacity;
+        }
+
+        /* Muted stat row under the chart card */
+        .f05-stats {
+          position: absolute;
+          z-index: 2;
+          left: 0;
+          right: 0;
+          top: 1392px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 26px;
+          letter-spacing: 0.01em;
+          color: #A6ACC4;
+          will-change: transform, opacity;
         }
 
         /* Muted axis caption under the plot — types on */
@@ -174,7 +239,7 @@
           font-weight: 400;
           font-size: 24px;
           letter-spacing: 0.02em;
-          color: #9a9a9a;
+          color: #767C94;
           white-space: nowrap;
         }
 
@@ -190,7 +255,7 @@
           font-weight: 400;
           font-size: 22px;
           line-height: 1.55;
-          color: #9a9a9a;
+          color: #767C94;
           will-change: transform, opacity;
         }
       </style>
@@ -220,6 +285,11 @@
           <div class="f05-glow" id="f05-glow"></div>
 
           <div class="f05-pill" id="f05-pill">Backtest Result</div>
+
+          <div class="f05-hero" id="f05-hero">
+            <span class="f05-hero-num" id="f05-hero-num">+0.0%</span>
+            <span class="f05-hero-lbl">2-year backtest</span>
+          </div>
 
           <div class="f05-card" id="f05-card">
             <svg
@@ -284,6 +354,12 @@
               <span class="f05-marker-num">$1,000</span>
               <span class="f05-marker-lbl">· start</span>
             </div>
+
+            <div class="f05-endchip" id="f05-endchip">$1,384</div>
+          </div>
+
+          <div class="f05-stats" id="f05-stats">
+            Win rate 57% · Max drawdown −9.8%
           </div>
 
           <div class="f05-disclaimer" id="f05-disclaimer">
@@ -327,6 +403,30 @@
            DRAWS left→right (svg-path-draw: dasharray = measured length),
            the translucent area develops beneath, a cobalt end-dot lands
            as the draw finishes, the muted axis caption types on. ───────── */
+        // hero return metric — rises in late in scene 1, then COUNTS UP
+        // 0.0 → 38.4 locked to the exact curve-draw window (1.05s, 1.42s, linear)
+        tl.fromTo(
+          "#f05-hero",
+          { opacity: 0, y: 26 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+          0.72
+        );
+        const f05RetEl = document.getElementById("f05-hero-num");
+        const f05Ret = { v: 0 };
+        tl.fromTo(
+          f05Ret,
+          { v: 0 },
+          {
+            v: 38.4,
+            duration: 1.42,
+            ease: "none",
+            onUpdate: () => {
+              f05RetEl.textContent = "+" + f05Ret.v.toFixed(1) + "%";
+            },
+          },
+          1.05
+        );
+
         tl.fromTo(
           "#f05-marker",
           { scale: 0, opacity: 0 },
@@ -365,6 +465,14 @@
           2.44
         );
 
+        // "$1,384" end-value chip — spring-pops beside the dot as the draw lands
+        tl.fromTo(
+          "#f05-endchip",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+          2.5
+        );
+
         // axis caption "actual past prices" — smooth character slice on its VO cue
         const f05AxisFull = "actual past prices";
         const f05AxisEl = document.getElementById("f05-axis-text");
@@ -393,6 +501,12 @@
           { opacity: 0, scale: 0.88 },
           { opacity: 0.34, scale: 1, duration: 0.85, ease: "power2.out" },
           2.7
+        );
+        tl.fromTo(
+          "#f05-stats",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          3.0
         );
         tl.fromTo(
           "#f05-disclaimer",
