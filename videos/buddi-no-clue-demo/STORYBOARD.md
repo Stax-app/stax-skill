@@ -22,7 +22,7 @@ music: minimal upbeat tech — light percussive pulse, curious and clean, no dro
 - voiceover: "I had $1,000 sitting in cash — and no clue what to do with it. So I typed that exact sentence into an AI."
 - duration: 9.408s
 - transition_in: cut
-- status: outline
+- status: animated
 - src: compositions/frames/01-no-clue-sentence.html
 - type: hook
 - persuasion: Pain validation — the viewer's own unspoken sentence, typed out loud
@@ -47,7 +47,7 @@ keyMessage: Your "no clue" sentence is a valid starting input.
 - voiceover: "That's most of us, right? You want your money to grow — but 'where do I even start' freezes you. So it just sits there."
 - duration: 6.976s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - src: compositions/frames/02-sitting-there.html
 - type: pain_point
 - persuasion: Pain agitation — naming the freeze, not the ignorance; the stillness of the card IS the pain
@@ -72,7 +72,7 @@ keyMessage: The problem isn't your money — it's that "where do I start" freeze
 - voiceover: "Turns out there's now an AI built for your money. And you don't even need an idea — if you don't have one, it just asks you a few simple questions."
 - duration: 9.344s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/03-asks-questions.html
 - type: product_intro
 - persuasion: Friction reduction — the scary "idea" requirement is visibly replaced by tappable multiple-choice
@@ -97,7 +97,7 @@ keyMessage: No idea needed — Buddi asks, you tap.
 - voiceover: "Here's the part that got me — I answered like three, and it built the whole thing. A real, rules-based strategy."
 - duration: 6.912s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/04-built-the-thing.html
 - type: feature_showcase
 - persuasion: Show-don't-tell proof — the abstract "it built it" claim becomes four concrete, readable rules
@@ -122,7 +122,7 @@ keyMessage: Three answers in, a real strategy out.
 - voiceover: "Then it showed me how it would have performed on actual past prices."
 - duration: 4.053s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/05-backtest-result.html
 - type: feature_showcase
 - persuasion: Statistical proof — evidence on real historical data, honestly labeled
@@ -147,7 +147,7 @@ keyMessage: It shows you the evidence before you commit.
 - voiceover: "And I could paper-trade it on real prices — free — before risking a single dollar."
 - duration: 5.12s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/06-paper-trade.html
 - type: benefit_highlight
 - persuasion: Risk reversal — every remaining objection (cost, risk) removed in one beat
@@ -172,7 +172,7 @@ keyMessage: Try it free on real prices before risking anything.
 - voiceover: "Comment 'BUDDI' and I'll DM you the link to try it free."
 - duration: 3.797s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/07-comment-buddi.html
 - type: cta
 - persuasion: Friction reduction — the ask is one typed word, not a signup

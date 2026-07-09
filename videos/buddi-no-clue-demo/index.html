@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
     <style>
       * {
         margin: 0;
@@ -12,19 +12,23 @@
       }
       html,
       body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
+        width: 1080px;
+        height: 1920px;
         overflow: hidden;
         background: #000;
       }
-      body {
-        font-family: "Inter", sans-serif;
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #fdfae7;
       }
-      code,
-      pre,
-      .monospace {
-        font-family: "JetBrains Mono", monospace;
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
       }
     </style>
   </head>
@@ -33,27 +37,265 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
+      data-duration="45.61"
+      data-width="1080"
+      data-height="1920"
     >
-      
-      
+      <div
+        id="el-01-no-clue-sentence"
+        class="scene"
+        data-composition-id="01-no-clue-sentence"
+        data-composition-src="compositions/frames/01-no-clue-sentence.html"
+        data-start="0"
+        data-duration="9.908"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-01-no-clue-sentence-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="9.408"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
-      <!--
-        Add your clips here. Example:
-        <div id="title" class="clip" data-start="0" data-duration="5" data-track-index="1"
-             style="font-size: 64px; color: #fff; padding: 40px">
-          Hello World
-        </div>
-      -->
+      <div
+        id="el-02-sitting-there"
+        class="scene"
+        data-composition-id="02-sitting-there"
+        data-composition-src="compositions/frames/02-sitting-there.html"
+        data-start="9.408"
+        data-duration="7.376"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-02-sitting-there-voice"
+        src="assets/voice/02.wav"
+        data-start="9.408"
+        data-duration="6.976"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-03-asks-questions"
+        class="scene"
+        data-composition-id="03-asks-questions"
+        data-composition-src="compositions/frames/03-asks-questions.html"
+        data-start="16.384"
+        data-duration="9.844"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-03-asks-questions-voice"
+        src="assets/voice/03.wav"
+        data-start="16.384"
+        data-duration="9.344"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-04-built-the-thing"
+        class="scene"
+        data-composition-id="04-built-the-thing"
+        data-composition-src="compositions/frames/04-built-the-thing.html"
+        data-start="25.728"
+        data-duration="7.412"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-04-built-the-thing-voice"
+        src="assets/voice/04.wav"
+        data-start="25.728"
+        data-duration="6.912"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-05-backtest-result"
+        class="scene"
+        data-composition-id="05-backtest-result"
+        data-composition-src="compositions/frames/05-backtest-result.html"
+        data-start="32.64"
+        data-duration="4.553"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-05-backtest-result-voice"
+        src="assets/voice/05.wav"
+        data-start="32.64"
+        data-duration="4.053"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-06-paper-trade"
+        class="scene"
+        data-composition-id="06-paper-trade"
+        data-composition-src="compositions/frames/06-paper-trade.html"
+        data-start="36.693"
+        data-duration="5.52"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-06-paper-trade-voice"
+        src="assets/voice/06.wav"
+        data-start="36.693"
+        data-duration="5.12"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-07-comment-buddi"
+        class="scene"
+        data-composition-id="07-comment-buddi"
+        data-composition-src="compositions/frames/07-comment-buddi.html"
+        data-start="41.812999999999995"
+        data-duration="3.797"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-07-comment-buddi-voice"
+        src="assets/voice/07.wav"
+        data-start="41.812999999999995"
+        data-duration="3.797"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- captions -->
+      <div
+        id="el-captions"
+        class="scene"
+        data-composition-id="captions"
+        data-composition-src="compositions/captions.html"
+        data-start="0"
+        data-duration="45.61"
+        data-track-index="2"
+      ></div>
+
+      <!-- SFX -->
+      <audio
+        id="el-sfx-0"
+        src="assets/sfx/typing.mp3"
+        data-start="0"
+        data-duration="1.5"
+        data-track-index="20"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-1"
+        src="assets/sfx/pop.mp3"
+        data-start="0"
+        data-duration="0.72"
+        data-track-index="21"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-2"
+        src="assets/sfx/impact-bass-2.mp3"
+        data-start="9.408"
+        data-duration="2.59"
+        data-track-index="22"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-3"
+        src="assets/sfx/click-soft.mp3"
+        data-start="16.384"
+        data-duration="0.37"
+        data-track-index="23"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-4"
+        src="assets/sfx/click.mp3"
+        data-start="16.384"
+        data-duration="0.37"
+        data-track-index="24"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-5"
+        src="assets/sfx/pop.mp3"
+        data-start="25.728"
+        data-duration="0.72"
+        data-track-index="25"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-6"
+        src="assets/sfx/riser.mp3"
+        data-start="25.728"
+        data-duration="10.03"
+        data-track-index="26"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-7"
+        src="assets/sfx/riser.mp3"
+        data-start="32.64"
+        data-duration="10.03"
+        data-track-index="27"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-8"
+        src="assets/sfx/chime.mp3"
+        data-start="32.64"
+        data-duration="2.5"
+        data-track-index="28"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-9"
+        src="assets/sfx/click.mp3"
+        data-start="36.693"
+        data-duration="0.37"
+        data-track-index="29"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-10"
+        src="assets/sfx/impact-bass-1.mp3"
+        data-start="41.813"
+        data-duration="2.12"
+        data-track-index="30"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-11"
+        src="assets/sfx/pop.mp3"
+        data-start="41.813"
+        data-duration="0.72"
+        data-track-index="31"
+        data-volume="0.35"
+      ></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.from("#title", { opacity: 0, y: -50, duration: 1 }, 0);
-      window.__timelines["main"] = tl;
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-no-clue-sentence", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 9.408);
+        tl.fromTo("#el-02-sitting-there", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 9.408);
+        tl.to("#el-02-sitting-there", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 16.384);
+        tl.fromTo("#el-03-asks-questions", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 16.384);
+        tl.to("#el-03-asks-questions", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 25.728);
+        tl.fromTo("#el-04-built-the-thing", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 25.728);
+        tl.to("#el-04-built-the-thing", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 32.64);
+        tl.fromTo("#el-05-backtest-result", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 32.64);
+        tl.to("#el-05-backtest-result", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 36.693);
+        tl.fromTo("#el-06-paper-trade", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 36.693);
+        tl.to("#el-06-paper-trade", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 41.813);
+        tl.fromTo("#el-07-comment-buddi", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 41.813);
+        tl.to({}, { duration: 45.61 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
     </script>
   </body>
 </html>
