@@ -20,7 +20,7 @@ music: minimal upbeat tech — light percussive pulse, curious and clean, no dro
 
 - scene: A thumb types "I have $1,000 and no clue what to do with it" live into a clean Buddi chat input — caret blinking, words appearing keystroke by keystroke. No face, no logo yet.
 - voiceover: "I had $1,000 sitting in cash — and no clue what to do with it. So I typed that exact sentence into an AI."
-- duration: 4s
+- duration: 9.408s
 - transition_in: cut
 - status: outline
 - src: compositions/frames/01-no-clue-sentence.html
@@ -30,7 +30,7 @@ music: minimal upbeat tech — light percussive pulse, curious and clean, no dro
 - blueprint: typewriter-reveal (Reproduce — Hook variant, ticker-push sub-variant)
 - focal: the typed sentence in its chat-input pill
 - roles: chat-input pill = cutout (hero) · send button = supporting · cream field = background
-- sfx: keyboard-typing, message-send-pop
+- sfx: typing, pop
 - asset_candidates: none — hand-built chat-UI recreation (see asset-descriptions.md; no captured assets exist)
 
 Reproduce: keep the signature — live type-on with trailing caret, assembly ticker-translates so the caret stays near center; resolve is adapted from collapse→brand-pop to send→sent-bubble (the product UI sub-variant: the payoff is the message entering the chat, not a logo — no logo yet per story).
@@ -45,7 +45,7 @@ keyMessage: Your "no clue" sentence is a valid starting input.
 
 - scene: A deliberately boring bank-balance card — "$1,000.00 · Savings · 0 activity" — sits dead still on the canvas while short pain statements land around it. On-screen text: "just… sitting there 💤"
 - voiceover: "That's most of us, right? You want your money to grow — but 'where do I even start' freezes you. So it just sits there."
-- duration: 6s
+- duration: 6.976s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/02-sitting-there.html
@@ -55,7 +55,7 @@ keyMessage: Your "no clue" sentence is a valid starting input.
 - blueprint: kinetic-type-beats (Adapt — Problem variant)
 - focal: the frozen "where do I even start" line
 - roles: bank-balance card = supporting (the still-life prop) · pain lines = cutout (hero type) · cream field = background
-- sfx: soft-thud
+- sfx: impact-bass-2
 - asset_candidates: none — hand-built bank-balance card recreation
 
 Adapt: keep the signature — pain lines land one at a time, each alone on its beat, replacing in place; change — a static bank-balance card sits above as the visual anchor the type plays against (not a bare canvas), and the resolve is a deliberate dead-still hold instead of a swipe reveal.
@@ -70,7 +70,7 @@ keyMessage: The problem isn't your money — it's that "where do I start" freeze
 
 - scene: Back in the Buddi chat — Buddi replies, then three simple multiple-choice question chips appear one by one; a thumb taps an answer on each. The product is DOING the thinking on screen.
 - voiceover: "Turns out there's now an AI built for your money. And you don't even need an idea — if you don't have one, it just asks you a few simple questions."
-- duration: 8s
+- duration: 9.344s
 - transition_in: zoom-through
 - status: outline
 - src: compositions/frames/03-asks-questions.html
@@ -80,7 +80,7 @@ keyMessage: The problem isn't your money — it's that "where do I start" freeze
 - blueprint: cursor-ui-demo (Adapt — Product_Intro variant, thumb-tap actor)
 - focal: the three question chips being answered
 - roles: Buddi chat column = cutout (the surface is the hero) · tap-highlight = supporting (the actor) · cream field = background
-- sfx: tap-pop, chip-select-tick
+- sfx: click-soft, click
 - asset_candidates: none — hand-built Buddi chat + question-chip recreation
 
 Adapt: keep the signature — the camera servos to each interaction and the UI answers live; change — the actor is a finger-sized tap-highlight (no arrow cursor), and the surface is a bezel-less chat column on cream.
@@ -95,7 +95,7 @@ keyMessage: No idea needed — Buddi asks, you tap.
 
 - scene: The moment of magic — labeled strategy rule cards (Entry rule, Exit rule, Position size, Rebalance) self-assemble into a stack titled "Your strategy", each snapping into place as the VO names it.
 - voiceover: "Here's the part that got me — I answered like three, and it built the whole thing. A real, rules-based strategy."
-- duration: 6s
+- duration: 6.912s
 - transition_in: push-slide LEFT
 - status: outline
 - src: compositions/frames/04-built-the-thing.html
@@ -105,7 +105,7 @@ keyMessage: No idea needed — Buddi asks, you tap.
 - blueprint: grid-card-assemble (Reproduce — Key_Feature grid variant, vertical stack for 9:16)
 - focal: the four rule cards assembling
 - roles: rule cards = cutout (hero array) · header + eyebrow = supporting · cream field = background
-- sfx: card-snap ×4, soft-riser
+- sfx: pop, riser
 - asset_candidates: none — hand-built strategy rule-card recreation
 
 Reproduce: keep the signature — staggered cascade into the final layout, then a near-static hold with slow push-in; 9:16 makes it a vertical 1-col stack (per frame.md aspect table).
@@ -120,7 +120,7 @@ keyMessage: Three answers in, a real strategy out.
 
 - scene: A results chart draws itself across the frame — an equity curve on actual past prices — under a required "BACKTEST RESULT" label; the curve and label are the hero (no invented figure). Fine-print line: "Backtests are hypothetical — past performance doesn't guarantee future results."
 - voiceover: "Then it showed me how it would have performed on actual past prices."
-- duration: 5s
+- duration: 4.053s
 - transition_in: push-slide LEFT
 - status: outline
 - src: compositions/frames/05-backtest-result.html
@@ -130,7 +130,7 @@ keyMessage: Three answers in, a real strategy out.
 - blueprint: dataviz-countup (Adapt — chart-draw hero, no invented count-up)
 - focal: the equity-curve chart card under the BACKTEST RESULT label
 - roles: chart card = cutout (hero) · BACKTEST RESULT tag-pill = supporting · disclaimer fine print = supporting · cream field = background
-- sfx: chart-riser, soft-chime
+- sfx: riser, chime
 - asset_candidates: none — hand-built backtest chart (SVG equity curve; no numeric figure — per frame.md numerals rule the return figure is not invented, the drawn curve + label carry the beat)
 
 Adapt: keep the signature — a data instrument is the hero, resolved by an accent glow bloom; change — the count-up number is OMITTED (frame.md hard rule: never invent figures; the script requires a real verified figure that doesn't exist yet), so the left→right curve draw is the entire argument. The "$1,000 · start" marker is script-sourced and allowed.
@@ -145,7 +145,7 @@ keyMessage: It shows you the evidence before you commit.
 
 - scene: A "Paper Trade" toggle flips ON under the thumb; a "$0 to try" price tag lands beside it. On-screen text: "paper trade = free, real prices"
 - voiceover: "And I could paper-trade it on real prices — free — before risking a single dollar."
-- duration: 5s
+- duration: 5.12s
 - transition_in: push-slide LEFT
 - status: outline
 - src: compositions/frames/06-paper-trade.html
@@ -155,7 +155,7 @@ keyMessage: It shows you the evidence before you commit.
 - blueprint: cursor-ui-demo (Adapt — single-interaction payoff press)
 - focal: the Paper Trade toggle flipping ON
 - roles: toggle card = cutout (hero) · $0 tag-pill = supporting · sub-line = supporting · cream field = background
-- sfx: toggle-click
+- sfx: click
 - asset_candidates: none — hand-built paper-trade toggle recreation
 
 Adapt: keep the signature — the click IS the climax (workflow-approve-press flavor: one press as the payoff, UI answers live); change — a single toggle interaction, no multi-beat workflow, no camera chase.
@@ -170,7 +170,7 @@ keyMessage: Try it free on real prices before risking anything.
 
 - scene: The CTA snaps in beat by beat — "Comment" then a comment-pill with "BUDDI" then a big 👇 — resolving into a clean lockup with the buddi wordmark. Fine print: "Backtests are hypothetical — past performance doesn't guarantee future results."
 - voiceover: "Comment 'BUDDI' and I'll DM you the link to try it free."
-- duration: 4s
+- duration: 3.797s
 - transition_in: zoom-through
 - status: outline
 - src: compositions/frames/07-comment-buddi.html
@@ -180,7 +180,7 @@ keyMessage: Try it free on real prices before risking anything.
 - blueprint: kinetic-type-beats (Reproduce — CTA variant)
 - focal: the BUDDI comment pill
 - roles: "Comment" h1 + BUDDI pill + 👇 = cutout (hero stack) · buddi wordmark + fine print = supporting · rings atmosphere = background
-- sfx: impact-soft, message-send-pop
+- sfx: impact-bass-1, pop
 - asset_candidates: none — typography + comment-pill, hand-built
 
 Reproduce: keep the signature — the closing line snaps in beat-by-beat and lands on a locked end-card; the closing frame carries the design system's rings atmosphere (allowed on closing only).

@@ -1,40 +1,54 @@
 {
-  "provider": "auto",
-  "speed": 1,
   "lines": [
     {
       "id": "01",
-      "text": "I had $1,000 sitting in cash — and no clue what to do with it. So I typed that exact sentence into an AI."
+      "sfx": [
+        "typing",
+        "pop"
+      ]
     },
     {
       "id": "02",
-      "text": "That's most of us, right? You want your money to grow — but \"where do I even start\" freezes you. So it just sits there."
+      "sfx": [
+        "impact-bass-2"
+      ]
     },
     {
       "id": "03",
-      "text": "Turns out there's now an AI built for your money. And you don't even need an idea — if you don't have one, it just asks you a few simple questions."
+      "sfx": [
+        "click-soft",
+        "click"
+      ]
     },
     {
       "id": "04",
-      "text": "Here's the part that got me — I answered like three, and it built the whole thing. A real, rules-based strategy."
+      "sfx": [
+        "pop",
+        "riser"
+      ]
     },
     {
       "id": "05",
-      "text": "Then it showed me how it would have performed on actual past prices."
+      "sfx": [
+        "riser",
+        "chime"
+      ]
     },
     {
       "id": "06",
-      "text": "And I could paper-trade it on real prices — free — before risking a single dollar."
+      "sfx": [
+        "click"
+      ]
     },
     {
       "id": "07",
-      "text": "Comment \"BUDDI\" and I'll DM you the link to try it free."
+      "sfx": [
+        "impact-bass-1",
+        "pop"
+      ]
     }
   ],
   "bgm": {
-    "mode": "retrieve",
-    "query": "minimal upbeat tech — light percussive pulse, curious and clean, no drop",
-    "blob": "You don't need an investing idea — Buddi builds a real, backtested strategy from a few questions, and you can paper-trade it free.",
-    "arc": "PAS with demo loop — hook → pain → product intro → demo (build) → proof (backtest) → risk reversal → CTA"
+    "mode": "none"
   }
 }
