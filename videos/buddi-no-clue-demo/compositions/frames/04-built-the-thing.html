@@ -1,0 +1,353 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Frame 4 — It built the whole thing</title>
+  </head>
+  <body>
+    <template>
+      <style>
+        /* ---- fonts (variable files shipped with the project) ---- */
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("../../assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("../../assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+        }
+
+        /* ---- root (styled via #root, never a class) ---- */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Space Grotesk", sans-serif;
+        }
+
+        /* ---- full-bleed cream ground: its own clip, never on #root ---- */
+        .f4-bg {
+          position: absolute;
+          inset: 0;
+          background: #fdfae7;
+        }
+
+        /* ---- stage + camera wrapper (multi-phase-camera: steady push) ---- */
+        .f4-stage {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+        #f4-cam {
+          position: absolute;
+          inset: 0;
+          transform-origin: 50% 50%;
+          will-change: transform;
+        }
+
+        /* ---- slide-header (upper third, left-anchored) ---- */
+        .f4-header {
+          position: absolute;
+          left: 54px;
+          right: 54px;
+          top: 220px;
+        }
+        .f4-eyebrow-row {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          will-change: transform;
+        }
+        #f4-line {
+          width: 60px;
+          height: 4px;
+          border-radius: 2px;
+          background: #1e2bfa;
+          transform-origin: 0% 50%;
+          will-change: transform;
+        }
+        #f4-eyebrow {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 27px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #1e2bfa;
+          will-change: transform;
+        }
+        .f4-h2-row {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+          margin-top: 26px;
+        }
+        #f4-h2 {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 98px;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          color: #111111;
+          will-change: transform;
+        }
+        /* tag-pill — the frame's one sanctioned spring-pop payoff */
+        #f4-pill {
+          display: inline-block;
+          background: rgba(30, 43, 250, 0.08);
+          color: #1e2bfa;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 25px;
+          letter-spacing: 0.06em;
+          padding: 14px 32px;
+          border-radius: 100px;
+          white-space: nowrap;
+          transform-origin: 0% 50%;
+          will-change: transform;
+        }
+
+        /* ---- rule-card stack (center-outward-expansion, short-path into slot) ---- */
+        .f4-stack {
+          position: absolute;
+          top: 520px;
+          left: 108px;
+          width: 864px; /* ~80cqw of the 1080 canvas */
+          height: 908px; /* 4 × 200 + 3 × 36 — bottom edge 1428 < 1600 keep-out */
+        }
+        .f4-card {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          /* no CSS transform here — centering is baked into the GSAP fromTo
+             via xPercent/yPercent (gsap_css_transform_conflict) */
+          width: 864px;
+          height: 200px;
+          box-sizing: border-box;
+          background: rgba(30, 43, 250, 0.04);
+          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          border-radius: 14px;
+          box-shadow: none;
+          display: flex;
+          align-items: center;
+          gap: 32px;
+          padding: 0 44px;
+          will-change: transform;
+        }
+        .f4-icon {
+          flex: 0 0 auto;
+          width: 92px;
+          height: 92px;
+          border-radius: 50%;
+          background: rgba(30, 43, 250, 0.08);
+          display: grid;
+          place-items: center;
+        }
+        .f4-icon svg {
+          width: 46px;
+          height: 46px;
+          stroke: #1e2bfa;
+          stroke-width: 2.2;
+          fill: none;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f4-card-text {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          min-width: 0;
+        }
+        .f4-card-label {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 22px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #1e2bfa;
+        }
+        .f4-card-rule {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 500;
+          font-size: 38px;
+          line-height: 1.25;
+          letter-spacing: -0.01em;
+          color: #111111;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="04-built-the-thing"
+        data-width="1080"
+        data-height="1920"
+        data-duration="6.912"
+      >
+        <!-- full-bleed cream ground (lowest track) -->
+        <div class="clip f4-bg" data-start="0" data-duration="6.912" data-track-index="0"></div>
+
+        <!-- all scene content rides inside the camera -->
+        <div class="clip f4-stage" data-start="0" data-duration="6.912" data-track-index="1">
+          <div id="f4-cam">
+            <!-- Scene 1 — slide-header fills line-by-line -->
+            <div class="f4-header">
+              <div class="f4-eyebrow-row">
+                <div id="f4-line"></div>
+                <div id="f4-eyebrow">Built from 3 answers</div>
+              </div>
+              <div class="f4-h2-row">
+                <div id="f4-h2">Your strategy</div>
+                <!-- Scene 3 — the one sanctioned spring-pop -->
+                <div id="f4-pill">RULES-BASED</div>
+              </div>
+            </div>
+
+            <!-- Scene 2 — four rule cards stagger-assemble into the vertical stack -->
+            <div class="f4-stack">
+              <div class="f4-card" data-target-y="-354">
+                <div class="f4-icon">
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="3 17 9 11 13 15 21 7"></polyline>
+                    <polyline points="15 7 21 7 21 13"></polyline>
+                  </svg>
+                </div>
+                <div class="f4-card-text">
+                  <div class="f4-card-label">Entry rule</div>
+                  <div class="f4-card-rule">Buy when the trend confirms</div>
+                </div>
+              </div>
+
+              <div class="f4-card" data-target-y="-118">
+                <div class="f4-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                </div>
+                <div class="f4-card-text">
+                  <div class="f4-card-label">Exit rule</div>
+                  <div class="f4-card-rule">Sell when momentum fades</div>
+                </div>
+              </div>
+
+              <div class="f4-card" data-target-y="118">
+                <div class="f4-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                  </svg>
+                </div>
+                <div class="f4-card-text">
+                  <div class="f4-card-label">Position size</div>
+                  <div class="f4-card-rule">Never over-concentrate</div>
+                </div>
+              </div>
+
+              <div class="f4-card" data-target-y="354">
+                <div class="f4-icon">
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                    <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                  </svg>
+                </div>
+                <div class="f4-card-text">
+                  <div class="f4-card-label">Rebalance</div>
+                  <div class="f4-card-rule">Review on schedule</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        /* Timing — STORYBOARD Scene windows written against a 6s estimate,
+           rescaled ×1.152 to the real 6.912s voice line:
+           Scene 1: 0.00–2.07  "here's the part that got me — I answered like three"
+           Scene 2: 2.07–5.07  "it built the whole thing" — cards assemble
+           Scene 3: 5.07–6.91  "a real, rules-based strategy" — pill pop + push-in */
+
+        /* ---- Scene 1 — slide-header fills line-by-line (dynamic-content-sequencing) ---- */
+        tl.fromTo(
+          "#f4-line",
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.6, ease: "power3.out" },
+          0.1,
+        );
+        tl.fromTo(
+          "#f4-eyebrow",
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" },
+          0.16,
+        );
+        tl.fromTo(
+          "#f4-h2",
+          { opacity: 0, y: 36 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
+          0.52,
+        );
+
+        /* ---- Scene 2 — rule cards stagger-assemble into the vertical stack
+                (center-outward-expansion, partially-spread short-path form:
+                 START_PROGRESS 0.5, smooth long-tail settle, ~0.55s apart
+                 = the storyboard's ~0.5s rescaled) ---- */
+        const CARDS_AT = 2.32; /* first card lands on "it built the whole thing" */
+        const CARD_GAP = 0.55;
+        const EXPAND_DUR = 0.85;
+        gsap.utils.toArray(".f4-card").forEach((el, i) => {
+          const ty = Number(el.dataset.targetY);
+          tl.fromTo(
+            el,
+            /* xPercent/yPercent bake the self-centering; y travels the short
+               path from half-spread (0.5 × target) into the slot */
+            { xPercent: -50, yPercent: -50, x: 0, y: ty * 0.5, scale: 0.88, opacity: 0 },
+            {
+              x: 0,
+              y: ty,
+              scale: 1,
+              opacity: 1,
+              duration: EXPAND_DUR,
+              ease: "power3.out",
+            },
+            CARDS_AT + i * CARD_GAP,
+          );
+        });
+
+        /* ---- Scene 3 — "a real, rules-based strategy" ---- */
+        /* RULES-BASED tag-pill: the frame's ONE sanctioned spring-pop
+           (spring-pop-entrance, playful overshoot kept modest, origin-anchored
+           beside the header so it emerges from the h2) */
+        tl.fromTo(
+          "#f4-pill",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.65, ease: "back.out(1.6)" },
+          5.12,
+        );
+
+        /* Slow camera push-in (multi-phase-camera, steady-push phase):
+           neutral → gentle push, settles before the end; no drift — the
+           project motion grammar keeps holds still */
+        tl.fromTo(
+          "#f4-cam",
+          { scale: 1 },
+          { scale: 1.045, duration: 1.65, ease: "power2.inOut" },
+          5.05,
+        );
+
+        window.__timelines["04-built-the-thing"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
