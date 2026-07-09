@@ -46,7 +46,7 @@
 **Time:** 29.0 – 34.0s
 **Delivery:** Reassuring; land "deploy" as the typed word appears, tiny pause around "Free."
 
-    Then I just typed "deploy" — and it paper-trades the strategy for me on real prices. Free. Before I risk a single dollar.
+    I typed "deploy" — and it paper-trades on real prices. Free. Before I risk a dollar.
 
 ## Line 7 — Comment BUDDI (Frame 7)
 
