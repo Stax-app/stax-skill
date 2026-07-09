@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 5 — Backtest result (real Buddi STRATEGY RESULTS panel).
+         Everything the runtime needs lives inside <template>. -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* Root styled via #root (never a class on the data-composition-id element) */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed dark ground — a dedicated clip layer, never the root itself */
+        .f05-bg {
+          position: absolute;
+          inset: 0;
+          background: #0b0e11;
+        }
+
+        .f05-stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* Ambient green glow — sits BEHIND the chart card */
+        .f05-glow {
+          position: absolute;
+          z-index: 1;
+          left: -85px;
+          top: 290px;
+          width: 1250px;
+          height: 1250px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(43, 217, 124, 0.55) 0%,
+            rgba(43, 217, 124, 0.2) 42%,
+            rgba(43, 217, 124, 0) 68%
+          );
+          opacity: 0;
+          transform-origin: 50% 50%;
+          pointer-events: none;
+          will-change: transform, opacity;
+        }
+
+        /* ── Header row (~y 200) ─────────────────────────────────────── */
+        .f05-header {
+          position: absolute;
+          z-index: 2;
+          left: 45px;
+          right: 45px;
+          top: 194px;
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+        }
+        .f05-header-title {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 25px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #f2f5f4;
+          will-change: transform, opacity;
+        }
+        .f05-header-meta {
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 23px;
+          letter-spacing: 0.01em;
+          color: #a8b3ae;
+          will-change: transform, opacity;
+        }
+
+        /* ── Three metric cards, 3-across ────────────────────────────── */
+        .f05-mc {
+          position: absolute;
+          z-index: 2;
+          top: 266px;
+          width: 318px;
+          height: 172px;
+          padding: 22px;
+          box-sizing: border-box;
+          background: #0f1418;
+          border: 1.5px solid rgba(43, 217, 124, 0.4);
+          border-radius: 14px;
+          box-shadow: none;
+          will-change: transform, opacity;
+        }
+        #f05-mc1 { left: 45px; }
+        #f05-mc2 { left: 381px; }
+        #f05-mc3 { left: 717px; }
+
+        .f05-mc-label {
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 20px;
+          letter-spacing: 0.01em;
+          color: #a8b3ae;
+          white-space: nowrap;
+        }
+        .f05-mc-valrow {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .f05-mc-val {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 50px;
+          line-height: 1;
+          letter-spacing: -0.01em;
+          font-variant-numeric: tabular-nums;
+          color: #2bd97c;
+          will-change: transform, opacity;
+        }
+        .f05-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 5px 10px;
+          border-radius: 100px;
+          font-family: "Inter", sans-serif;
+          font-weight: 600;
+          font-size: 17px;
+          white-space: nowrap;
+          transform-origin: 50% 50%;
+          will-change: transform, opacity;
+        }
+        .f05-chip-up {
+          background: rgba(43, 217, 124, 0.12);
+          color: #2bd97c;
+        }
+        .f05-chip-down {
+          background: rgba(249, 115, 22, 0.12);
+          color: #f97316;
+        }
+        .f05-mc-sub {
+          margin-top: 13px;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 19px;
+          color: #76837c;
+          white-space: nowrap;
+        }
+
+        /* ── Chart card (the hero) ───────────────────────────────────── */
+        .f05-card {
+          position: absolute;
+          z-index: 2;
+          left: 45px;
+          top: 494px;
+          width: 990px;
+          height: 830px;
+          padding: 30px 34px;
+          box-sizing: border-box;
+          background: #0f1418;
+          border: 1.5px solid rgba(43, 217, 124, 0.22);
+          border-radius: 16px;
+          box-shadow: none;
+          will-change: transform, opacity;
+        }
+        .f05-pillrow {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .f05-pill-left {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 500;
+          font-size: 21px;
+          color: #f2f5f4;
+          will-change: transform, opacity;
+        }
+        .f05-caret {
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 7px solid #a8b3ae;
+        }
+        .f05-pill-right {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .f05-pill-sm {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 100px;
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 19px;
+          color: #f2f5f4;
+          will-change: transform, opacity;
+        }
+        .f05-pill-muted {
+          color: #a8b3ae;
+        }
+        .f05-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #2bd97c;
+        }
+
+        .f05-svg {
+          display: block;
+          margin-top: 22px;
+          width: 922px;
+          height: 610px;
+        }
+        .f05-svg text {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 500;
+          font-size: 19px;
+          letter-spacing: 0.02em;
+          fill: #76837c;
+        }
+        .f05-grid {
+          stroke: rgba(255, 255, 255, 0.07);
+          stroke-width: 1.5;
+        }
+        .f05-grid-base {
+          stroke: rgba(255, 255, 255, 0.12);
+          stroke-width: 1.5;
+        }
+        .f05-line {
+          fill: none;
+          stroke: #2bd97c;
+          stroke-width: 5.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f05-spy {
+          fill: none;
+          stroke: #8b93a7;
+          stroke-width: 3.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 10 11;
+          opacity: 0.85;
+        }
+        .f05-tri-buy {
+          fill: #2bd97c;
+        }
+        .f05-tri-sell {
+          fill: #f97316;
+        }
+        .f05-enddot {
+          fill: #2bd97c;
+          stroke: #0f1418;
+          stroke-width: 3;
+        }
+
+        /* Legend row under the chart */
+        .f05-legend {
+          margin-top: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 42px;
+          will-change: transform, opacity;
+        }
+        .f05-leg-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 20px;
+          color: #a8b3ae;
+        }
+
+        /* Disclaimer fine print — just above the caption keep-out (~y1600) */
+        .f05-disclaimer {
+          position: absolute;
+          z-index: 2;
+          left: 100px;
+          right: 100px;
+          top: 1478px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 19px;
+          line-height: 1.55;
+          color: #76837c;
+          will-change: transform, opacity;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="05-backtest-result"
+        data-duration="4.553"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div
+          id="f05-bg"
+          class="clip f05-bg"
+          data-start="0"
+          data-duration="4.553"
+          data-track-index="0"
+        ></div>
+
+        <div
+          id="f05-stage"
+          class="clip f05-stage"
+          data-start="0"
+          data-duration="4.553"
+          data-track-index="1"
+        >
+          <div class="f05-glow" id="f05-glow"></div>
+
+          <!-- Header row -->
+          <div class="f05-header">
+            <span class="f05-header-title" id="f05-header-title">Strategy Results</span>
+            <span class="f05-header-meta" id="f05-header-meta">747 versions tested</span>
+          </div>
+
+          <!-- Three metric cards -->
+          <div class="f05-mc" id="f05-mc1">
+            <div class="f05-mc-label">Return</div>
+            <div class="f05-mc-valrow">
+              <span class="f05-mc-val" id="f05-val1">0.0%</span>
+              <span class="f05-chip f05-chip-up" id="f05-chip1">
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path d="M 2 10 L 10 2 M 4.5 2 H 10 V 7.5" fill="none" stroke="#2BD97C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                +8.4%
+              </span>
+            </div>
+            <div class="f05-mc-sub">S&amp;P 500 96.3%</div>
+          </div>
+
+          <div class="f05-mc" id="f05-mc2">
+            <div class="f05-mc-label">Risk-adjusted return</div>
+            <div class="f05-mc-valrow">
+              <span class="f05-mc-val" id="f05-val2">1.05</span>
+              <span class="f05-chip f05-chip-down" id="f05-chip2">
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path d="M 2 2 L 10 10 M 4.5 10 H 10 V 4.5" fill="none" stroke="#F97316" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                -0.04
+              </span>
+            </div>
+            <div class="f05-mc-sub">S&amp;P 500 1.09</div>
+          </div>
+
+          <div class="f05-mc" id="f05-mc3">
+            <div class="f05-mc-label">Max drawdown</div>
+            <div class="f05-mc-valrow">
+              <span class="f05-mc-val" id="f05-val3">16.0%</span>
+              <span class="f05-chip f05-chip-up" id="f05-chip3">
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path d="M 2 10 L 10 2 M 4.5 2 H 10 V 7.5" fill="none" stroke="#2BD97C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                3.0% less
+              </span>
+            </div>
+            <div class="f05-mc-sub">S&amp;P 500 19.0%</div>
+          </div>
+
+          <!-- Chart card — the hero -->
+          <div class="f05-card" id="f05-card">
+            <div class="f05-pillrow">
+              <div class="f05-pill-left" id="f05-pill-strategy">
+                Best risk-adjusted
+                <span class="f05-caret"></span>
+              </div>
+              <div class="f05-pill-right">
+                <div class="f05-pill-sm" id="f05-pill-trades">
+                  <span class="f05-dot"></span>
+                  Trades
+                </div>
+                <div class="f05-pill-sm f05-pill-muted" id="f05-pill-spy">vs S&amp;P</div>
+              </div>
+            </div>
+
+            <svg
+              class="f05-svg"
+              id="f05-svg"
+              viewBox="0 0 922 610"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="f05-areagrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="rgba(43,217,124,0.20)" />
+                  <stop offset="1" stop-color="rgba(43,217,124,0)" />
+                </linearGradient>
+                <clipPath id="f05-spyclip">
+                  <rect id="f05-spyrect" x="60" y="0" width="0" height="500" />
+                </clipPath>
+              </defs>
+
+              <!-- gridlines ($210k top → $90k base) -->
+              <line class="f05-grid f05-gridln" x1="70" y1="20" x2="910" y2="20" />
+              <line class="f05-grid f05-gridln" x1="70" y1="130" x2="910" y2="130" />
+              <line class="f05-grid f05-gridln" x1="70" y1="240" x2="910" y2="240" />
+              <line class="f05-grid f05-gridln" x1="70" y1="350" x2="910" y2="350" />
+              <line class="f05-grid-base f05-gridln" x1="70" y1="460" x2="910" y2="460" />
+
+              <!-- y-axis labels -->
+              <text class="f05-ax" x="58" y="26" text-anchor="end">$210k</text>
+              <text class="f05-ax" x="58" y="136" text-anchor="end">$180k</text>
+              <text class="f05-ax" x="58" y="246" text-anchor="end">$150k</text>
+              <text class="f05-ax" x="58" y="356" text-anchor="end">$120k</text>
+              <text class="f05-ax" x="58" y="466" text-anchor="end">$90k</text>
+
+              <!-- x-axis labels -->
+              <text class="f05-ax" x="70" y="506" text-anchor="start">Jan '23</text>
+              <text class="f05-ax" x="280" y="506" text-anchor="middle">Nov '23</text>
+              <text class="f05-ax" x="490" y="506" text-anchor="middle">Oct '24</text>
+              <text class="f05-ax" x="700" y="506" text-anchor="middle">Aug '25</text>
+              <text class="f05-ax" x="910" y="506" text-anchor="end">Jul '26</text>
+
+              <!-- faint area fill under the strategy curve -->
+              <path
+                id="f05-area"
+                fill="url(#f05-areagrad)"
+                stroke="none"
+                d="M 70 423
+                   C 100 418, 130 416, 155 408
+                   S 205 386, 240 376
+                   S 290 392, 325 378
+                   S 380 334, 425 324
+                   S 475 378, 510 372
+                   S 560 312, 600 294
+                   S 650 310, 685 282
+                   S 740 206, 780 182
+                   S 840 118, 885 84
+                   S 905 46, 910 38
+                   L 910 460 L 70 460 Z"
+              />
+
+              <!-- gray dashed SPY comparison — revealed by an expanding clip rect -->
+              <path
+                class="f05-spy"
+                id="f05-spy"
+                clip-path="url(#f05-spyclip)"
+                d="M 70 423
+                   C 160 408, 250 388, 330 366
+                   S 480 322, 560 296
+                   S 700 234, 780 186
+                   S 870 106, 910 70"
+              />
+
+              <!-- the strategy equity curve — draws left→right -->
+              <path
+                class="f05-line"
+                id="f05-line"
+                d="M 70 423
+                   C 100 418, 130 416, 155 408
+                   S 205 386, 240 376
+                   S 290 392, 325 378
+                   S 380 334, 425 324
+                   S 475 378, 510 372
+                   S 560 312, 600 294
+                   S 650 310, 685 282
+                   S 740 206, 780 182
+                   S 840 118, 885 84
+                   S 905 46, 910 38"
+              />
+
+              <!-- Buy (green ▲) / Sell (orange ▼) trade markers -->
+              <polygon class="f05-tri-buy" id="f05-b1" points="146,442 164,442 155,426" />
+              <polygon class="f05-tri-buy" id="f05-b2" points="231,410 249,410 240,394" />
+              <polygon class="f05-tri-sell" id="f05-s1" points="316,344 334,344 325,360" />
+              <polygon class="f05-tri-buy" id="f05-b3" points="416,358 434,358 425,342" />
+              <polygon class="f05-tri-sell" id="f05-s2" points="436,298 454,298 445,314" />
+              <polygon class="f05-tri-buy" id="f05-b4" points="501,406 519,406 510,390" />
+              <polygon class="f05-tri-sell" id="f05-s3" points="551,282 569,282 560,298" />
+              <polygon class="f05-tri-buy" id="f05-b5" points="591,328 609,328 600,312" />
+              <polygon class="f05-tri-sell" id="f05-s4" points="676,248 694,248 685,264" />
+              <polygon class="f05-tri-buy" id="f05-b6" points="771,216 789,216 780,200" />
+              <polygon class="f05-tri-sell" id="f05-s5" points="811,116 829,116 820,132" />
+              <polygon class="f05-tri-buy" id="f05-b7" points="876,118 894,118 885,102" />
+
+              <!-- small end dot where the strategy draw finishes -->
+              <circle class="f05-enddot" id="f05-enddot" cx="910" cy="38" r="7" />
+            </svg>
+
+            <!-- Legend row -->
+            <div class="f05-legend" id="f05-legend">
+              <span class="f05-leg-item">
+                <svg width="28" height="12" viewBox="0 0 28 12" aria-hidden="true">
+                  <line x1="2" y1="6" x2="26" y2="6" stroke="#2BD97C" stroke-width="3.5" stroke-linecap="round" />
+                </svg>
+                Strategy
+              </span>
+              <span class="f05-leg-item">
+                <svg width="28" height="12" viewBox="0 0 28 12" aria-hidden="true">
+                  <line x1="2" y1="6" x2="26" y2="6" stroke="#8B93A7" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6" />
+                </svg>
+                SPY
+              </span>
+              <span class="f05-leg-item">
+                <svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true">
+                  <polygon points="7,1 13,11 1,11" fill="#2BD97C" />
+                </svg>
+                Buy
+              </span>
+              <span class="f05-leg-item">
+                <svg width="14" height="12" viewBox="0 0 14 12" aria-hidden="true">
+                  <polygon points="1,1 13,1 7,11" fill="#F97316" />
+                </svg>
+                Sell
+              </span>
+            </div>
+          </div>
+
+          <!-- Real product disclaimer, verbatim -->
+          <div class="f05-disclaimer" id="f05-disclaimer">
+            For educational purposes only. Backtested results do not represent actual
+            trading outcomes. Past performance is not indicative of future results.
+            Not investment advice.
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/vendor/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        /* ── Scene 1 (0.0–0.55s): label + instruments stage in —
+           header row rises, three metric cards stagger in, chart card
+           rises beneath, chrome (pills / grid / axes) washes in. ──────── */
+        tl.fromTo(
+          "#f05-header-title",
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          0.02
+        );
+        tl.fromTo(
+          "#f05-header-meta",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          0.1
+        );
+
+        const f05Cards = ["#f05-mc1", "#f05-mc2", "#f05-mc3"];
+        f05Cards.forEach((sel, i) => {
+          tl.fromTo(
+            sel,
+            { opacity: 0, y: 28 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+            0.16 + i * 0.1
+          );
+        });
+
+        tl.fromTo(
+          "#f05-card",
+          { opacity: 0, y: 42, scale: 0.98 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" },
+          0.26
+        );
+        tl.fromTo(
+          "#f05-pill-strategy",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+          0.42
+        );
+        tl.fromTo(
+          "#f05-pill-trades",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+          0.48
+        );
+        tl.fromTo(
+          "#f05-pill-spy",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+          0.54
+        );
+
+        const f05Grid = gsap.utils.toArray(".f05-gridln");
+        f05Grid.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.35, ease: "power2.out" },
+            0.44 + i * 0.04
+          );
+        });
+        const f05Axes = gsap.utils.toArray(".f05-ax");
+        f05Axes.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.35, ease: "power2.out" },
+            0.5 + i * 0.03
+          );
+        });
+
+        // metric values 2 & 3 settle in with their cards (value 1 counts up)
+        tl.fromTo(
+          "#f05-val2",
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          0.55
+        );
+        tl.fromTo(
+          "#f05-val3",
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          0.62
+        );
+
+        /* ── Scene 2 (0.55–2.1s): the evidence arrives — the strategy
+           curve DRAWS left→right (svg-path-draw: dasharray = measured
+           length, linear rate), the Return figure COUNTS UP 0 → 104.7 on
+           the SAME window, the dashed SPY line reveals just behind it,
+           and Buy/Sell triangles spring-pop as the draw passes them. ──── */
+        const F05_DRAW_START = 0.55;
+        const F05_DRAW_DUR = 1.45;
+
+        // deterministic object-value count-up, 1 decimal, format "104.7%"
+        const f05Val1El = document.getElementById("f05-val1");
+        const f05Ret = { v: 0 };
+        tl.fromTo(
+          f05Ret,
+          { v: 0 },
+          {
+            v: 104.7,
+            duration: F05_DRAW_DUR,
+            ease: "none",
+            onUpdate: () => {
+              f05Val1El.textContent = f05Ret.v.toFixed(1) + "%";
+            },
+          },
+          F05_DRAW_START
+        );
+
+        // strategy curve draw (getTotalLength dasharray)
+        const f05Line = document.getElementById("f05-line");
+        const f05Len = f05Line.getTotalLength() * 1.02;
+        f05Line.style.strokeDasharray = String(f05Len);
+        f05Line.style.strokeDashoffset = String(f05Len);
+        tl.fromTo(
+          f05Line,
+          { strokeDashoffset: f05Len },
+          { strokeDashoffset: 0, duration: F05_DRAW_DUR, ease: "none" },
+          F05_DRAW_START
+        );
+
+        // area fill develops beneath the curve as the draw crosses mid-chart
+        tl.fromTo(
+          "#f05-area",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.9, ease: "power1.inOut" },
+          1.1
+        );
+
+        // dashed SPY line — dash pattern stays intact; an expanding clip
+        // rect reveals it left→right slightly behind the strategy draw
+        tl.fromTo(
+          "#f05-spyrect",
+          { attr: { width: 0 } },
+          { attr: { width: 862 }, duration: F05_DRAW_DUR, ease: "none" },
+          0.72
+        );
+
+        // Buy/Sell markers pop just after the draw passes each x position:
+        // t = DRAW_START + DRAW_DUR * ((x - 70) / 840) + 0.12 (precomputed)
+        const f05Marks = [
+          ["#f05-b1", 155, 434, 0.82],
+          ["#f05-b2", 240, 402, 0.96],
+          ["#f05-s1", 325, 352, 1.11],
+          ["#f05-b3", 425, 350, 1.28],
+          ["#f05-s2", 445, 306, 1.32],
+          ["#f05-b4", 510, 398, 1.43],
+          ["#f05-s3", 560, 290, 1.52],
+          ["#f05-b5", 600, 320, 1.59],
+          ["#f05-s4", 685, 256, 1.73],
+          ["#f05-b6", 780, 208, 1.9],
+          ["#f05-s5", 820, 124, 1.97],
+          ["#f05-b7", 885, 110, 2.08],
+        ];
+        f05Marks.forEach(([sel, cx, cy, at]) => {
+          tl.fromTo(
+            sel,
+            { scale: 0, opacity: 0 },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.38,
+              ease: "power3.out",
+              svgOrigin: cx + " " + cy,
+            },
+            at
+          );
+        });
+
+        // small green end dot lands as the draw finishes
+        tl.fromTo(
+          "#f05-enddot",
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power3.out",
+            svgOrigin: "910 38",
+          },
+          2.0
+        );
+
+        /* ── Scene 3 (2.05–3.5s): resolve — the change chips pop once the
+           figures land, legend + disclaimer fade up, and a soft green glow
+           blooms behind the chart card. Held read to the end — no exit. ── */
+        const f05Chips = ["#f05-chip1", "#f05-chip2", "#f05-chip3"];
+        f05Chips.forEach((sel, i) => {
+          tl.fromTo(
+            sel,
+            { scale: 0.6, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.4, ease: "power3.out" },
+            2.05 + i * 0.12
+          );
+        });
+
+        tl.fromTo(
+          "#f05-legend",
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          2.25
+        );
+
+        tl.fromTo(
+          "#f05-disclaimer",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          2.5
+        );
+
+        // ambient-glow-bloom: bloom-and-hold (no breathe — held read)
+        tl.fromTo(
+          "#f05-glow",
+          { opacity: 0, scale: 0.88 },
+          { opacity: 0.3, scale: 1, duration: 0.85, ease: "power2.out" },
+          2.65
+        );
+
+        window.__timelines["05-backtest-result"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
