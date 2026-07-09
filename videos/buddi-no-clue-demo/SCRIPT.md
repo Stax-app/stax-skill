@@ -44,9 +44,9 @@
 ## Line 6 — Free before a single dollar (Frame 6)
 
 **Time:** 29.0 – 34.0s
-**Delivery:** Reassuring; tiny pause around "free."
+**Delivery:** Reassuring; land "deploy" as the typed word appears, tiny pause around "Free."
 
-    And I could paper-trade it on real prices — free — before risking a single dollar.
+    Then I just typed "deploy" — and it paper-trades the strategy for me on real prices. Free. Before I risk a single dollar.
 
 ## Line 7 — Comment BUDDI (Frame 7)
 

@@ -144,7 +144,7 @@ keyMessage: It shows you the evidence before you commit.
 ## Frame 6 — Free before a single dollar
 
 - scene: A "Paper Trade" toggle flips ON under the thumb; a "$0 to try" price tag lands beside it. On-screen text: "paper trade = free, real prices"
-- voiceover: "And I could paper-trade it on real prices — free — before risking a single dollar."
+- voiceover: "Then I just typed 'deploy' — and it paper-trades the strategy for me on real prices. Free. Before I risk a single dollar."
 - duration: 5.12s
 - transition_in: push-slide LEFT
 - status: animated
