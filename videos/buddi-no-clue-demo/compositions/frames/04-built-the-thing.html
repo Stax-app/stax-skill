@@ -31,11 +31,11 @@
           font-family: "Space Grotesk", sans-serif;
         }
 
-        /* ---- full-bleed dark ground: its own clip, never on #root ---- */
+        /* ---- full-bleed dark product ground: its own clip, never on #root ---- */
         .f4-bg {
           position: absolute;
           inset: 0;
-          background: #08080C;
+          background: #0B0E11;
         }
 
         /* ---- stage + camera wrapper (multi-phase-camera: steady push) ---- */
@@ -56,19 +56,18 @@
           position: absolute;
           left: 54px;
           right: 54px;
-          top: 220px;
+          top: 210px;
         }
         .f4-eyebrow-row {
           display: flex;
           align-items: center;
           gap: 20px;
-          will-change: transform;
         }
         #f4-line {
           width: 60px;
           height: 4px;
           border-radius: 2px;
-          background: #4D5DFF;
+          background: #2BD97C;
           transform-origin: 0% 50%;
           will-change: transform;
         }
@@ -78,106 +77,105 @@
           font-size: 27px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #4D5DFF;
+          color: #2BD97C;
           will-change: transform;
         }
         .f4-h2-row {
           display: flex;
           align-items: center;
-          gap: 28px;
+          gap: 30px;
           margin-top: 26px;
         }
         #f4-h2 {
           font-family: "Space Grotesk", sans-serif;
           font-weight: 600;
-          font-size: 98px;
+          font-size: 96px;
           line-height: 1.1;
           letter-spacing: -0.02em;
-          color: #F4F5FA;
+          color: #F2F5F4;
+          white-space: nowrap;
           will-change: transform;
         }
-        /* tag-pill — the frame's one sanctioned spring-pop payoff */
+        /* payoff pill — solid green, near-black text: the one sanctioned spring-pop */
         #f4-pill {
           display: inline-block;
-          background: rgba(77, 93, 255, 0.16);
-          color: #4D5DFF;
+          background: #2BD97C;
+          color: #0B0E11;
           font-family: "Space Grotesk", sans-serif;
-          font-weight: 600;
-          font-size: 25px;
+          font-weight: 700;
+          font-size: 26px;
           letter-spacing: 0.06em;
-          padding: 14px 32px;
+          padding: 16px 34px;
           border-radius: 100px;
           white-space: nowrap;
           transform-origin: 0% 50%;
           will-change: transform;
         }
 
-        /* ---- rule-card stack (center-outward-expansion, short-path into slot) ---- */
-        .f4-stack {
+        /* ---- ticker-pill grid: the strategy = a basket of real tickers
+                (center-outward-expansion, short-path into-slot form) ---- */
+        .f4-basket {
           position: absolute;
-          top: 520px;
-          left: 108px;
-          width: 864px; /* ~80cqw of the 1080 canvas */
-          height: 908px; /* 4 × 200 + 3 × 36 — bottom edge 1428 < 1600 keep-out */
-        }
-        .f4-card {
-          position: absolute;
-          top: 50%;
+          top: 900px; /* grid center — rows span ~640..1160, well above the 1600 keep-out */
           left: 50%;
-          /* no CSS transform here — centering is baked into the GSAP fromTo
+          width: 0;
+          height: 0;
+        }
+        .f4-ticker {
+          position: absolute;
+          top: 0;
+          left: 0;
+          /* no CSS transform here — self-centering is baked into the GSAP fromTo
              via xPercent/yPercent (gsap_css_transform_conflict) */
-          width: 864px;
-          height: 200px;
+          width: 440px;
+          height: 140px;
           box-sizing: border-box;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 14px;
-          box-shadow: none;
+          background: #15191D;
+          border: 1.5px solid #2A2F34;
+          border-radius: 100px; /* rounded-full chip, as in the product UI */
           display: flex;
           align-items: center;
-          gap: 32px;
-          padding: 0 44px;
+          justify-content: center;
+          gap: 24px;
           will-change: transform;
         }
-        .f4-icon {
+        .f4-logo {
           flex: 0 0 auto;
-          width: 92px;
-          height: 92px;
-          border-radius: 50%;
-          background: rgba(77, 93, 255, 0.16);
-          display: grid;
-          place-items: center;
+          /* product logo square is 20px r5 — rendered at ~2.2x for video legibility,
+             ratio preserved (44:11 = 20:5) */
+          width: 44px;
+          height: 44px;
+          border-radius: 11px;
         }
-        .f4-icon svg {
-          width: 46px;
-          height: 46px;
-          stroke: #4D5DFF;
-          stroke-width: 2.2;
-          fill: none;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-        }
-        .f4-card-text {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          min-width: 0;
-        }
-        .f4-card-label {
+        .f4-ticker-txt {
           font-family: "Space Grotesk", sans-serif;
-          font-weight: 600;
-          font-size: 22px;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: #4D5DFF;
+          font-weight: 700;
+          font-size: 48px;
+          letter-spacing: 0.01em;
+          color: #F2F5F4;
         }
-        .f4-card-rule {
+
+        /* ---- counter line under the basket ---- */
+        #f4-counter {
+          position: absolute;
+          left: 54px;
+          right: 54px;
+          top: 1236px;
+          text-align: center;
           font-family: "Space Grotesk", sans-serif;
           font-weight: 500;
-          font-size: 38px;
-          line-height: 1.25;
-          letter-spacing: -0.01em;
-          color: #F4F5FA;
+          font-size: 36px;
+          letter-spacing: 0.05em;
+          color: #A8B3AE;
+          will-change: transform;
+        }
+        #f4-count-num {
+          display: inline-block;
+          min-width: 1.95em;
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+          font-weight: 600;
+          color: #F2F5F4;
         }
       </style>
 
@@ -188,11 +186,11 @@
         data-height="1920"
         data-duration="7.412"
       >
-        <!-- full-bleed dark ground (lowest track) -->
-        <div class="clip f4-bg" data-start="0" data-duration="6.912" data-track-index="0"></div>
+        <!-- full-bleed product-dark ground (lowest track; spans the exit overlap too) -->
+        <div class="clip f4-bg" data-start="0" data-duration="7.412" data-track-index="0"></div>
 
         <!-- all scene content rides inside the camera -->
-        <div class="clip f4-stage" data-start="0" data-duration="6.912" data-track-index="1">
+        <div class="clip f4-stage" data-start="0" data-duration="7.412" data-track-index="1">
           <div id="f4-cam">
             <!-- Scene 1 — slide-header fills line-by-line -->
             <div class="f4-header">
@@ -207,62 +205,37 @@
               </div>
             </div>
 
-            <!-- Scene 2 — four rule cards stagger-assemble into the vertical stack -->
-            <div class="f4-stack">
-              <div class="f4-card" data-target-y="-354">
-                <div class="f4-icon">
-                  <svg viewBox="0 0 24 24">
-                    <polyline points="3 17 9 11 13 15 21 7"></polyline>
-                    <polyline points="15 7 21 7 21 13"></polyline>
-                  </svg>
-                </div>
-                <div class="f4-card-text">
-                  <div class="f4-card-label">Entry rule</div>
-                  <div class="f4-card-rule">Buy the 20-day breakout</div>
-                </div>
+            <!-- Scene 2 — six real ticker pills stagger-assemble, 2 per row × 3 rows -->
+            <div class="f4-basket">
+              <div class="f4-ticker" data-tx="-240" data-ty="-190">
+                <div class="f4-logo" style="background: #E8492B"></div>
+                <div class="f4-ticker-txt">PANW</div>
               </div>
+              <div class="f4-ticker" data-tx="240" data-ty="-190">
+                <div class="f4-logo" style="background: #2B6FE8"></div>
+                <div class="f4-ticker-txt">ZTO</div>
+              </div>
+              <div class="f4-ticker" data-tx="-240" data-ty="0">
+                <div class="f4-logo" style="background: #8B2BE8"></div>
+                <div class="f4-ticker-txt">ACN</div>
+              </div>
+              <div class="f4-ticker" data-tx="240" data-ty="0">
+                <div class="f4-logo" style="background: #6B7280"></div>
+                <div class="f4-ticker-txt">CRNX</div>
+              </div>
+              <div class="f4-ticker" data-tx="-240" data-ty="190">
+                <div class="f4-logo" style="background: #C8A82B"></div>
+                <div class="f4-ticker-txt">DTM</div>
+              </div>
+              <div class="f4-ticker" data-tx="240" data-ty="190">
+                <div class="f4-logo" style="background: #D0342C"></div>
+                <div class="f4-ticker-txt">EQT</div>
+              </div>
+            </div>
 
-              <div class="f4-card" data-target-y="-118">
-                <div class="f4-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                  </svg>
-                </div>
-                <div class="f4-card-text">
-                  <div class="f4-card-label">Exit rule</div>
-                  <div class="f4-card-rule">Sell on a 10-day low</div>
-                </div>
-              </div>
-
-              <div class="f4-card" data-target-y="118">
-                <div class="f4-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                  </svg>
-                </div>
-                <div class="f4-card-text">
-                  <div class="f4-card-label">Position size</div>
-                  <div class="f4-card-rule">Max 10% per position</div>
-                </div>
-              </div>
-
-              <div class="f4-card" data-target-y="354">
-                <div class="f4-icon">
-                  <svg viewBox="0 0 24 24">
-                    <polyline points="23 4 23 10 17 10"></polyline>
-                    <polyline points="1 20 1 14 7 14"></polyline>
-                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
-                    <path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                  </svg>
-                </div>
-                <div class="f4-card-text">
-                  <div class="f4-card-label">Rebalance</div>
-                  <div class="f4-card-rule">Every 30 days</div>
-                </div>
-              </div>
+            <!-- versions-tested counter, synced to the assemble window -->
+            <div id="f4-counter">
+              <span id="f4-count-num">0</span>&nbsp;versions tested so far
             </div>
           </div>
         </div>
@@ -273,11 +246,10 @@
         window.__timelines = window.__timelines || {};
         const tl = gsap.timeline({ paused: true });
 
-        /* Timing — STORYBOARD Scene windows written against a 6s estimate,
-           rescaled ×1.152 to the real 6.912s voice line:
-           Scene 1: 0.00–2.07  "here's the part that got me — I answered like three"
-           Scene 2: 2.07–5.07  "it built the whole thing" — cards assemble
-           Scene 3: 5.07–6.91  "a real, rules-based strategy" — pill pop + push-in */
+        /* Timing (6.912s voice window; root holds an extra 0.5s for the exit push):
+           Scene 1: 0.0–1.8   "here's the part that got me — I answered like three"
+           Scene 2: 1.8–4.4   "it built the whole thing" — ticker pills assemble + count-up
+           Scene 3: 4.4–6.9   "a real, rules-based strategy" — pill pop + slow push-in, hold */
 
         /* ---- Scene 1 — slide-header fills line-by-line (dynamic-content-sequencing) ---- */
         tl.fromTo(
@@ -296,44 +268,76 @@
           "#f4-h2",
           { opacity: 0, y: 36 },
           { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
-          0.52,
+          0.55,
         );
 
-        /* ---- Scene 2 — rule cards stagger-assemble into the vertical stack
+        /* ---- Scene 2 — ticker pills stagger-assemble one by one
                 (center-outward-expansion, partially-spread short-path form:
-                 START_PROGRESS 0.5, smooth long-tail settle, ~0.55s apart
-                 = the storyboard's ~0.5s rescaled) ---- */
-        const CARDS_AT = 2.32; /* first card lands on "it built the whole thing" */
-        const CARD_GAP = 0.55;
-        const EXPAND_DUR = 0.85;
-        gsap.utils.toArray(".f4-card").forEach((el, i) => {
-          const ty = Number(el.dataset.targetY);
+                 START_PROGRESS 0.5, smooth power3 long-tail settle) ---- */
+        const PILLS_AT = 1.9;
+        const PILL_GAP = 0.36; /* one-by-one cascade across the assemble window */
+        const PILL_DUR = 0.75;
+        gsap.utils.toArray(".f4-ticker").forEach((el, i) => {
+          const tx = Number(el.dataset.tx);
+          const ty = Number(el.dataset.ty);
           tl.fromTo(
             el,
-            /* xPercent/yPercent bake the self-centering; y travels the short
+            /* xPercent/yPercent bake the self-centering; x/y travel the short
                path from half-spread (0.5 × target) into the slot */
-            { xPercent: -50, yPercent: -50, x: 0, y: ty * 0.5, scale: 0.88, opacity: 0 },
             {
-              x: 0,
+              xPercent: -50,
+              yPercent: -50,
+              x: tx * 0.5,
+              y: ty * 0.5,
+              scale: 0.9,
+              opacity: 0,
+            },
+            {
+              x: tx,
               y: ty,
               scale: 1,
               opacity: 1,
-              duration: EXPAND_DUR,
+              duration: PILL_DUR,
               ease: "power3.out",
             },
-            CARDS_AT + i * CARD_GAP,
+            PILLS_AT + i * PILL_GAP,
           );
         });
 
+        /* ---- counter line — deterministic object-value count-up 0→747
+                (counting-dynamic-scale, value-only form) synced to the
+                pills' assemble window ---- */
+        tl.fromTo(
+          "#f4-counter",
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+          1.95,
+        );
+        const f4CountEl = document.getElementById("f4-count-num");
+        const f4Count = { value: 0 };
+        tl.fromTo(
+          f4Count,
+          { value: 0 },
+          {
+            value: 747,
+            duration: 2.4,
+            ease: "power2.out",
+            onUpdate: () => {
+              f4CountEl.textContent = String(Math.round(f4Count.value));
+            },
+          },
+          2.0,
+        );
+
         /* ---- Scene 3 — "a real, rules-based strategy" ---- */
-        /* RULES-BASED tag-pill: the frame's ONE sanctioned spring-pop
+        /* RULES-BASED solid-green pill: the frame's ONE sanctioned spring-pop
            (spring-pop-entrance, playful overshoot kept modest, origin-anchored
            beside the header so it emerges from the h2) */
         tl.fromTo(
           "#f4-pill",
           { scale: 0, opacity: 0 },
           { scale: 1, opacity: 1, duration: 0.65, ease: "back.out(1.6)" },
-          5.12,
+          4.55,
         );
 
         /* Slow camera push-in (multi-phase-camera, steady-push phase):
@@ -342,8 +346,8 @@
         tl.fromTo(
           "#f4-cam",
           { scale: 1 },
-          { scale: 1.045, duration: 1.65, ease: "power2.inOut" },
-          5.05,
+          { scale: 1.045, duration: 1.9, ease: "power2.inOut" },
+          4.75,
         );
 
         window.__timelines["04-built-the-thing"] = tl;

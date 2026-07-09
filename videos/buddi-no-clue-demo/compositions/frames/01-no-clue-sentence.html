@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Frame 1 — The no-clue sentence · typewriter-reveal (Hook, ticker-push, send→sent-bubble resolve) -->
+    <!-- Frame 1 — The no-clue sentence · typewriter-reveal (Hook, ticker-push, send→sent-bubble resolve)
+         REAL Buddi product UI: near-black ground, top stepper, dark input bar, green accents -->
   </head>
   <body>
     <template>
@@ -34,7 +35,7 @@
         .f1-bg {
           position: absolute;
           inset: 0;
-          background: #08080C;
+          background: #0B0E11;
         }
 
         /* Camera group — gentle leftward drift + slight scale while typing */
@@ -43,16 +44,48 @@
           inset: 0;
         }
 
-        /* Chat-input pill — the hero. Morphs into the sent bubble. */
+        /* ---- TOP STEPPER — authentic app chrome ---- */
+        .f1-stepper {
+          position: absolute;
+          left: 56px;
+          right: 56px;
+          top: 66px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          opacity: 0;
+        }
+        .f1-step {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex: none;
+        }
+        .f1-step-label {
+          font-family: "Inter", sans-serif;
+          font-size: 26px;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          color: #F2F5F4;
+          white-space: nowrap;
+        }
+        .f1-step-line {
+          flex: 1;
+          height: 1px;
+          background: #232A2F;
+        }
+
+        /* ---- CHAT INPUT — the hero. Morphs into the sent user bubble. ---- */
         .f1-pill {
           position: absolute;
-          left: 80px;
-          top: 680px;
-          width: 920px;
-          height: 140px;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 70px;
+          left: 100px;
+          top: 640px;
+          width: 880px;
+          height: 112px;
+          background: #12171B;
+          border: 1px solid #262D33;
+          border-radius: 28px;
           overflow: hidden;
           opacity: 0;
         }
@@ -61,12 +94,12 @@
           inset: 0;
           display: flex;
           align-items: center;
-          padding: 0 24px 0 52px;
+          padding: 0 16px 0 44px;
         }
         .f1-viewport {
           flex: 1;
           height: 100%;
-          margin-right: 20px;
+          margin-right: 18px;
           overflow: hidden;
           position: relative;
           display: flex;
@@ -81,42 +114,50 @@
         .f1-typed {
           display: inline-block;
           white-space: pre;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 46px;
-          font-weight: 500;
+          font-family: "Inter", sans-serif;
+          font-size: 40px;
+          font-weight: 450;
           letter-spacing: -0.01em;
-          color: #F4F5FA;
+          color: #F2F5F4;
           line-height: 1;
         }
         .f1-caret {
           display: inline-block;
-          width: 4.5px;
-          height: 54px;
-          margin-left: 7px;
+          width: 4px;
+          height: 48px;
+          margin-left: 6px;
           border-radius: 2px;
-          background: #4D5DFF;
+          background: #2BD97C;
         }
         .f1-send {
           flex: none;
-          width: 96px;
-          height: 96px;
+          width: 84px;
+          height: 84px;
           border-radius: 50%;
-          background: #4D5DFF;
+          background: #2BD97C;
           display: grid;
           place-items: center;
         }
-        /* Sent-bubble content — fades in during the last 40% of the morph */
+
+        /* Sent-bubble skin — dark green-tinted gradient, fades in over last 40% of morph */
+        .f1-bubble-grad {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, #0E2A20 0%, #14382A 100%);
+          opacity: 0;
+        }
+        /* Sent-bubble content — WHITE text */
         .f1-bubble-text {
           position: absolute;
           left: 0;
           top: 0;
-          width: 680px;
-          height: 170px;
-          padding: 27px 34px;
+          width: 660px;
+          height: 168px;
+          padding: 30px 34px;
           font-family: "Inter", sans-serif;
-          font-size: 38px;
+          font-size: 36px;
           font-weight: 500;
-          line-height: 1.42;
+          line-height: 1.45;
           color: #FFFFFF;
           opacity: 0;
         }
@@ -124,23 +165,23 @@
         /* Finger-sized tap highlight + ripple over the send button (no arrow cursor) */
         .f1-tap {
           position: absolute;
-          left: 868px;
-          top: 690px;
-          width: 120px;
-          height: 120px;
+          left: 866px;
+          top: 638px;
+          width: 116px;
+          height: 116px;
           border-radius: 50%;
-          background: rgba(77, 93, 255, 0.29);
+          background: rgba(43, 217, 124, 0.28);
           opacity: 0;
           pointer-events: none;
         }
         .f1-ripple {
           position: absolute;
-          left: 868px;
-          top: 690px;
-          width: 120px;
-          height: 120px;
+          left: 866px;
+          top: 638px;
+          width: 116px;
+          height: 116px;
           border-radius: 50%;
-          border: 2.5px solid rgba(77, 93, 255, 0.99);
+          border: 2.5px solid rgba(43, 217, 124, 0.9);
           opacity: 0;
           pointer-events: none;
         }
@@ -148,24 +189,37 @@
         /* Buddi typing indicator — the cliffhanger, lower-left */
         .f1-indicator {
           position: absolute;
-          left: 80px;
-          top: 780px;
-          width: 176px;
-          height: 96px;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 24px;
+          left: 100px;
+          top: 700px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 16px;
+          gap: 18px;
           opacity: 0;
         }
-        .f1-dot {
-          width: 16px;
-          height: 16px;
+        .f1-avatar {
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
-          background: #4D5DFF;
+          background: #2BD97C;
+          flex: none;
+        }
+        .f1-buddi-name {
+          font-family: "Inter", sans-serif;
+          font-size: 32px;
+          font-weight: 700;
+          color: #F2F5F4;
+        }
+        .f1-dots {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-left: 6px;
+        }
+        .f1-dot {
+          width: 13px;
+          height: 13px;
+          border-radius: 50%;
+          background: #2BD97C;
           opacity: 0.25;
         }
       </style>
@@ -179,6 +233,51 @@
         <div class="f1-bg clip" data-start="0" data-duration="9.408" data-track-index="0"></div>
 
         <div class="f1-cam clip" data-start="0" data-duration="9.408" data-track-index="1">
+          <!-- TOP STEPPER: Find stocks —— Build the strategy —— Test live -->
+          <div class="f1-stepper" id="f1-stepper">
+            <div class="f1-step">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#2BD97C" stroke-width="2" />
+                <path
+                  d="M8 12.4l2.6 2.6 5.4-5.6"
+                  stroke="#2BD97C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="f1-step-label">Find stocks</span>
+            </div>
+            <div class="f1-step-line"></div>
+            <div class="f1-step">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#2BD97C" stroke-width="2" />
+                <path
+                  d="M8 12.4l2.6 2.6 5.4-5.6"
+                  stroke="#2BD97C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="f1-step-label">Build the strategy</span>
+            </div>
+            <div class="f1-step-line"></div>
+            <div class="f1-step">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M2 12h4l3-8 6 16 3-8h4"
+                  stroke="#A8B3AE"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="f1-step-label">Test live</span>
+            </div>
+          </div>
+
+          <!-- CHAT INPUT (hero) → morphs into the sent user bubble -->
           <div class="f1-pill" id="f1-pill">
             <div class="f1-input-inner" id="f1-input-inner">
               <div class="f1-viewport">
@@ -187,7 +286,7 @@
                 </div>
               </div>
               <div class="f1-send" id="f1-send">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M12 19V5M5 12l7-7 7 7"
                     stroke="#FFFFFF"
@@ -198,18 +297,24 @@
                 </svg>
               </div>
             </div>
+            <div class="f1-bubble-grad" id="f1-bubble-grad"></div>
             <div class="f1-bubble-text" id="f1-bubble-text">
-              I have $1,000 and no clue what to do with it
+              I have $1,000 and have no clue what to do with it
             </div>
           </div>
 
           <div class="f1-ripple" id="f1-ripple"></div>
           <div class="f1-tap" id="f1-tap"></div>
 
+          <!-- Buddi typing indicator: teal avatar + "Buddi" + pulsing dots -->
           <div class="f1-indicator" id="f1-indicator">
-            <div class="f1-dot"></div>
-            <div class="f1-dot"></div>
-            <div class="f1-dot"></div>
+            <div class="f1-avatar"></div>
+            <div class="f1-buddi-name">Buddi</div>
+            <div class="f1-dots">
+              <div class="f1-dot"></div>
+              <div class="f1-dot"></div>
+              <div class="f1-dot"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -234,17 +339,17 @@
         const RELEASE_AT = PRESS_AT + PRESS_DUR;
 
         /* ---- discrete-text-sequence: human keystroke schedule (deterministic) ---- */
-        const TXT = "I have $1,000 and no clue what to do with it";
+        const TXT = "I have $1,000 and have no clue what to do with it"; // exact product wording
         const JIT = [0.018, -0.012, 0.026, 0.004, -0.018, 0.031, -0.006, 0.012]; // fixed jitter table — no Math.random
         const SEQ = [{ t: 0, n: 0 }];
         let acc = TYPE_START;
         for (let i = 1; i <= TXT.length; i++) {
-          let d = 0.078 + JIT[i % JIT.length];
-          if (TXT[i - 1] === " ") d += 0.05; // word-break breath
+          let d = 0.072 + JIT[i % JIT.length];
+          if (TXT[i - 1] === " ") d += 0.048; // word-break breath
           acc += d;
           SEQ.push({ t: acc, n: i });
-          if (i === 13) acc += 0.42; // thinking pause after "$1,000"
-          if (i === 25) acc += 0.28; // thinking pause after "clue"
+          if (i === 13) acc += 0.4; // thinking pause after "$1,000"
+          if (i === 30) acc += 0.26; // thinking pause after "no clue"
         }
 
         const typedEl = document.getElementById("f1-typed");
@@ -252,8 +357,8 @@
         const worldEl = document.getElementById("f1-world");
 
         /* camera-cursor-tracking (ticker push): caret pinned near frame-center.
-           Pill left 80 + inner pad 52 → viewport origin x=132; frame center 540 → pin at 408. */
-        const PIN = 408;
+           Pill left 100 + inner pad 44 → viewport origin x=144; frame center 540 → pin at 396. */
+        const PIN = 396;
         const BLINK_PERIOD = 0.9;
         const TYPING_GRACE = 0.22;
 
@@ -294,7 +399,13 @@
           0,
         );
 
-        /* ---- Scene 1: pill settles in, sentence types on (hero visible < 0.5s) ---- */
+        /* ---- Scene 1: chrome + input bar settle in, sentence types on (hero visible < 0.5s) ---- */
+        tl.fromTo(
+          "#f1-stepper",
+          { opacity: 0, y: -14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          0.06,
+        );
         tl.fromTo(
           "#f1-pill",
           { opacity: 0, y: 26 },
@@ -342,17 +453,18 @@
           RELEASE_AT,
         );
 
-        /* ---- card-morph-anchor: input pill lifts and morphs into the SENT cobalt bubble ---- */
+        /* ---- card-morph-anchor: input bar lifts and morphs into the SENT user bubble ----
+           Final seat: right-aligned upper-right — left 340 (right edge 1000), top 380, 660×168, r24 */
         tl.to(
           "#f1-pill",
           {
-            x: 264,
-            y: -280,
-            width: 680,
-            height: 170,
-            borderRadius: 26,
-            backgroundColor: "#4D5DFF",
-            borderColor: "rgba(77,93,255,0)",
+            x: 240,
+            y: -260,
+            width: 660,
+            height: 168,
+            borderRadius: 24,
+            backgroundColor: "#0E2A20",
+            borderColor: "rgba(43,217,124,0.35)",
             duration: MORPH_DUR,
             ease: "power2.inOut",
           },
@@ -366,7 +478,13 @@
           { opacity: 0, duration: MORPH_DUR * 0.4, ease: "power1.in" },
           MORPH_START,
         );
-        // new content fades in during the last 40%
+        // new skin (green-tinted gradient) + WHITE text fade in during the last 40%
+        tl.fromTo(
+          "#f1-bubble-grad",
+          { opacity: 0 },
+          { opacity: 1, duration: MORPH_DUR * 0.4, ease: "power1.out", immediateRender: false },
+          MORPH_START + MORPH_DUR * 0.6,
+        );
         tl.fromTo(
           "#f1-bubble-text",
           { opacity: 0 },
