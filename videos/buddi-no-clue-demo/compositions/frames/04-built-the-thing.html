@@ -31,11 +31,11 @@
           font-family: "Space Grotesk", sans-serif;
         }
 
-        /* ---- full-bleed cream ground: its own clip, never on #root ---- */
+        /* ---- full-bleed dark ground: its own clip, never on #root ---- */
         .f4-bg {
           position: absolute;
           inset: 0;
-          background: #fdfae7;
+          background: #08080C;
         }
 
         /* ---- stage + camera wrapper (multi-phase-camera: steady push) ---- */
@@ -68,7 +68,7 @@
           width: 60px;
           height: 4px;
           border-radius: 2px;
-          background: #1e2bfa;
+          background: #4D5DFF;
           transform-origin: 0% 50%;
           will-change: transform;
         }
@@ -78,7 +78,7 @@
           font-size: 27px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #1e2bfa;
+          color: #4D5DFF;
           will-change: transform;
         }
         .f4-h2-row {
@@ -93,14 +93,14 @@
           font-size: 98px;
           line-height: 1.1;
           letter-spacing: -0.02em;
-          color: #111111;
+          color: #F4F5FA;
           will-change: transform;
         }
         /* tag-pill — the frame's one sanctioned spring-pop payoff */
         #f4-pill {
           display: inline-block;
-          background: rgba(30, 43, 250, 0.08);
-          color: #1e2bfa;
+          background: rgba(77, 93, 255, 0.16);
+          color: #4D5DFF;
           font-family: "Space Grotesk", sans-serif;
           font-weight: 600;
           font-size: 25px;
@@ -129,8 +129,8 @@
           width: 864px;
           height: 200px;
           box-sizing: border-box;
-          background: rgba(30, 43, 250, 0.04);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.10);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 14px;
           box-shadow: none;
           display: flex;
@@ -144,14 +144,14 @@
           width: 92px;
           height: 92px;
           border-radius: 50%;
-          background: rgba(30, 43, 250, 0.08);
+          background: rgba(77, 93, 255, 0.16);
           display: grid;
           place-items: center;
         }
         .f4-icon svg {
           width: 46px;
           height: 46px;
-          stroke: #1e2bfa;
+          stroke: #4D5DFF;
           stroke-width: 2.2;
           fill: none;
           stroke-linecap: round;
@@ -169,7 +169,7 @@
           font-size: 22px;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #1e2bfa;
+          color: #4D5DFF;
         }
         .f4-card-rule {
           font-family: "Space Grotesk", sans-serif;
@@ -177,7 +177,7 @@
           font-size: 38px;
           line-height: 1.25;
           letter-spacing: -0.01em;
-          color: #111111;
+          color: #F4F5FA;
         }
       </style>
 
@@ -188,7 +188,7 @@
         data-height="1920"
         data-duration="7.412"
       >
-        <!-- full-bleed cream ground (lowest track) -->
+        <!-- full-bleed dark ground (lowest track) -->
         <div class="clip f4-bg" data-start="0" data-duration="6.912" data-track-index="0"></div>
 
         <!-- all scene content rides inside the camera -->
@@ -218,7 +218,7 @@
                 </div>
                 <div class="f4-card-text">
                   <div class="f4-card-label">Entry rule</div>
-                  <div class="f4-card-rule">Buy when the trend confirms</div>
+                  <div class="f4-card-rule">Buy the 20-day breakout</div>
                 </div>
               </div>
 
@@ -232,7 +232,7 @@
                 </div>
                 <div class="f4-card-text">
                   <div class="f4-card-label">Exit rule</div>
-                  <div class="f4-card-rule">Sell when momentum fades</div>
+                  <div class="f4-card-rule">Sell on a 10-day low</div>
                 </div>
               </div>
 
@@ -245,7 +245,7 @@
                 </div>
                 <div class="f4-card-text">
                   <div class="f4-card-label">Position size</div>
-                  <div class="f4-card-rule">Never over-concentrate</div>
+                  <div class="f4-card-rule">Max 10% per position</div>
                 </div>
               </div>
 
@@ -260,7 +260,7 @@
                 </div>
                 <div class="f4-card-text">
                   <div class="f4-card-label">Rebalance</div>
-                  <div class="f4-card-rule">Review on schedule</div>
+                  <div class="f4-card-rule">Every 30 days</div>
                 </div>
               </div>
             </div>

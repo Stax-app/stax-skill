@@ -3,7 +3,7 @@ version: alpha
 name: Blue Professional — Frame (video / frame layer)
 description: >
   Video-first companion to Blue Professional's design.md. The unit is the frame (1920×1080). Atoms
-  are identical and sacred — the warm cream canvas, a single saturated cobalt (#1e2bfa) as the only
+  are identical and sacred — the near-black canvas, a single saturated cobalt (#1e2bfa) as the only
   accent, the three-step gray text ladder, Space Grotesk (display/numerals/chrome) + Inter (body),
   soft cobalt-tinted cards (4% fill / 20% border / 10–14px radius) with NO shadows, pill chrome, and
   the cobalt progress bar. Composition + frame scale rewritten. Motion out of scope.
@@ -11,17 +11,17 @@ unit: the frame — 1920×1080 primary; 9:16 and 1:1 documented
 principle: atoms are sacred · composition is free · numbers come from the script
 
 colors:
-  bg: "#fdfae7"
-  primary: "#1e2bfa"
-  text: "#111111"
-  text-muted: "#6b6b6b"
-  text-light: "#9a9a9a"
-  accent-light: "rgba(30,43,250,0.08)"
-  accent-medium: "rgba(30,43,250,0.15)"
-  border: "rgba(30,43,250,0.2)"
-  card-bg: "rgba(30,43,250,0.04)"
-  positive: "#059669"
-  negative: "#dc2626"
+  bg: "#08080C"
+  primary: "#4D5DFF"
+  text: "#F4F5FA"
+  text-muted: "#A6ACC4"
+  text-light: "#767C94"
+  accent-light: "rgba(77,93,255,0.16)"
+  accent-medium: "rgba(77,93,255,0.26)"
+  border: "rgba(77,93,255,0.38)"
+  card-bg: "rgba(77,93,255,0.10)"
+  positive: "#21C77D"
+  negative: "#FF5D6B"
 
 radii:
   pill: "100px"
@@ -115,7 +115,7 @@ components:
 ## Overview
 
 Blue Professional at frame scale is a **consulting-grade system: restraint with one strong
-commitment.** A warm cream canvas and a single saturated cobalt that carries every accent —
+commitment.** A near-black canvas and a single saturated cobalt that carries every accent —
 eyebrow, metric, CTA, chart fill, progress bar. No secondary brand color, no pastels, just cream,
 cobalt, and a tight ladder of grays. The register is investment-research / McKinsey briefing:
 measured, data-dense without crowding, executive-readable at distance.

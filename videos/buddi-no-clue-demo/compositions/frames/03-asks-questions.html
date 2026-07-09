@@ -36,7 +36,7 @@
         .f3-bg {
           position: absolute;
           inset: 0;
-          background: #fdfae7;
+          background: #08080C;
         }
 
         /* Camera stage */
@@ -61,8 +61,8 @@
           right: 119px;
           top: 170px;
           max-width: 640px;
-          background: #1e2bfa;
-          color: #fdfae7;
+          background: #4D5DFF;
+          color: #FFFFFF;
           border-radius: 24px 24px 8px 24px;
           padding: 28px 36px;
           font-size: 34px;
@@ -74,8 +74,8 @@
           left: 119px;
           top: 428px;
           display: inline-block;
-          background: rgba(30, 43, 250, 0.08);
-          color: #1e2bfa;
+          background: rgba(77, 93, 255, 0.16);
+          color: #4D5DFF;
           border-radius: 100px;
           padding: 8px 26px;
           font-family: "Space Grotesk", sans-serif;
@@ -89,14 +89,14 @@
           top: 492px;
           width: 680px;
           min-height: 152px;
-          background: rgba(30, 43, 250, 0.04);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.10);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 24px 24px 24px 8px;
           padding: 28px 36px;
           font-size: 34px;
           font-weight: 400;
           line-height: 1.45;
-          color: #111111;
+          color: #F4F5FA;
         }
         .f3-dots {
           position: absolute;
@@ -109,7 +109,7 @@
           width: 15px;
           height: 15px;
           border-radius: 50%;
-          background: #9a9a9a;
+          background: #767C94;
           opacity: 0.25;
         }
 
@@ -119,8 +119,8 @@
           left: 119px;
           width: 842px;
           height: 476px;
-          background: rgba(30, 43, 250, 0.04);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.10);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 14px;
           padding: 44px 48px;
           box-sizing: border-box;
@@ -139,12 +139,12 @@
           font-size: 42px;
           font-weight: 600;
           letter-spacing: -0.02em;
-          color: #111111;
+          color: #F4F5FA;
           line-height: 1.2;
         }
         .f3-qcount {
-          background: rgba(30, 43, 250, 0.08);
-          color: #1e2bfa;
+          background: rgba(77, 93, 255, 0.16);
+          color: #4D5DFF;
           border-radius: 100px;
           padding: 6px 20px;
           font-family: "Space Grotesk", sans-serif;
@@ -163,13 +163,13 @@
           align-items: center;
           padding: 0 36px;
           box-sizing: border-box;
-          background: #fdfae7;
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.10);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
           font-size: 32px;
           font-weight: 500;
-          color: #1e2bfa;
+          color: #F4F5FA;
           will-change: transform;
         }
 
@@ -179,8 +179,8 @@
           width: 96px;
           height: 96px;
           border-radius: 50%;
-          background: rgba(30, 43, 250, 0.15);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.27);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           opacity: 0;
           pointer-events: none;
           z-index: 5;
@@ -191,7 +191,7 @@
           width: 110px;
           height: 110px;
           border-radius: 50%;
-          border: 2.5px solid rgba(30, 43, 250, 0.45);
+          border: 2.5px solid rgba(77, 93, 255, 0.81);
           opacity: 0;
           pointer-events: none;
           z-index: 4;
@@ -218,7 +218,7 @@
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #1e2bfa;
+          color: #4D5DFF;
         }
         .f3-sumpill {
           position: absolute;
@@ -230,8 +230,8 @@
           gap: 26px;
           padding: 0 40px;
           box-sizing: border-box;
-          background: rgba(30, 43, 250, 0.08);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.16);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 100px;
           will-change: transform;
         }
@@ -245,7 +245,7 @@
         }
         .f3-check path {
           fill: none;
-          stroke: #1e2bfa;
+          stroke: #4D5DFF;
           stroke-width: 4;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -254,7 +254,7 @@
           font-family: "Space Grotesk", sans-serif;
           font-size: 34px;
           font-weight: 500;
-          color: #1e2bfa;
+          color: #4D5DFF;
         }
       </style>
 
@@ -438,9 +438,9 @@
             tl.to(chip, { scale: 1, duration: 0.42, ease: "back.out(1.3)" }, at + 0.41);
             // chip commits — fills cobalt at release
             tl.to(chip, {
-              backgroundColor: "#1e2bfa",
-              color: "#fdfae7",
-              borderColor: "#1e2bfa",
+              backgroundColor: "#4D5DFF",
+              color: "#FFFFFF",
+              borderColor: "#4D5DFF",
               duration: 0.22,
               ease: "power1.out",
             }, at + 0.41);

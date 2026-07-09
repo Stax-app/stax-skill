@@ -31,11 +31,11 @@
           font-family: "Inter", sans-serif;
         }
 
-        /* Full-bleed cream ground — dedicated clip layer, never on #root. */
+        /* Full-bleed dark ground — dedicated clip layer, never on #root. */
         .f06-bg {
           position: absolute;
           inset: 0;
-          background: #fdfae7;
+          background: #08080c;
         }
 
         .f06-stage {
@@ -54,8 +54,8 @@
           justify-content: space-between;
           gap: 40px;
           padding: 52px 56px;
-          background: rgba(30, 43, 250, 0.04);
-          border: 1.5px solid rgba(30, 43, 250, 0.2);
+          background: rgba(77, 93, 255, 0.1);
+          border: 1.5px solid rgba(77, 93, 255, 0.38);
           border-radius: 14px;
         }
         .f06-card-copy {
@@ -67,7 +67,7 @@
           font-size: 58px;
           line-height: 1.15;
           letter-spacing: -0.02em;
-          color: #111111;
+          color: #f4f5fa;
         }
         #f06-subnote {
           margin-top: 14px;
@@ -75,7 +75,7 @@
           font-weight: 400;
           font-size: 29px;
           line-height: 1.4;
-          color: #6b6b6b;
+          color: #a6acc4;
         }
 
         /* ——— pill toggle ——— */
@@ -89,8 +89,8 @@
         #f06-track {
           position: absolute;
           inset: 0;
-          background: rgba(30, 43, 250, 0.08);
-          border: 1.5px solid rgba(30, 43, 250, 0.22);
+          background: rgba(244, 245, 250, 0.15);
+          border: 1.5px solid rgba(77, 93, 255, 0.4);
           border-radius: 100px;
         }
         #f06-knob {
@@ -100,8 +100,8 @@
           width: 74px;
           height: 74px;
           border-radius: 50%;
-          background: #fffef8;
-          border: 1.5px solid rgba(30, 43, 250, 0.25);
+          background: #ffffff;
+          border: 1.5px solid rgba(77, 93, 255, 0.45);
           will-change: transform;
         }
 
@@ -117,9 +117,9 @@
           border-radius: 50%;
           background: radial-gradient(
             circle,
-            rgba(30, 43, 250, 0.32) 0%,
-            rgba(30, 43, 250, 0.14) 55%,
-            rgba(30, 43, 250, 0) 72%
+            rgba(77, 93, 255, 0.58) 0%,
+            rgba(77, 93, 255, 0.25) 55%,
+            rgba(77, 93, 255, 0) 72%
           );
           opacity: 0;
           pointer-events: none;
@@ -137,7 +137,7 @@
           margin-left: -75px;
           margin-top: -75px;
           border-radius: 50%;
-          border: 2.5px solid rgba(30, 43, 250, 0.5);
+          border: 2.5px solid rgba(77, 93, 255, 0.9);
           opacity: 0;
           pointer-events: none;
           z-index: 3;
@@ -150,14 +150,14 @@
           right: 7cqw;
           top: 506px;
           padding: 15px 36px;
-          background: #e7e5ec;
-          border: 1.5px solid rgba(30, 43, 250, 0.25);
+          background: #4d5dff;
+          border: 1.5px solid rgba(255, 255, 255, 0.25);
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
           font-weight: 600;
           font-size: 36px;
           letter-spacing: 0.01em;
-          color: #1e2bfa;
+          color: #ffffff;
           white-space: nowrap;
           transform-origin: 22% 88%;
           z-index: 5;
@@ -175,7 +175,7 @@
           font-weight: 500;
           font-size: 33px;
           letter-spacing: 0;
-          color: #6b6b6b;
+          color: #a6acc4;
           white-space: nowrap;
         }
         .f06-tw {
@@ -289,8 +289,8 @@
           tl.to(
             "#f06-track",
             {
-              backgroundColor: "#1e2bfa",
-              borderColor: "#1e2bfa",
+              backgroundColor: "#4D5DFF",
+              borderColor: "#4D5DFF",
               duration: 0.32,
               ease: "power2.inOut",
             },
