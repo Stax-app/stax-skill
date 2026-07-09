@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <!-- Frame 3 — It just asks you questions (buddi-no-clue-demo)
-         Sub-composition: everything the runtime needs lives INSIDE <template>. -->
+         Real Buddi product UI recreation: dark ground, top stepper chrome,
+         green-tinted sent bubble, plain-text Buddi reply, dark question cards
+         with green selected chips. Everything the runtime needs lives INSIDE <template>. -->
   </head>
   <body>
     <template>
@@ -32,11 +34,11 @@
           font-family: "Inter", sans-serif;
         }
 
-        /* Full-bleed cream ground — its own clip layer, never on #root */
+        /* Full-bleed product ground — its own clip layer, never on #root */
         .f3-bg {
           position: absolute;
           inset: 0;
-          background: #08080C;
+          background: #0B0E11;
         }
 
         /* Camera stage */
@@ -55,121 +57,197 @@
           will-change: transform;
         }
 
-        /* ---------- Chat surface (bezel-less, floats on cream) ---------- */
+        /* ---------- Top stepper chrome (fixed, product nav) ---------- */
+        .f3-stepper {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .f3-stepper-inner {
+          position: absolute;
+          left: 0;
+          top: 68px;
+          width: 1080px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+        }
+        .f3-step {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+        .f3-stepcheck {
+          display: block;
+          width: 44px;
+          height: 44px;
+        }
+        #f3-step1circ {
+          fill: rgba(43, 217, 124, 0);
+          stroke: rgba(43, 217, 124, 0.55);
+          stroke-width: 2;
+        }
+        #f3-step1tick {
+          fill: none;
+          stroke: #2BD97C;
+          stroke-width: 3.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f3-stepnum {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: 1.5px solid #262D33;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 21px;
+          font-weight: 500;
+          color: #76837C;
+        }
+        .f3-steplabel {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 26px;
+          font-weight: 500;
+          letter-spacing: 0;
+          color: #76837C;
+          white-space: nowrap;
+        }
+        .f3-steplabel-on {
+          color: #F2F5F4;
+        }
+        .f3-stepline {
+          width: 56px;
+          height: 1.5px;
+          background: #23292F;
+        }
+
+        /* ---------- Chat surface (bezel-less, floats on the dark ground) ---------- */
         .f3-sent {
           position: absolute;
-          right: 119px;
-          top: 170px;
-          max-width: 640px;
-          background: #4D5DFF;
+          right: 84px;
+          top: 236px;
+          max-width: 620px;
+          background: linear-gradient(135deg, #0E2A20 0%, #14382A 100%);
+          border: 1px solid rgba(43, 217, 124, 0.35);
           color: #FFFFFF;
-          border-radius: 24px 24px 8px 24px;
+          border-radius: 24px;
           padding: 28px 36px;
+          box-sizing: border-box;
           font-size: 34px;
           font-weight: 450;
           line-height: 1.45;
         }
-        .f3-namepill {
+        .f3-buddirow {
           position: absolute;
-          left: 119px;
-          top: 428px;
-          display: inline-block;
-          background: rgba(77, 93, 255, 0.16);
-          color: #4D5DFF;
-          border-radius: 100px;
-          padding: 8px 26px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 25px;
-          font-weight: 500;
-          letter-spacing: 0.02em;
+          left: 84px;
+          top: 470px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
         }
+        .f3-avatar {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          background: #14B8A6;
+          flex: none;
+        }
+        .f3-buddiname {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 31px;
+          font-weight: 700;
+          color: #FFFFFF;
+          letter-spacing: -0.01em;
+        }
+        /* Buddi reply — PLAIN near-white text on the ground, no bubble */
         .f3-reply {
           position: absolute;
-          left: 119px;
-          top: 492px;
-          width: 680px;
-          min-height: 152px;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 24px 24px 24px 8px;
-          padding: 28px 36px;
-          font-size: 34px;
+          left: 84px;
+          top: 548px;
+          width: 830px;
+          font-size: 36px;
           font-weight: 400;
-          line-height: 1.45;
-          color: #F4F5FA;
+          line-height: 1.5;
+          color: #E8EDEA;
         }
         .f3-dots {
           position: absolute;
-          left: 36px;
-          top: 46px;
+          left: 88px;
+          top: 562px;
           display: flex;
           gap: 12px;
         }
         .f3-dot {
-          width: 15px;
-          height: 15px;
+          width: 14px;
+          height: 14px;
           border-radius: 50%;
-          background: #767C94;
+          background: #76837C;
           opacity: 0.25;
         }
 
-        /* ---------- Question cards ---------- */
+        /* ---------- Question cards (real product card) ---------- */
         .f3-qcard {
           position: absolute;
           left: 119px;
           width: 842px;
-          height: 476px;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 14px;
-          padding: 44px 48px;
+          height: 450px;
+          background: #11161A;
+          border: 1px solid #262D33;
+          border-radius: 16px;
+          padding: 40px 44px;
           box-sizing: border-box;
         }
-        #f3-q1 { top: 760px; }
-        #f3-q2 { top: 1320px; }
-        #f3-q3 { top: 1880px; }
+        #f3-q1 { top: 720px; }
+        #f3-q2 { top: 1280px; }
+        #f3-q3 { top: 1840px; }
         .f3-qhead {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 54px;
+          height: 56px;
         }
         .f3-qlabel {
           font-family: "Space Grotesk", sans-serif;
-          font-size: 42px;
+          font-size: 40px;
           font-weight: 600;
           letter-spacing: -0.02em;
-          color: #F4F5FA;
+          color: #F2F5F4;
           line-height: 1.2;
         }
         .f3-qcount {
-          background: rgba(77, 93, 255, 0.16);
-          color: #4D5DFF;
+          background: #171C21;
+          border: 1px solid #262D33;
+          color: #76837C;
           border-radius: 100px;
-          padding: 6px 20px;
+          padding: 7px 22px;
           font-family: "Space Grotesk", sans-serif;
-          font-size: 23px;
+          font-size: 22px;
           font-weight: 500;
         }
         .f3-chips {
-          margin-top: 30px;
+          margin-top: 26px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 18px;
         }
         .f3-chip {
-          height: 88px;
+          height: 84px;
           display: flex;
           align-items: center;
           padding: 0 36px;
           box-sizing: border-box;
-          background: rgba(77, 93, 255, 0.10);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          background: #15191D;
+          border: 1px solid #2A2F34;
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
-          font-size: 32px;
-          font-weight: 500;
-          color: #F4F5FA;
+          font-size: 30px;
+          font-weight: 600;
+          color: #F2F5F4;
           will-change: transform;
         }
 
@@ -179,8 +257,8 @@
           width: 96px;
           height: 96px;
           border-radius: 50%;
-          background: rgba(77, 93, 255, 0.27);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          background: rgba(43, 217, 124, 0.26);
+          border: 1.5px solid rgba(43, 217, 124, 0.4);
           opacity: 0;
           pointer-events: none;
           z-index: 5;
@@ -191,70 +269,71 @@
           width: 110px;
           height: 110px;
           border-radius: 50%;
-          border: 2.5px solid rgba(77, 93, 255, 0.81);
+          border: 2.5px solid rgba(43, 217, 124, 0.8);
           opacity: 0;
           pointer-events: none;
           z-index: 4;
           will-change: transform;
         }
         /* tap/ripple anchors — centered on each selected chip
-           chip i center-y inside card = 128 + i*108 + 44 ; center-x = 421 */
-        #f3-tap1 { left: 373px; top: 224px; }   /* Q1 chip 0 → 172-48 */
-        .f3-r1   { left: 366px; top: 217px; }
-        #f3-tap2 { left: 373px; top: 440px; }   /* Q2 chip 2 → 388-48 */
-        .f3-r2   { left: 366px; top: 433px; }
-        #f3-tap3 { left: 373px; top: 332px; }   /* Q3 chip 1 → 280-48 */
-        .f3-r3   { left: 366px; top: 325px; }
+           chip i center inside card: y = 164 + i*102, x = 380 */
+        #f3-tap1 { left: 332px; top: 116px; }   /* Q1 chip 0 */
+        .f3-r1   { left: 325px; top: 109px; }
+        #f3-tap2 { left: 332px; top: 320px; }   /* Q2 chip 2 */
+        .f3-r2   { left: 325px; top: 313px; }
+        #f3-tap3 { left: 332px; top: 218px; }   /* Q3 chip 1 */
+        .f3-r3   { left: 325px; top: 211px; }
 
-        /* ---------- Summary stack (Scene 3) ---------- */
+        /* ---------- Summary stack (Scene 3 resolve) ---------- */
         .f3-sumhead {
           position: absolute;
           left: 119px;
-          top: 1496px;
+          top: 1758px;
           width: 842px;
           text-align: center;
           font-family: "Space Grotesk", sans-serif;
-          font-size: 30px;
+          font-size: 27px;
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #4D5DFF;
+          color: #76837C;
         }
         .f3-sumpill {
           position: absolute;
-          left: 219px;
-          width: 642px;
-          height: 120px;
+          left: 240px;
+          width: 600px;
+          height: 108px;
           display: flex;
           align-items: center;
           gap: 26px;
           padding: 0 40px;
           box-sizing: border-box;
-          background: rgba(77, 93, 255, 0.16);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
+          background: #11161A;
+          border: 1px solid rgba(43, 217, 124, 0.35);
           border-radius: 100px;
           will-change: transform;
         }
-        #f3-sum1 { top: 1580px; }
-        #f3-sum2 { top: 1724px; }
-        #f3-sum3 { top: 1868px; }
+        #f3-sum1 { top: 1830px; }
+        #f3-sum2 { top: 1968px; }
+        #f3-sum3 { top: 2106px; }
         .f3-check {
-          width: 52px;
-          height: 52px;
+          display: block;
+          width: 48px;
+          height: 48px;
           flex: none;
         }
         .f3-check path {
           fill: none;
-          stroke: #4D5DFF;
-          stroke-width: 4;
+          stroke: #2BD97C;
+          stroke-width: 4.5;
           stroke-linecap: round;
           stroke-linejoin: round;
         }
         .f3-sumlabel {
           font-family: "Space Grotesk", sans-serif;
-          font-size: 34px;
+          font-size: 32px;
           font-weight: 500;
-          color: #4D5DFF;
+          color: #F2F5F4;
         }
       </style>
 
@@ -264,15 +343,16 @@
 
         <div class="clip f3-stage" data-start="0" data-duration="9.344" data-track-index="1">
           <div class="f3-world" id="f3-world">
-            <!-- Scene 1: the sent bubble from Frame 1 + Buddi's reply -->
-            <div class="f3-sent" id="f3-sent">I have $1,000 and no clue what to do with it</div>
-            <div class="f3-namepill" id="f3-namepill">buddi</div>
-            <div class="f3-reply" id="f3-reply">
-              <div class="f3-dots" id="f3-dots">
-                <span class="f3-dot"></span><span class="f3-dot"></span><span class="f3-dot"></span>
-              </div>
-              <span id="f3-replytext"></span>
+            <!-- Scene 1: the sent bubble from Frame 1 + Buddi's plain-text reply -->
+            <div class="f3-sent" id="f3-sent">I have $1,000 and have no clue what to do with it</div>
+            <div class="f3-buddirow" id="f3-buddirow">
+              <div class="f3-avatar"></div>
+              <div class="f3-buddiname">Buddi</div>
             </div>
+            <div class="f3-dots" id="f3-dots">
+              <span class="f3-dot"></span><span class="f3-dot"></span><span class="f3-dot"></span>
+            </div>
+            <div class="f3-reply" id="f3-replytext"></div>
 
             <!-- Scene 2: three question cards, one tap each -->
             <div class="f3-qcard" id="f3-q1">
@@ -320,7 +400,7 @@
               <div class="f3-tap" id="f3-tap3"></div>
             </div>
 
-            <!-- Scene 3: answered chips condense into a summary stack -->
+            <!-- Scene 3: answered chips condense into a compact summary stack -->
             <div class="f3-sumhead" id="f3-sumhead">Three taps &middot; done</div>
             <div class="f3-sumpill" id="f3-sum1">
               <svg class="f3-check" viewBox="0 0 52 52"><path class="f3-checkpath" d="M13 27 L22 36 L39 17" /></svg>
@@ -336,6 +416,29 @@
             </div>
           </div>
         </div>
+
+        <!-- Top stepper chrome — pinned above the camera world -->
+        <div class="clip f3-stepper" data-start="0" data-duration="9.344" data-track-index="2">
+          <div class="f3-stepper-inner" id="f3-stepper-inner">
+            <div class="f3-step">
+              <svg class="f3-stepcheck" id="f3-step1check" viewBox="0 0 44 44">
+                <circle id="f3-step1circ" cx="22" cy="22" r="20.5" />
+                <path id="f3-step1tick" d="M14 22.5 L20 28.5 L31 16.5" />
+              </svg>
+              <span class="f3-steplabel f3-steplabel-on">Find stocks</span>
+            </div>
+            <div class="f3-stepline"></div>
+            <div class="f3-step">
+              <div class="f3-stepnum">2</div>
+              <span class="f3-steplabel">Build the strategy</span>
+            </div>
+            <div class="f3-stepline"></div>
+            <div class="f3-step">
+              <div class="f3-stepnum">3</div>
+              <span class="f3-steplabel">Test live</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <script src="assets/vendor/gsap.min.js"></script>
@@ -347,9 +450,12 @@
           var $ = function (id) { return document.getElementById(id); };
 
           var world = $("f3-world");
+          var stepperInner = $("f3-stepper-inner");
+          var step1check = $("f3-step1check");
+          var step1circ = $("f3-step1circ");
+          var step1tick = $("f3-step1tick");
           var sent = $("f3-sent");
-          var namepill = $("f3-namepill");
-          var reply = $("f3-reply");
+          var buddirow = $("f3-buddirow");
           var replyText = $("f3-replytext");
           var dots = root.querySelectorAll(".f3-dot");
           var q1 = $("f3-q1"), q2 = $("f3-q2"), q3 = $("f3-q3");
@@ -364,7 +470,7 @@
           var sumpills = [$("f3-sum1"), $("f3-sum2"), $("f3-sum3")];
           var checkPaths = root.querySelectorAll(".f3-checkpath");
 
-          // svg-path-draw setup — measure each check, park it undrawn
+          // svg-path-draw setup — measure each summary check, park it undrawn
           checkPaths.forEach(function (p) {
             var len = p.getTotalLength();
             p.style.strokeDasharray = String(len);
@@ -382,19 +488,19 @@
 
           var tl = gsap.timeline({ paused: true });
 
-          /* ============ Scene 1 (0.0–3.0s) — chat arrives, Buddi replies ============ */
+          /* ============ Scene 1 (0.0–3.1s) — chat arrives, Buddi replies ============ */
 
           // sent bubble (hero context, visible well before t=0.5)
           tl.fromTo(sent, { opacity: 0, y: 36 },
             { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.05);
 
-          // quiet brand reveal — "buddi" name pill (small pop, smooth settle)
-          tl.fromTo(namepill, { opacity: 0, scale: 0.6 },
-            { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 0.95);
+          // stepper chrome settles in quietly at the top
+          tl.fromTo(stepperInner, { opacity: 0, y: -18 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.1);
 
-          // reply bubble lifts in
-          tl.fromTo(reply, { opacity: 0, y: 28 },
-            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.05);
+          // quiet brand reveal — teal avatar + bold "Buddi" label
+          tl.fromTo(buddirow, { opacity: 0, scale: 0.7 },
+            { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 0.95);
 
           // typing indicator — finite staggered pulses (no loops)
           dots.forEach(function (d, i) {
@@ -405,7 +511,7 @@
           // pulses fully settle by 1.66; fade the row after that (no property overlap)
           tl.to(dots, { opacity: 0, duration: 0.16, ease: "power1.out" }, 1.68);
 
-          // discrete-text-sequence (smooth-slice) — Buddi's reply types on
+          // discrete-text-sequence (smooth-slice) — Buddi's plain-text reply types on
           var replyFull = "I can build this for you. Three quick questions first.";
           var len = { v: 0 };
           tl.to(len, {
@@ -417,7 +523,7 @@
             },
           }, 1.72);
 
-          /* ============ Scene 2 (3.0–7.25s) — three questions, three taps ============ */
+          /* ============ Scene 2 (3.1–7.3s) — three questions, three taps ============ */
 
           // shared helpers
           function enterCard(card, at) {
@@ -427,20 +533,20 @@
           // cursor-click-ripple (thumb-tap variant) + press-release-spring
           function tap(i, at) {
             var dot = taps[i], chip = chips[i], rings = ripples[i];
-            // tap-highlight lands (fade-grow instead of a mouse travel)
+            // finger-sized tap-highlight lands (fade-grow instead of a mouse travel)
             tl.fromTo(dot, { opacity: 0, scale: 0.5 },
               { opacity: 1, scale: 1, duration: 0.28, ease: "power2.out" }, at);
             // press — linear compression (tap dot + chip compress together)
             tl.to(dot, { scale: 0.82, duration: 0.09, ease: "power1.in" }, at + 0.32);
             tl.to(chip, { scale: 0.955, duration: 0.09, ease: "power1.in" }, at + 0.32);
             // release — micro spring recovery (state-continuous with the press)
-            tl.to(dot, { scale: 1, duration: 0.3, ease: "power2.out" }, at + 0.41);
+            tl.to(dot, { scale: 1, duration: 0.2, ease: "power2.out" }, at + 0.41);
             tl.to(chip, { scale: 1, duration: 0.42, ease: "back.out(1.3)" }, at + 0.41);
-            // chip commits — fills cobalt at release
+            // chip commits — fills solid product green, near-black text
             tl.to(chip, {
-              backgroundColor: "#4D5DFF",
-              color: "#FFFFFF",
-              borderColor: "#4D5DFF",
+              backgroundColor: "#2BD97C",
+              color: "#06231A",
+              borderColor: "#2BD97C",
               duration: 0.22,
               ease: "power1.out",
             }, at + 0.41);
@@ -459,36 +565,47 @@
           tap(0, 4.0);
 
           // camera servos down to Q2 (camera-cursor-tracking: chase the next interaction)
-          tl.to(cam, { y: -748, duration: 0.8, ease: "power2.inOut", onUpdate: applyCamera }, 4.85);
+          tl.to(cam, { y: -560, duration: 0.8, ease: "power2.inOut", onUpdate: applyCamera }, 4.85);
           enterCard(q2, 5.0);
           tap(1, 5.7);
 
           // camera servos down to Q3
-          tl.to(cam, { y: -1308, duration: 0.8, ease: "power2.inOut", onUpdate: applyCamera }, 6.45);
+          tl.to(cam, { y: -1120, duration: 0.8, ease: "power2.inOut", onUpdate: applyCamera }, 6.45);
           enterCard(q3, 6.6);
           tap(2, 6.9);
 
-          /* ============ Scene 3 (7.25–9.344s) — condense + settle wider, hold ============ */
+          /* ============ Scene 3 (7.3–9.344s) — condense + settle wider, hold ============ */
 
-          // answered cards condense away
+          // stepper payoff — "Find stocks" check pops filled-green as the taps complete
+          tl.to(step1circ, {
+            fill: "#2BD97C",
+            stroke: "#2BD97C",
+            duration: 0.2,
+            ease: "power1.out",
+          }, 7.5);
+          tl.to(step1tick, { stroke: "#06231A", duration: 0.2, ease: "power1.out" }, 7.5);
+          tl.to(step1check, { scale: 1.16, duration: 0.12, ease: "power2.out" }, 7.5);
+          tl.to(step1check, { scale: 1, duration: 0.35, ease: "back.out(1.8)" }, 7.62);
+
+          // answered cards condense away (within-scene swap, not an exit)
           tl.to([q1, q2, q3], { opacity: 0, scale: 0.94, duration: 0.5, ease: "power2.in" }, 7.62);
 
           // camera settles wider on the summary
-          tl.to(cam, { s: 0.9, x: 54, y: -782, duration: 0.95, ease: "power3.inOut",
+          tl.to(cam, { s: 0.92, x: 43.2, y: -1019, duration: 0.95, ease: "power3.inOut",
             onUpdate: applyCamera }, 7.62);
 
-          // eyebrow tag
+          // muted eyebrow
           tl.fromTo(sumhead, { opacity: 0, y: 24 },
             { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 7.9);
 
-          // spring-pop-entrance (smooth power3 settle) — summary pills stack in
+          // spring-pop-entrance (smooth power3 settle) — answered chips stack in
           sumpills.forEach(function (p, i) {
             tl.fromTo(p, { opacity: 0, scale: 0.86, y: 22 },
               { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "power3.out" },
               8.0 + i * 0.15);
           });
 
-          // svg-path-draw — check marks trace on, staggered
+          // svg-path-draw — green check marks trace on, staggered
           checkPaths.forEach(function (p, i) {
             tl.to(p, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" },
               8.32 + i * 0.16);

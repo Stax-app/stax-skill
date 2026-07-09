@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Frame 6 — Free before a single dollar (paper-trade toggle press) -->
+    <!-- Frame 6 — Free before a single dollar (real Buddi UI: deploy / paper-money moment) -->
     <!-- NOTE: everything the runtime needs lives INSIDE <template> below. -->
   </head>
   <body>
@@ -13,12 +13,14 @@
           src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
           font-weight: 300 800;
           font-style: normal;
+          font-display: block;
         }
         @font-face {
           font-family: "Inter";
           src: url("assets/fonts/inter-var.woff2") format("woff2");
           font-weight: 300 800;
           font-style: normal;
+          font-display: block;
         }
 
         /* Root styled via #root only (scoper drops class-on-root rules). */
@@ -35,7 +37,7 @@
         .f06-bg {
           position: absolute;
           inset: 0;
-          background: #08080c;
+          background: #0b0e11;
         }
 
         .f06-stage {
@@ -43,139 +45,148 @@
           inset: 0;
         }
 
-        /* ——— settings-row card (hero cutout) ——— */
-        #f06-card {
+        /* ——— THE INPUT BAR (the product's paper-trading affordance) ——— */
+        #f06-bar {
           position: absolute;
-          left: 11cqw;
+          left: 80px;
           top: 560px;
-          width: 78cqw;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 40px;
-          padding: 52px 56px;
-          background: rgba(77, 93, 255, 0.1);
-          border: 1.5px solid rgba(77, 93, 255, 0.38);
-          border-radius: 14px;
+          width: 920px;
+          padding: 40px 40px;
+          background: #12171b;
+          border: 1px solid #262d33;
+          border-radius: 28px;
+          will-change: transform, opacity;
         }
-        .f06-card-copy {
-          min-width: 0;
+        #f06-line {
+          position: relative;
+          height: 40px;
+          overflow: hidden;
         }
-        #f06-label {
-          font-family: "Space Grotesk", sans-serif;
-          font-weight: 600;
-          font-size: 58px;
-          line-height: 1.15;
-          letter-spacing: -0.02em;
-          color: #f4f5fa;
-        }
-        #f06-subnote {
-          margin-top: 14px;
+        #f06-ph {
+          position: absolute;
+          left: 0;
+          top: 0;
           font-family: "Inter", sans-serif;
           font-weight: 400;
-          font-size: 29px;
-          line-height: 1.4;
-          color: #a6acc4;
+          font-size: 25px;
+          line-height: 40px;
+          color: #76837c;
+          white-space: nowrap;
+        }
+        #f06-typedrow {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 40px;
+          display: flex;
+          align-items: center;
+        }
+        #f06-typed {
+          font-family: "Inter", sans-serif;
+          font-weight: 500;
+          font-size: 31px;
+          line-height: 40px;
+          color: #f2f5f4;
+          white-space: nowrap;
+        }
+        #f06-caret {
+          display: inline-block;
+          width: 4px;
+          height: 34px;
+          margin-left: 6px;
+          border-radius: 2px;
+          background: #2bd97c;
+          opacity: 0; /* owned by the master driver (deterministic sin blink) */
         }
 
-        /* ——— pill toggle ——— */
-        #f06-toggle {
-          position: relative;
-          flex: 0 0 auto;
-          width: 170px;
-          height: 92px;
-          will-change: transform;
-        }
-        #f06-track {
+        /* ——— chips row (real product controls, muted + tiny) ——— */
+        #f06-chips {
           position: absolute;
-          inset: 0;
-          background: rgba(244, 245, 250, 0.15);
-          border: 1.5px solid rgba(77, 93, 255, 0.4);
-          border-radius: 100px;
+          left: 80px;
+          top: 712px;
+          width: 920px;
+          display: flex;
+          justify-content: center;
+          gap: 14px;
         }
-        #f06-knob {
-          position: absolute;
-          left: 9px;
-          top: 9px;
-          width: 74px;
-          height: 74px;
-          border-radius: 50%;
-          background: #ffffff;
-          border: 1.5px solid rgba(77, 93, 255, 0.45);
-          will-change: transform;
-        }
-
-        /* Finger-sized soft tap-highlight (thumb, not an arrow cursor). */
-        #f06-tap {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          width: 150px;
-          height: 150px;
-          margin-left: -75px;
-          margin-top: -75px;
-          border-radius: 50%;
-          background: radial-gradient(
-            circle,
-            rgba(77, 93, 255, 0.58) 0%,
-            rgba(77, 93, 255, 0.25) 55%,
-            rgba(77, 93, 255, 0) 72%
-          );
-          opacity: 0;
-          pointer-events: none;
-          z-index: 4;
-          will-change: transform, opacity;
-        }
-
-        /* Click ripple rings — expand from the toggle center. */
-        .f06-ripple {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          width: 150px;
-          height: 150px;
-          margin-left: -75px;
-          margin-top: -75px;
-          border-radius: 50%;
-          border: 2.5px solid rgba(77, 93, 255, 0.9);
-          opacity: 0;
-          pointer-events: none;
-          z-index: 3;
-          will-change: transform, opacity;
-        }
-
-        /* ——— "$0 to try" tag-pill (the frame's one sanctioned pop) ——— */
-        #f06-pill {
-          position: absolute;
-          right: 7cqw;
-          top: 506px;
-          padding: 15px 36px;
-          background: #4d5dff;
-          border: 1.5px solid rgba(255, 255, 255, 0.25);
+        .f06-chip {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 12px 22px;
+          background: #12171b;
+          border: 1px solid #262d33;
           border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
-          font-weight: 600;
-          font-size: 36px;
-          letter-spacing: 0.01em;
-          color: #ffffff;
+          font-weight: 500;
+          font-size: 22px;
+          line-height: 1;
+          color: #a8b3ae;
           white-space: nowrap;
-          transform-origin: 22% 88%;
+          will-change: transform, opacity;
+        }
+        .f06-chip svg {
+          display: block;
+          flex: 0 0 auto;
+        }
+
+        /* ——— THE DEPLOY BANNER (climax surface) ——— */
+        #f06-banner {
+          position: absolute;
+          left: 80px;
+          top: 826px;
+          width: 920px;
+          padding: 38px 44px;
+          border-radius: 16px;
+          background: linear-gradient(90deg, #16b36b 0%, #21c7b7 100%);
+          will-change: transform, opacity;
+        }
+        #f06-banner-text {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 35px;
+          line-height: 1.32;
+          letter-spacing: -0.01em;
+          color: #ffffff;
+        }
+        #f06-banner-text svg {
+          display: inline-block;
+          vertical-align: -5px;
+          margin-left: 10px;
+        }
+
+        /* ——— "$0 to try" pill (the frame's one sanctioned pop) ——— */
+        #f06-pill {
+          position: absolute;
+          right: 56px;
+          top: 790px;
+          padding: 16px 34px;
+          background: #2bd97c;
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 700;
+          font-size: 34px;
+          line-height: 1;
+          letter-spacing: 0.01em;
+          color: #0b0e11;
+          white-space: nowrap;
+          transform-origin: 28% 96%; /* grows out of the banner's corner */
           z-index: 5;
           will-change: transform, opacity;
         }
 
-        /* ——— tag line beneath the card (discrete stepped reveal) ——— */
+        /* ——— muted tag line beneath (resolve beat) ——— */
         #f06-tagline {
           position: absolute;
           left: 0;
-          top: 924px;
+          top: 1088px;
           width: 100%;
           text-align: center;
           font-family: "Space Grotesk", sans-serif;
           font-weight: 500;
-          font-size: 33px;
-          letter-spacing: 0;
-          color: #a6acc4;
+          font-size: 34px;
+          line-height: 1;
+          color: #a8b3ae;
           white-space: nowrap;
         }
         .f06-tw {
@@ -191,27 +202,52 @@
         data-width="1080"
         data-height="1920"
       >
-        <!-- ground: full-duration clip on the lowest track -->
-        <div class="clip f06-bg" data-start="0" data-duration="5.12" data-track-index="0"></div>
+        <!-- ground: full-window clip on the lowest track (covers the 0.4s transition overlap) -->
+        <div class="clip f06-bg" data-start="0" data-duration="5.52" data-track-index="0"></div>
 
-        <!-- content stage: full-duration clip -->
-        <div class="clip f06-stage" data-start="0" data-duration="5.12" data-track-index="1">
-          <!-- Scene 1 — settings-row card, toggle OFF -->
-          <div id="f06-card">
-            <div class="f06-card-copy">
-              <div id="f06-label">Paper Trading</div>
-              <div id="f06-subnote">real market prices</div>
-            </div>
-            <div id="f06-toggle">
-              <div id="f06-track"></div>
-              <div id="f06-knob"></div>
-              <div class="f06-ripple" id="f06-ripple-1"></div>
-              <div class="f06-ripple" id="f06-ripple-2"></div>
-              <div id="f06-tap"></div>
+        <!-- content stage: full-window clip -->
+        <div class="clip f06-stage" data-start="0" data-duration="5.52" data-track-index="1">
+          <!-- Scene 1 — the input bar with the paper-money placeholder -->
+          <div id="f06-bar">
+            <div id="f06-line">
+              <div id="f06-ph">Say &quot;deploy&quot; to test it live with paper money, or ask anything...</div>
+              <div id="f06-typedrow">
+                <span id="f06-typed"></span>
+                <span id="f06-caret"></span>
+              </div>
             </div>
           </div>
 
-          <!-- Scene 2 payoff — "$0 to try" tag-pill -->
+          <!-- Scene 1 — small dark control chips beneath the bar -->
+          <div id="f06-chips">
+            <div class="f06-chip" id="f06-chip-1">
+              <span>Simple</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8b3ae" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div class="f06-chip" id="f06-chip-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8b3ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+              <span>Edit stocks (6)</span>
+            </div>
+            <div class="f06-chip" id="f06-chip-3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8b3ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+              <span>Holdings</span>
+            </div>
+            <div class="f06-chip" id="f06-chip-4">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8b3ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+              <span>Risk</span>
+            </div>
+            <div class="f06-chip" id="f06-chip-5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8b3ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+              <span>Activity</span>
+            </div>
+          </div>
+
+          <!-- Scene 2 — the deploy banner slides up beneath -->
+          <div id="f06-banner">
+            <div id="f06-banner-text">Deploy this auto-trading strategy to test it against the market<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+          <!-- Scene 2 payoff — "$0 to try" pill at the banner's top-right corner -->
           <div id="f06-pill">$0 to try</div>
 
           <!-- Scene 3 — muted tag line, revealed in discrete steps -->
@@ -232,123 +268,130 @@
 
           /* VO (5.12s): "And I could paper-trade it | on real prices | — free — |
              before risking | a single dollar."
-             Estimated cues: "paper-trade" ~0.65 · "real prices" ~1.55 · "free" ~2.25 ·
-             "before risking" ~3.0 · "single" ~3.75 · "dollar" ~4.2 */
+             Estimated cues: "paper-trade" ~0.65 · "real prices" ~1.4 · "free" ~2.25 ·
+             "before risking" ~3.0 · "single" ~3.7 · "dollar" ~4.2 */
 
-          // ————— Scene 1 (0.0–1.64s): row reveals as the VO reaches it —————
-          // dynamic-content-sequencing: card shell first, label on "paper-trade",
-          // sub-note on "real prices". Smooth long-tail settles, no overshoot.
+          // ————— Scene 1 (0.0–1.6s): surface reveals as the VO starts —————
+          // The input bar (the product's paper-trading affordance) rises in first…
           tl.fromTo(
-            "#f06-card",
-            { opacity: 0, y: 44 },
+            "#f06-bar",
+            { opacity: 0, y: 46 },
             { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" },
             0.12
           );
+          // …its placeholder settles a beat later ("paper-trade it")…
           tl.fromTo(
-            "#f06-label",
-            { opacity: 0, y: 18 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-            0.6
+            "#f06-ph",
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, ease: "power2.out" },
+            0.5
           );
-          tl.fromTo(
-            "#f06-subnote",
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-            1.5
-          );
+          // …and the control chips arrive as one beat on "real prices"
+          // (dynamic-content-sequencing; deterministic index stagger, 5 × 0.07 ≤ 0.5s).
+          var chips = ["#f06-chip-1", "#f06-chip-2", "#f06-chip-3", "#f06-chip-4", "#f06-chip-5"];
+          chips.forEach(function (sel, i) {
+            tl.fromTo(
+              sel,
+              { opacity: 0, y: 16 },
+              { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+              1.0 + i * 0.07
+            );
+          });
 
-          // ————— Scene 2 (1.64–3.07s): the click IS the climax —————
-          // cursor-click-ripple (thumb variant): tap-highlight lands on the toggle…
-          tl.fromTo(
-            "#f06-tap",
-            { opacity: 0, scale: 0.55 },
-            { opacity: 0.6, scale: 1, duration: 0.28, ease: "power2.out" },
-            1.95
-          );
-
-          // press-release-spring — press: linear-ish compression on "free"
-          var PRESS_AT = 2.28;
-          var RELEASE_AT = 2.4; // = PRESS_AT + press duration (state continuity)
+          // ————— Scene 2 (1.6–3.0s): the climax — "deploy" TYPES, the UI answers —————
+          // Master driver (discrete-text-sequence, smooth-slice variant): one 0→5.12s
+          // driver owns the typed text and the caret so every seeked frame is a pure
+          // function of time. Typing runs 1.8→2.3s (6 chars); caret blinks sin-based
+          // from 1.7→3.0s, then holds solid (dead-still resolve).
+          var WORD = "deploy";
+          var TYPE_START = 1.8;
+          var TYPE_END = 2.3;
+          var BLINK_START = 1.7;
+          var BLINK_END = 3.0;
+          var typedEl = document.getElementById("f06-typed");
+          var caretEl = document.getElementById("f06-caret");
+          var driver = { t: 0 };
+          var lastText = null;
           tl.to(
-            "#f06-toggle",
-            { scale: 0.93, duration: 0.12, ease: "power1.in" },
-            PRESS_AT
-          );
-          // release: smooth long-tail recovery (house style — no back.out)
-          tl.to(
-            "#f06-toggle",
-            { scale: 1, duration: 0.45, ease: "power3.out" },
-            RELEASE_AT
-          );
-          // the UI answers live: knob slides, track fills cobalt
-          tl.to(
-            "#f06-knob",
-            { x: 78, duration: 0.38, ease: "power3.out" },
-            RELEASE_AT
-          );
-          tl.to(
-            "#f06-track",
+            driver,
             {
-              backgroundColor: "#4D5DFF",
-              borderColor: "#4D5DFF",
-              duration: 0.32,
-              ease: "power2.inOut",
+              t: 5.12,
+              duration: 5.12,
+              ease: "none",
+              onUpdate: function () {
+                var t = driver.t;
+                // typed text — linear char ramp, deterministic
+                var p = (t - TYPE_START) / (TYPE_END - TYPE_START);
+                p = Math.max(0, Math.min(1, p));
+                var text = WORD.substring(0, Math.floor(p * WORD.length + 0.0001));
+                if (text !== lastText) {
+                  typedEl.textContent = text;
+                  lastText = text;
+                }
+                // green caret — hidden before the beat, blinks during it, solid after
+                var op;
+                if (t < BLINK_START) {
+                  op = 0;
+                } else if (t < BLINK_END) {
+                  // 2.25 cycles over 1.3s ends on sin=+1 → caret lands visible
+                  var ph = ((t - BLINK_START) / (BLINK_END - BLINK_START)) * Math.PI * 4.5;
+                  op = Math.sin(ph) >= 0 ? 1 : 0;
+                } else {
+                  op = 1;
+                }
+                caretEl.style.opacity = String(op);
+              },
             },
-            RELEASE_AT
+            0
           );
-          // ripple rings radiate from the click point (immediateRender:false
-          // holds the CSS-hidden state until the click moment)
-          tl.fromTo(
-            ["#f06-ripple-1", "#f06-ripple-2"],
-            { scale: 0, opacity: 0.6 },
-            {
-              scale: 2.8,
-              opacity: 0,
-              duration: 0.65,
-              ease: "power2.out",
-              stagger: 0.09,
-              immediateRender: false,
-            },
-            RELEASE_AT
-          );
-          // tap-highlight dissipates after the press
+          // placeholder yields to the typed word (UI answering live, not an exit)
+          tl.to("#f06-ph", { opacity: 0, duration: 0.3, ease: "power2.out" }, 1.72);
+          // the bar's border warms green as it takes focus
           tl.to(
-            "#f06-tap",
-            { opacity: 0, duration: 0.3, ease: "power2.out" },
-            2.58
+            "#f06-bar",
+            { borderColor: "rgba(43,217,124,0.45)", duration: 0.35, ease: "power2.inOut" },
+            1.72
           );
 
-          // spring-pop-entrance — the frame's ONE pop: "$0 to try" tag-pill,
-          // origin-anchored at the card corner, smooth power3 settle.
+          // the DEPLOY BANNER slides up beneath on "free" — smooth long-tail settle
+          tl.fromTo(
+            "#f06-banner",
+            { opacity: 0, y: 110 },
+            { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" },
+            2.3
+          );
+
+          // spring-pop-entrance — the frame's ONE pop: "$0 to try", origin-anchored
+          // at the banner's top-right corner, power3 settle (no overshoot).
           tl.fromTo(
             "#f06-pill",
             { scale: 0, opacity: 0 },
             { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" },
-            2.52
+            2.6
           );
 
-          // ————— Scene 3 (3.07–5.12s): tag line steps in, then stillness —————
-          // discrete-text-sequence: the line arrives in three discrete states,
-          // each fading up on its spoken cue ("before risking" / "single" / "dollar").
+          // ————— Scene 3 (3.0–5.12s): tag line steps in, then stillness —————
+          // discrete-text-sequence: three states, each fading up on its spoken cue
+          // ("before risking" / "single" / "dollar").
           tl.fromTo(
             "#f06-tw1",
-            { opacity: 0, y: 14 },
-            { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
             3.15
           );
           tl.fromTo(
             "#f06-tw2",
-            { opacity: 0, y: 14 },
-            { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
-            3.7
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+            3.65
           );
           tl.fromTo(
             "#f06-tw3",
-            { opacity: 0, y: 14 },
-            { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
-            4.2
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+            4.15
           );
-          // settles by ~4.58s — dead-still hold to 5.12s (no exit: non-final frame).
+          // settles by ~4.55s — dead-still hold through 5.12s (no exit: non-final frame).
 
           window.__timelines["06-paper-trade"] = tl;
         })();
