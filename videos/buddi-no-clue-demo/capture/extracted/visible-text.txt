@@ -1,0 +1,41 @@
+The $1,000 No-Clue Demo
+Format: Screen record / VO
+Length: ~35s
+Audience: Grower — money sitting in cash, no idea where to start → no idea needed; Buddi builds it from a few questions.
+
+Hook · 0–3s
+"I had $1,000 sitting in cash and no clue what to do with it — so I typed that exact sentence into an AI."
+Visual: Second 1 — a thumb typing "I have $1,000 and no clue what to do with it" into the Buddi chat. No face, no logo yet.
+
+Body
+3–8s
+"That's most of us, right? You want your money to grow — but where do I even start freezes you, so it just sits there."
+Visual: Cut to a boring bank balance, cash doing nothing.
+Text: "just… sitting there 💤"
+
+8–14s
+"Turns out there's now an AI built for your money. And you don't even need an idea — if you don't have one, it just asks you a few simple questions."
+Visual: Back in Buddi — it responds with 2–3 simple multiple-choice questions. Thumb taps answers.
+
+14–26s
+"Here's the part that got me — I answered like three, and it built the whole thing. A real, rules-based strategy. Then it showed me how it would have performed on actual past prices."
+Visual: Strategy assembles on screen → results chart appears.
+Text: Results chart ◆ "BACKTEST RESULT" — REQUIRED
+
+26–32s
+"And I could paper-trade it on real prices — free — before risking a single dollar."
+Visual: "Paper Trade" toggle, "$0 to try" beat.
+Text: "paper trade = free, real prices"
+
+CTA · final 5s
+"Comment 'BUDDI' and I'll DM you the link to try it free."
+Text on screen — Comment "BUDDI" 👇
+
+You don't need an idea. You just need to say you want to grow it. Comment BUDDI and I'll send you the link to try it free.
+Backtests are hypothetical — past performance doesn't guarantee future results.
+
+Verify before filming:
+- $1,000 — illustrative Grower anchor.
+- three questions — confirm the real number Buddi asks before it builds.
+- Backtest chart figure must be real, verified, and carry the "Backtest Result" label.
+- Keep "free" scoped to build + paper-trade; confirm against current pricing.
