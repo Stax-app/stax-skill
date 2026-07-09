@@ -1,6 +1,6 @@
 # SCRIPT — buddi-no-clue-demo
 
-**Voice:** af_heart (Kokoro, local)
+**Voice:** USER-RECORDED (CapCut) — no TTS
 **Voice settings:** speed 1.05
 **Voice direction:** First-person UGC — casual, conversational, like telling a friend about something that surprised you. Warm, quick, zero announcer polish.
 
@@ -18,7 +18,7 @@
 **Time:** 4.0 – 10.0s
 **Delivery:** Knowing, a little wry; slow slightly on "so it just sits there."
 
-    That's most of us, right? You want your money to grow — but "where do I even start" freezes you. So it just sits there.
+    That's most of us, right? You want it to grow — but "where do I even start" freezes you. So it just sits there — and inflation quietly cuts it in half.
 
 ## Line 3 — It just asks you questions (Frame 3)
 

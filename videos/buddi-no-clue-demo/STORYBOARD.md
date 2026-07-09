@@ -43,8 +43,8 @@ keyMessage: Your "no clue" sentence is a valid starting input.
 
 ## Frame 2 — Just… sitting there
 
-- scene: A deliberately boring bank-balance card — "$1,000.00 · Savings · 0 activity" — sits dead still on the canvas while short pain statements land around it. On-screen text: "just… sitting there 💤"
-- voiceover: "That's most of us, right? You want your money to grow — but 'where do I even start' freezes you. So it just sits there."
+- scene: A boring savings card — "$1,000.00 · Savings" — sits dead still, then a red dashed inflation line slices it IN HALF: the bottom half shears away, a red arrow sweeps down, and a red chip lands: "½ the buying power". On-screen labels: "inflation" · "½ the buying power"
+- voiceover: "That's most of us, right? You want it to grow — but 'where do I even start' freezes you. So it just sits there — and inflation quietly cuts it in half."
 - duration: 6.976s
 - transition_in: crossfade
 - status: animated
