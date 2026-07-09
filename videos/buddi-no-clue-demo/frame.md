@@ -11,17 +11,17 @@ unit: the frame — 1920×1080 primary; 9:16 and 1:1 documented
 principle: atoms are sacred · composition is free · numbers come from the script
 
 colors:
-  bg: "#08080C"
-  primary: "#4D5DFF"
-  text: "#F4F5FA"
-  text-muted: "#A6ACC4"
-  text-light: "#767C94"
-  accent-light: "rgba(77,93,255,0.16)"
-  accent-medium: "rgba(77,93,255,0.26)"
-  border: "rgba(77,93,255,0.38)"
-  card-bg: "rgba(77,93,255,0.10)"
-  positive: "#21C77D"
-  negative: "#FF5D6B"
+  bg: "#0B0E11"
+  primary: "#2BD97C"
+  text: "#F2F5F4"
+  text-muted: "#A8B3AE"
+  text-light: "#76837C"
+  accent-light: "rgba(43,217,124,0.16)"
+  accent-medium: "rgba(43,217,124,0.26)"
+  border: "rgba(43,217,124,0.32)"
+  card-bg: "rgba(43,217,124,0.08)"
+  positive: "#2BD97C"
+  negative: "#F97316"
 
 radii:
   pill: "100px"
