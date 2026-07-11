@@ -1,0 +1,312 @@
+<template>
+  <div id="root" data-composition-id="01-thousand-hook" data-duration="4.843">
+    <style>
+      @font-face {
+        font-family: "Space Grotesk";
+        src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+        font-weight: 300 800;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("assets/fonts/inter-var.woff2") format("woff2");
+        font-weight: 300 800;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+
+      /* ── Full-bleed ground (dedicated clip layer, never on #root) ── */
+      .thook-bg {
+        position: absolute;
+        inset: 0;
+        background: #0b0e11;
+      }
+      .thook-tint {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 90% 46% at 50% 30%,
+          rgba(43, 217, 124, 0.055) 0%,
+          rgba(43, 217, 124, 0) 62%
+        );
+      }
+      .thook-ring {
+        position: absolute;
+        border: 1.5px solid rgba(43, 217, 124, 0.05);
+        border-radius: 50%;
+      }
+      .thook-ring-1 { width: 700px;  height: 700px;  left: 190px;  top: 310px; }
+      .thook-ring-2 { width: 1050px; height: 1050px; left: 15px;   top: 135px;  border-color: rgba(43, 217, 124, 0.038); }
+      .thook-ring-3 { width: 1160px; height: 1160px; left: -40px;  top: 80px;   border-color: rgba(43, 217, 124, 0.026); }
+
+      /* ── Content stack (all above y≈1250 — captions own y1290+) ── */
+      .thook-stack {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 430px;
+      }
+
+      /* Glow layer sits BEHIND the numeral (ambient-glow-bloom) */
+      .thook-glow {
+        position: absolute;
+        width: 920px;
+        height: 920px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: -330px;
+        background: radial-gradient(
+          circle,
+          rgba(43, 217, 124, 0.55) 0%,
+          rgba(43, 217, 124, 0.18) 34%,
+          rgba(43, 217, 124, 0) 68%
+        );
+        opacity: 0;
+        pointer-events: none;
+        will-change: transform, opacity;
+        z-index: 1;
+      }
+
+      /* Line 1 — the giant numeral, 2 depth layers + caret */
+      .thook-l1 {
+        position: relative;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+      }
+      .thook-numwrap {
+        position: relative;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 236px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .thook-ghost {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 16px;
+        text-align: center;
+        color: #2bd97c;
+        opacity: 0;
+        filter: blur(6px);
+        z-index: 1;
+        will-change: transform, opacity;
+      }
+      .thook-numeral {
+        position: relative;
+        color: #f2f5f4;
+        z-index: 2;
+        display: inline-block;
+        will-change: transform, opacity;
+      }
+      .thook-caret-1 {
+        position: absolute;
+        right: -46px;
+        top: 46px;
+        bottom: 52px;
+        width: 15px;
+        border-radius: 4px;
+        background: #2bd97c;
+        opacity: 0;
+        z-index: 2;
+      }
+
+      /* Line 2 — green arrow + typed question + caret */
+      .thook-l2 {
+        position: relative;
+        width: 700px;
+        margin: 74px auto 0;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        white-space: nowrap;
+        z-index: 2;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 500;
+        font-size: 66px;
+        letter-spacing: -0.01em;
+      }
+      .thook-arrow {
+        color: #2bd97c;
+        margin-right: 20px;
+        opacity: 0;
+        display: inline-block;
+        will-change: transform, opacity;
+      }
+      .thook-typed {
+        color: #f2f5f4;
+        white-space: pre;
+      }
+      .thook-caret-2 {
+        display: inline-block;
+        width: 9px;
+        height: 58px;
+        margin-left: 10px;
+        border-radius: 3px;
+        background: #2bd97c;
+        opacity: 0;
+        will-change: transform, opacity;
+      }
+    </style>
+
+    <!-- Track 0 — full-bleed dark field (hook atmosphere: faint tint + rings) -->
+    <div class="clip thook-bg" data-start="0" data-duration="4.843" data-track-index="0">
+      <div class="thook-tint"></div>
+      <div class="thook-ring thook-ring-1"></div>
+      <div class="thook-ring thook-ring-2"></div>
+      <div class="thook-ring thook-ring-3"></div>
+    </div>
+
+    <!-- Track 1 — the hook content -->
+    <div class="clip" data-start="0" data-duration="4.843" data-track-index="1"
+         style="position: absolute; inset: 0;">
+      <div class="thook-stack">
+        <div class="thook-glow" id="01-thousand-hook-glow"></div>
+        <div class="thook-l1">
+          <div class="thook-numwrap">
+            <span class="thook-ghost" id="01-thousand-hook-ghost">$1,000</span>
+            <span class="thook-numeral" id="01-thousand-hook-numeral">$1,000</span>
+            <span class="thook-caret-1" id="01-thousand-hook-caret1"></span>
+          </div>
+        </div>
+        <div class="thook-l2">
+          <span class="thook-arrow" id="01-thousand-hook-arrow">&#8594;</span><span
+            class="thook-typed" id="01-thousand-hook-typed"></span><span
+            class="thook-caret-2" id="01-thousand-hook-caret2"></span>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+
+        var DUR = 4.843;
+        var numeral = document.getElementById("01-thousand-hook-numeral");
+        var ghost = document.getElementById("01-thousand-hook-ghost");
+        var caret1 = document.getElementById("01-thousand-hook-caret1");
+        var caret2 = document.getElementById("01-thousand-hook-caret2");
+        var arrow = document.getElementById("01-thousand-hook-arrow");
+        var typed = document.getElementById("01-thousand-hook-typed");
+        var glow = document.getElementById("01-thousand-hook-glow");
+
+        var tl = gsap.timeline({ paused: true });
+
+        /* ── Scene 1 (0–1.94s): giant "$1,000" scales DOWN from oversized
+           into upper-center as the VO opens ("Here's exactly how…").
+           Two depth layers: crisp numeral + soft green ghost behind,
+           slightly different endpoints for parallax depth. ── */
+        tl.fromTo(
+          numeral,
+          { scale: 1.6, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.9, ease: "power3.out" },
+          0.05
+        );
+        tl.fromTo(
+          ghost,
+          { scale: 1.78, opacity: 0 },
+          { scale: 1.06, opacity: 0.1, duration: 1.05, ease: "power3.out" },
+          0.05
+        );
+
+        /* VO hits the word "$1,000" at 1.68s — one restrained emphasis
+           pulse on the numeral (two adjacent finite tweens, no yoyo). */
+        tl.to(numeral, { scale: 1.05, duration: 0.13, ease: "power2.out" }, 1.68);
+        tl.to(numeral, { scale: 1, duration: 0.24, ease: "power3.out" }, 1.81);
+        tl.to(ghost, { scale: 1.1, duration: 0.13, ease: "power2.out" }, 1.68);
+        tl.to(ghost, { scale: 1.06, duration: 0.24, ease: "power3.out" }, 1.81);
+
+        /* ── Scene 2 (≈2.55–4.02s): on "without picking a single stock"
+           (VO 2.84s) the caret drops to line 2; the green arrow pops
+           (the frame's one sanctioned spring), then the question TYPES
+           fast (~1.5× ramp) via discrete-text-sequence thresholds. ── */
+        tl.fromTo(
+          arrow,
+          { scale: 0.4, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.2)" },
+          2.6
+        );
+        tl.fromTo(
+          caret2,
+          { y: -70 },
+          { y: 0, duration: 0.28, ease: "power3.out" },
+          2.55
+        );
+
+        /* Discrete text sequence — fast human keystrokes with word-break
+           pauses; lands "?" at 4.02s as the VO closes "single stock". */
+        var SEQ = [
+          { t: 0.0, s: "" },
+          { t: 2.86, s: "w" },
+          { t: 2.93, s: "wh" },
+          { t: 3.0, s: "whe" },
+          { t: 3.07, s: "wher" },
+          { t: 3.14, s: "where" },
+          { t: 3.28, s: "where d" },
+          { t: 3.35, s: "where do" },
+          { t: 3.42, s: "where doe" },
+          { t: 3.49, s: "where does" },
+          { t: 3.63, s: "where does i" },
+          { t: 3.7, s: "where does it" },
+          { t: 3.84, s: "where does it g" },
+          { t: 3.91, s: "where does it go" },
+          { t: 4.02, s: "where does it go?" }
+        ];
+        function textAt(time) {
+          for (var i = SEQ.length - 1; i >= 0; i--) {
+            if (time >= SEQ[i].t) return SEQ[i].s;
+          }
+          return "";
+        }
+
+        /* One deterministic driver: typed text + both carets' blink.
+           Sine-based blink (period 0.8s) — no CSS animation, seek-safe. */
+        var drv = { t: 0 };
+        tl.to(
+          drv,
+          {
+            t: DUR,
+            duration: DUR,
+            ease: "none",
+            onUpdate: function () {
+              var t = drv.t;
+              typed.textContent = textAt(t);
+              var blink = Math.sin((t * Math.PI * 2) / 0.8) > -0.25 ? "1" : "0";
+              /* caret 1 blinks beside the numeral, then hands off */
+              caret1.style.opacity = t >= 0.3 && t < 2.45 ? blink : "0";
+              /* caret 2: hidden → solid while dropping/typing → blinks in the hold */
+              caret2.style.opacity = t < 2.55 ? "0" : t < 4.1 ? "1" : blink;
+            }
+          },
+          0
+        );
+
+        /* ── Scene 3 (3.95s–end): both lines settle; a soft green glow
+           blooms faintly behind the numeral (ambient-glow-bloom,
+           bloom-and-hold form — stillness during the hold). ── */
+        tl.fromTo(
+          glow,
+          { opacity: 0, scale: 0.85 },
+          { opacity: 0.24, scale: 1, duration: 0.65, ease: "power2.out" },
+          3.95
+        );
+
+        window.__timelines["01-thousand-hook"] = tl;
+      })();
+    </script>
+  </div>
+</template>

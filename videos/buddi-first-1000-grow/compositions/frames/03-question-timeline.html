@@ -1,0 +1,480 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 3 — Question 1: timeline (buddi-first-1000-grow)
+         Buddi replies, then question card 1 slides up; a thumb-tap selects
+         "A few years" (press-release-spring + ripple); annotation "sooner = safer".
+         cursor-ui-demo (Adapt — single-question tap, NO camera servo).
+         Duration 4.715s. Content keeps above y≈1250 (captions burn at y1290–1440).
+         Everything the runtime needs lives INSIDE <template>. -->
+  </head>
+  <body>
+    <template>
+      <style>
+        /* ---------- Fonts (variable, shipped with the project) ---------- */
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2-variations");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2-variations");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* ---------- Root (styled via #root, never a class) ---------- */
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed product ground — its own clip layer, never on #root */
+        .f3qt-bg {
+          position: absolute;
+          inset: 0;
+          background: #0B0E11;
+        }
+
+        /* Static stage (camera stays put — the interaction is the beat) */
+        .f3qt-stage {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        /* ---------- Top stepper chrome (product nav, all in-app frames) ---------- */
+        .f3qt-stepper {
+          position: absolute;
+          left: 0;
+          top: 68px;
+          width: 1080px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          pointer-events: none;
+        }
+        .f3qt-step {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+        .f3qt-stepcheck {
+          display: block;
+          width: 44px;
+          height: 44px;
+        }
+        .f3qt-stepcheck circle {
+          fill: rgba(43, 217, 124, 0);
+          stroke: rgba(43, 217, 124, 0.55);
+          stroke-width: 2;
+        }
+        .f3qt-stepcheck path {
+          fill: none;
+          stroke: #2BD97C;
+          stroke-width: 3.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f3qt-stepnum {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: 1.5px solid #262D33;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 21px;
+          font-weight: 500;
+          color: #76837C;
+        }
+        .f3qt-steplabel {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 26px;
+          font-weight: 500;
+          color: #76837C;
+          white-space: nowrap;
+        }
+        .f3qt-steplabel-on {
+          color: #F2F5F4;
+        }
+        .f3qt-stepline {
+          width: 56px;
+          height: 1.5px;
+          background: #23292F;
+        }
+
+        /* ---------- Buddi reply (plain text + teal avatar + label) ---------- */
+        .f3qt-buddirow {
+          position: absolute;
+          left: 84px;
+          top: 250px;
+          display: flex;
+          align-items: center;
+          gap: 18px;
+        }
+        .f3qt-avatar {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          background: #14B8A6;
+          flex: none;
+        }
+        .f3qt-buddiname {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 31px;
+          font-weight: 700;
+          color: #FFFFFF;
+          letter-spacing: -0.01em;
+        }
+        .f3qt-dots {
+          position: absolute;
+          left: 88px;
+          top: 342px;
+          display: flex;
+          gap: 12px;
+        }
+        .f3qt-dot {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #76837C;
+          opacity: 0.25;
+        }
+        /* plain near-white text on the ground, no bubble */
+        .f3qt-reply {
+          position: absolute;
+          left: 84px;
+          top: 328px;
+          width: 900px;
+          display: flex;
+          align-items: baseline;
+          font-size: 36px;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #E8EDEA;
+          white-space: nowrap;
+        }
+        .f3qt-caret {
+          display: inline-block;
+          width: 4px;
+          height: 40px;
+          margin-left: 6px;
+          background: #2BD97C;
+          opacity: 0;
+          align-self: center;
+        }
+
+        /* ---------- Question card 1 (real product card) ---------- */
+        .f3qt-qcard {
+          position: absolute;
+          left: 119px;
+          top: 500px;
+          width: 842px;
+          height: 450px;
+          background: #11161A;
+          border: 1px solid #262D33;
+          border-radius: 16px;
+          padding: 40px 44px;
+          box-sizing: border-box;
+          opacity: 0;
+          will-change: transform;
+        }
+        .f3qt-qhead {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 56px;
+        }
+        .f3qt-qlabel {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 40px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #F2F5F4;
+          line-height: 1.2;
+        }
+        .f3qt-qcount {
+          background: #171C21;
+          border: 1px solid #262D33;
+          color: #76837C;
+          border-radius: 100px;
+          padding: 7px 22px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 22px;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+        .f3qt-chips {
+          margin-top: 26px;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+        .f3qt-chip {
+          height: 84px;
+          display: flex;
+          align-items: center;
+          padding: 0 36px;
+          box-sizing: border-box;
+          background: #15191D;
+          border: 1px solid #2A2F34;
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 30px;
+          font-weight: 600;
+          color: #F2F5F4;
+          will-change: transform;
+        }
+
+        /* ---------- Tap actor (finger-sized highlight, no arrow cursor) ---------- */
+        .f3qt-tap {
+          position: absolute;
+          left: 332px;
+          top: 218px; /* centered on chip "A few years" (center 380, 266 card-rel) */
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+          background: rgba(43, 217, 124, 0.26);
+          border: 1.5px solid rgba(43, 217, 124, 0.4);
+          opacity: 0;
+          pointer-events: none;
+          z-index: 5;
+          will-change: transform;
+        }
+        .f3qt-ripple {
+          position: absolute;
+          left: 325px;
+          top: 211px;
+          width: 110px;
+          height: 110px;
+          border-radius: 50%;
+          border: 2.5px solid rgba(43, 217, 124, 0.8);
+          opacity: 0;
+          pointer-events: none;
+          z-index: 4;
+          will-change: transform;
+        }
+
+        /* ---------- Scene 3 annotation (muted, under the card) ---------- */
+        .f3qt-note {
+          position: absolute;
+          left: 119px;
+          top: 1000px;
+          width: 842px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          opacity: 0;
+        }
+        .f3qt-note-rule {
+          width: 44px;
+          height: 3px;
+          border-radius: 2px;
+          background: rgba(43, 217, 124, 0.55);
+          flex: none;
+        }
+        .f3qt-note-text {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 30px;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          color: #A8B3AE;
+          white-space: nowrap;
+        }
+      </style>
+
+      <div id="root" data-composition-id="03-question-timeline" data-width="1080" data-height="1920">
+        <!-- full-bleed ground as a clip layer (never on #root) -->
+        <div class="clip f3qt-bg" data-start="0" data-duration="4.715" data-track-index="0"></div>
+
+        <div class="clip f3qt-stage" data-start="0" data-duration="4.715" data-track-index="1">
+          <!-- Top stepper chrome -->
+          <div class="f3qt-stepper" id="f3qt-stepper">
+            <div class="f3qt-step">
+              <svg class="f3qt-stepcheck" viewBox="0 0 44 44">
+                <circle cx="22" cy="22" r="20.5" />
+                <path d="M14 22.5 L20 28.5 L31 16.5" />
+              </svg>
+              <span class="f3qt-steplabel f3qt-steplabel-on">Find stocks</span>
+            </div>
+            <div class="f3qt-stepline"></div>
+            <div class="f3qt-step">
+              <div class="f3qt-stepnum">2</div>
+              <span class="f3qt-steplabel">Build the strategy</span>
+            </div>
+            <div class="f3qt-stepline"></div>
+            <div class="f3qt-step">
+              <div class="f3qt-stepnum">3</div>
+              <span class="f3qt-steplabel">Test live</span>
+            </div>
+          </div>
+
+          <!-- Scene 1: Buddi replies (plain text, teal avatar, typed on) -->
+          <div class="f3qt-buddirow" id="f3qt-buddirow">
+            <div class="f3qt-avatar"></div>
+            <div class="f3qt-buddiname">Buddi</div>
+          </div>
+          <div class="f3qt-dots" id="f3qt-dots">
+            <span class="f3qt-dot"></span><span class="f3qt-dot"></span><span class="f3qt-dot"></span>
+          </div>
+          <div class="f3qt-reply">
+            <span id="f3qt-replytext"></span><span class="f3qt-caret" id="f3qt-caret"></span>
+          </div>
+
+          <!-- Scene 2: question card 1 — one tap selects "A few years" -->
+          <div class="f3qt-qcard" id="f3qt-qcard">
+            <div class="f3qt-qhead">
+              <div class="f3qt-qlabel">When will you need this money?</div>
+              <div class="f3qt-qcount">Question 1</div>
+            </div>
+            <div class="f3qt-chips">
+              <div class="f3qt-chip">Under a year</div>
+              <div class="f3qt-chip" id="f3qt-chip-sel">A few years</div>
+              <div class="f3qt-chip">5+ years</div>
+            </div>
+            <div class="f3qt-ripple" id="f3qt-r1"></div>
+            <div class="f3qt-ripple" id="f3qt-r2"></div>
+            <div class="f3qt-tap" id="f3qt-tap"></div>
+          </div>
+
+          <!-- Scene 3: muted annotation under the card -->
+          <div class="f3qt-note" id="f3qt-note">
+            <span class="f3qt-note-rule"></span>
+            <span class="f3qt-note-text">sooner = safer</span>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/vendor/gsap.min.js"></script>
+      <script>
+        (function () {
+          window.__timelines = window.__timelines || {};
+
+          var root = document.querySelector('[data-composition-id="03-question-timeline"]');
+          var $ = function (id) { return document.getElementById(id); };
+
+          var stepper = $("f3qt-stepper");
+          var buddirow = $("f3qt-buddirow");
+          var dots = root.querySelectorAll(".f3qt-dot");
+          var replyText = $("f3qt-replytext");
+          var caret = $("f3qt-caret");
+          var qcard = $("f3qt-qcard");
+          var chip = $("f3qt-chip-sel");
+          var tap = $("f3qt-tap");
+          var rings = [$("f3qt-r1"), $("f3qt-r2")];
+          var note = $("f3qt-note");
+
+          var tl = gsap.timeline({ paused: true });
+
+          /* ===== Scene 1 (0.0–1.73s) — Buddi's reply types on =====
+             VO: "Then it just asks you a few simple things." (0.10–1.53) */
+
+          // stepper chrome settles quietly at the top
+          tl.fromTo(stepper, { opacity: 0, y: -18 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.05);
+
+          // teal avatar + bold "Buddi" label — visible well before t=0.5
+          tl.fromTo(buddirow, { opacity: 0, scale: 0.7 },
+            { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 0.08);
+
+          // typing indicator — finite staggered pulses (no infinite loops)
+          dots.forEach(function (d, i) {
+            tl.fromTo(d, { opacity: 0.25 },
+              { opacity: 1, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 1 },
+              0.25 + i * 0.09);
+          });
+          // pulses settle by ~0.73; fade the dots after (no property overlap)
+          tl.to(dots, { opacity: 0, duration: 0.12, ease: "power1.out" }, 0.76);
+
+          // discrete-text-sequence (smooth-slice) — reply types on, fast (~1.5x ramp)
+          // lands on "asks you a few simple things" (0.54–1.53)
+          var replyFull = "A few quick questions first.";
+          var len = { v: 0 };
+          tl.to(len, {
+            v: replyFull.length,
+            duration: 0.85,
+            ease: "none",
+            onUpdate: function () {
+              replyText.textContent = replyFull.substring(0, Math.floor(len.v));
+            },
+          }, 0.88);
+
+          // deterministic caret blink during typing — sin-driven, ends at 0
+          var blink = { p: 0 };
+          tl.to(blink, {
+            p: Math.PI * 2 * 2,
+            duration: 1.0,
+            ease: "none",
+            onUpdate: function () {
+              caret.style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
+            },
+          }, 0.88);
+
+          /* ===== Scene 2 (1.73–3.46s) — question card slides up, one tap =====
+             VO: "First: how soon you'll need the money" (1.76–3.02) */
+
+          // card slides up on "how soon you'll need"
+          tl.fromTo(qcard, { opacity: 0, y: 90, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out" }, 1.8);
+
+          // --- tap on "A few years", commit lands on "money" (2.77–3.02) ---
+          var AT = 2.5;
+
+          // cursor-click-ripple (thumb-tap variant): finger highlight fade-grows on
+          tl.fromTo(tap, { opacity: 0, scale: 0.5 },
+            { opacity: 1, scale: 1, duration: 0.26, ease: "power2.out" }, AT);
+
+          // press — linear compression (tap dot + chip compress together)
+          tl.to(tap, { scale: 0.82, duration: 0.09, ease: "power1.in" }, AT + 0.3);
+          tl.to(chip, { scale: 0.955, duration: 0.09, ease: "power1.in" }, AT + 0.3);
+
+          // release — spring recovery, state-continuous with the press
+          // (the frame's one sanctioned spring-pop)
+          tl.to(tap, { scale: 1, duration: 0.2, ease: "power2.out" }, AT + 0.39);
+          tl.to(chip, { scale: 1, duration: 0.42, ease: "back.out(1.3)" }, AT + 0.39);
+
+          // chip commits — fills solid product green, near-black text
+          tl.to(chip, {
+            backgroundColor: "#2BD97C",
+            color: "#06231A",
+            borderColor: "#2BD97C",
+            duration: 0.22,
+            ease: "power1.out",
+          }, AT + 0.39);
+
+          // ripple rings radiate from the tap point (CSS-hidden until now)
+          rings.forEach(function (r, k) {
+            tl.fromTo(r, { scale: 0.35, opacity: 0.75 },
+              { scale: 2.5, opacity: 0, duration: 0.55, ease: "power2.out",
+                immediateRender: false }, AT + 0.36 + k * 0.08);
+          });
+
+          // tap-highlight lifts off
+          tl.to(tap, { opacity: 0, scale: 0.8, duration: 0.24, ease: "power1.in" }, AT + 0.6);
+
+          /* ===== Scene 3 (3.46–4.715s) — annotation lands, settle still =====
+             VO: "sooner means it plays it safer." (3.19–4.28) */
+
+          // muted "sooner = safer" fades in under the card on "plays it safer"
+          tl.fromTo(note, { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 3.62);
+
+          // then: dead-still hold to 4.715 — no exit (root transition owns it)
+
+          window.__timelines["03-question-timeline"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
