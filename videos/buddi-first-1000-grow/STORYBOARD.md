@@ -21,7 +21,7 @@ music: none available offline — logged as gap; SFX only
 - voiceover: "Here's exactly how to put your first $1,000 to work — without picking a single stock yourself."
 - duration: 4.843s
 - transition_in: cut
-- status: outline
+- status: animated
 - src: compositions/frames/01-thousand-hook.html
 - type: hook
 - persuasion: Curiosity + specificity — "exactly how" promises a runnable recipe
@@ -46,7 +46,7 @@ keyMessage: There's a way to deploy your first $1,000 without stock-picking.
 - voiceover: "Here's the move. Instead of you guessing, you tell an AI called Buddi one sentence: 'I've got $1,000 and no idea what to do with it.'"
 - duration: 6.955s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - src: compositions/frames/02-one-sentence.html
 - type: product_intro
 - persuasion: Friction reduction — the entire "move" is one plain-English sentence
@@ -71,7 +71,7 @@ keyMessage: You don't pick — you say one sentence to Buddi.
 - voiceover: "Then it just asks you a few simple things. First: how soon you'll need the money — sooner means it plays it safer."
 - duration: 4.715s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/03-question-timeline.html
 - type: feature_showcase
 - persuasion: Show-don't-tell — the "simple things" are literally three tappable chips
@@ -96,7 +96,7 @@ keyMessage: Question one is about time, not tickers.
 - voiceover: "Then: how you'd actually feel watching it drop hard in a rough month — that's your real risk tolerance, not the brave one in your head."
 - duration: 5.483s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/04-question-risk.html
 - type: feature_showcase
 - persuasion: Insight reframe — "your real risk tolerance vs the brave one in your head" earns trust
@@ -121,7 +121,7 @@ keyMessage: Buddi measures the real you, not the confident you.
 - voiceover: "Then: do you want it growing as fast as possible, or paying you steady cash. Then: what you already own, so it doesn't pile you into more of the same."
 - duration: 6.549s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/05-questions-growth-own.html
 - type: feature_showcase
 - persuasion: Momentum — two questions in one breath makes the whole flow feel fast
@@ -146,7 +146,7 @@ keyMessage: Even diversification is just a question about you.
 - voiceover: "A couple more like that — and yeah, some of them circle the same thing on purpose. It's triangulating you, not quizzing you."
 - duration: 5.013s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - src: compositions/frames/06-triangulating.html
 - type: benefit_highlight
 - persuasion: Objection pre-empt — repeat questions reframed as method, not annoyance
@@ -171,7 +171,7 @@ keyMessage: The questions aren't a quiz — they're how it locks onto you.
 - voiceover: "Answer those, and it builds the whole thing for you — a complete, diversified strategy for your $1,000 — and shows you how it would have performed on real past prices before you risk a cent."
 - duration: 9.515s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/07-build-backtest.html
 - type: feature_showcase
 - persuasion: Show-don't-tell proof + statistical honesty — evidence with a label, no hype numbers
@@ -197,7 +197,7 @@ keyMessage: It builds it, and shows you the evidence, before a cent is at risk.
 - voiceover: "Comment 'GROW' and I'll DM you the link — building it and paper-trading on real prices is totally free."
 - duration: 4.864s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/08-comment-grow.html
 - type: cta
 - persuasion: Friction reduction — one typed word; "free" scoped to build + paper trade only

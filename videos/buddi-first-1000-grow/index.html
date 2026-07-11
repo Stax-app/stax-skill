@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
     <style>
       * {
         margin: 0;
@@ -12,19 +12,23 @@
       }
       html,
       body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
+        width: 1080px;
+        height: 1920px;
         overflow: hidden;
         background: #000;
       }
-      body {
-        font-family: "Inter", sans-serif;
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0B0E11;
       }
-      code,
-      pre,
-      .monospace {
-        font-family: "JetBrains Mono", monospace;
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
       }
     </style>
   </head>
@@ -33,27 +37,317 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
+      data-duration="47.937"
+      data-width="1080"
+      data-height="1920"
     >
-      
-      
+      <div
+        id="el-01-thousand-hook"
+        class="scene"
+        data-composition-id="01-thousand-hook"
+        data-composition-src="compositions/frames/01-thousand-hook.html"
+        data-start="0"
+        data-duration="5.343"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-01-thousand-hook-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="4.843"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
 
-      <!--
-        Add your clips here. Example:
-        <div id="title" class="clip" data-start="0" data-duration="5" data-track-index="1"
-             style="font-size: 64px; color: #fff; padding: 40px">
-          Hello World
-        </div>
-      -->
+      <div
+        id="el-02-one-sentence"
+        class="scene"
+        data-composition-id="02-one-sentence"
+        data-composition-src="compositions/frames/02-one-sentence.html"
+        data-start="4.843"
+        data-duration="7.455"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-02-one-sentence-voice"
+        src="assets/voice/02.wav"
+        data-start="4.843"
+        data-duration="6.955"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-03-question-timeline"
+        class="scene"
+        data-composition-id="03-question-timeline"
+        data-composition-src="compositions/frames/03-question-timeline.html"
+        data-start="11.798"
+        data-duration="5.215"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-03-question-timeline-voice"
+        src="assets/voice/03.wav"
+        data-start="11.798"
+        data-duration="4.715"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-04-question-risk"
+        class="scene"
+        data-composition-id="04-question-risk"
+        data-composition-src="compositions/frames/04-question-risk.html"
+        data-start="16.512999999999998"
+        data-duration="5.983"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-04-question-risk-voice"
+        src="assets/voice/04.wav"
+        data-start="16.512999999999998"
+        data-duration="5.483"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-05-questions-growth-own"
+        class="scene"
+        data-composition-id="05-questions-growth-own"
+        data-composition-src="compositions/frames/05-questions-growth-own.html"
+        data-start="21.996"
+        data-duration="7.049"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-05-questions-growth-own-voice"
+        src="assets/voice/05.wav"
+        data-start="21.996"
+        data-duration="6.549"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-06-triangulating"
+        class="scene"
+        data-composition-id="06-triangulating"
+        data-composition-src="compositions/frames/06-triangulating.html"
+        data-start="28.544999999999998"
+        data-duration="5.413"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-06-triangulating-voice"
+        src="assets/voice/06.wav"
+        data-start="28.544999999999998"
+        data-duration="5.013"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-07-build-backtest"
+        class="scene"
+        data-composition-id="07-build-backtest"
+        data-composition-src="compositions/frames/07-build-backtest.html"
+        data-start="33.558"
+        data-duration="9.915"
+        data-track-index="0"
+      ></div>
+      <audio
+        id="el-07-build-backtest-voice"
+        src="assets/voice/07.wav"
+        data-start="33.558"
+        data-duration="9.515"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <div
+        id="el-08-comment-grow"
+        class="scene"
+        data-composition-id="08-comment-grow"
+        data-composition-src="compositions/frames/08-comment-grow.html"
+        data-start="43.073"
+        data-duration="4.864"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-08-comment-grow-voice"
+        src="assets/voice/08.wav"
+        data-start="43.073"
+        data-duration="4.864"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- captions -->
+      <div
+        id="el-captions"
+        class="scene"
+        data-composition-id="captions"
+        data-composition-src="compositions/captions.html"
+        data-start="0"
+        data-duration="47.937"
+        data-track-index="2"
+      ></div>
+
+      <!-- SFX -->
+      <audio
+        id="el-sfx-0"
+        src="assets/sfx/typing.mp3"
+        data-start="0"
+        data-duration="1.5"
+        data-track-index="20"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-1"
+        src="assets/sfx/pop.mp3"
+        data-start="0"
+        data-duration="0.72"
+        data-track-index="21"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-2"
+        src="assets/sfx/typing.mp3"
+        data-start="4.843"
+        data-duration="1.5"
+        data-track-index="22"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-3"
+        src="assets/sfx/pop.mp3"
+        data-start="4.843"
+        data-duration="0.72"
+        data-track-index="23"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-4"
+        src="assets/sfx/click-soft.mp3"
+        data-start="11.798"
+        data-duration="0.37"
+        data-track-index="24"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-5"
+        src="assets/sfx/click.mp3"
+        data-start="11.798"
+        data-duration="0.37"
+        data-track-index="25"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-6"
+        src="assets/sfx/click-soft.mp3"
+        data-start="16.513"
+        data-duration="0.37"
+        data-track-index="26"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-7"
+        src="assets/sfx/click.mp3"
+        data-start="16.513"
+        data-duration="0.37"
+        data-track-index="27"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-8"
+        src="assets/sfx/click-soft.mp3"
+        data-start="21.996"
+        data-duration="0.37"
+        data-track-index="28"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-9"
+        src="assets/sfx/click.mp3"
+        data-start="21.996"
+        data-duration="0.37"
+        data-track-index="29"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-10"
+        src="assets/sfx/chime.mp3"
+        data-start="28.545"
+        data-duration="2.5"
+        data-track-index="30"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-11"
+        src="assets/sfx/pop.mp3"
+        data-start="33.558"
+        data-duration="0.72"
+        data-track-index="31"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-12"
+        src="assets/sfx/riser.mp3"
+        data-start="33.558"
+        data-duration="10.03"
+        data-track-index="32"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-13"
+        src="assets/sfx/chime.mp3"
+        data-start="33.558"
+        data-duration="2.5"
+        data-track-index="33"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-14"
+        src="assets/sfx/impact-bass-1.mp3"
+        data-start="43.073"
+        data-duration="2.12"
+        data-track-index="34"
+        data-volume="0.35"
+      ></audio>
+      <audio
+        id="el-sfx-15"
+        src="assets/sfx/pop.mp3"
+        data-start="43.073"
+        data-duration="0.72"
+        data-track-index="35"
+        data-volume="0.35"
+      ></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.from("#title", { opacity: 0, y: -50, duration: 1 }, 0);
-      window.__timelines["main"] = tl;
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-thousand-hook", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 4.843);
+        tl.fromTo("#el-02-one-sentence", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 4.843);
+        tl.to("#el-02-one-sentence", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 11.798);
+        tl.fromTo("#el-03-question-timeline", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 11.798);
+        tl.to("#el-03-question-timeline", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 16.513);
+        tl.fromTo("#el-04-question-risk", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 16.513);
+        tl.to("#el-04-question-risk", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 21.996);
+        tl.fromTo("#el-05-questions-growth-own", { x: 1080, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 21.996);
+        tl.to("#el-05-questions-growth-own", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 28.545);
+        tl.fromTo("#el-06-triangulating", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 28.545);
+        tl.to("#el-06-triangulating", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 33.558);
+        tl.fromTo("#el-07-build-backtest", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 33.558);
+        tl.to("#el-07-build-backtest", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 43.073);
+        tl.fromTo("#el-08-comment-grow", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 43.073);
+        tl.to({}, { duration: 47.937 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
     </script>
   </body>
 </html>
