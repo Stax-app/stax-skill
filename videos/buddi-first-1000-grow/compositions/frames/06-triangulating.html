@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 6 — Triangulating you · 1080x1920 · 5.013s
+         Answered pills orbit into a constellation; connector lines draw to a
+         center node; two "circling" pills glow in sequence; progress ring
+         sweeps to full; "Your profile" lands. -->
+  </head>
+  <body>
+    <template>
+      <script src="assets/vendor/gsap.min.js"></script>
+
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-display: block;
+        }
+
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+        }
+
+        /* ---------- full-bleed ground (dedicated clip, never on #root) ---------- */
+        .t6-bg {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(
+              ellipse 900px 700px at 50% 34%,
+              rgba(43, 217, 124, 0.07),
+              rgba(43, 217, 124, 0) 62%
+            ),
+            #0b0e11;
+        }
+
+        .t6-content {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* ---------- top stepper chrome ---------- */
+        .t6-stepper {
+          position: absolute;
+          top: 96px;
+          left: 0;
+          width: 1080px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 22px;
+          opacity: 0;
+        }
+        .step {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 26px;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          color: #76837c;
+          white-space: nowrap;
+        }
+        .step.active {
+          color: #2bd97c;
+        }
+        .step-dot {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: #2bd97c;
+          display: grid;
+          place-items: center;
+          flex: none;
+        }
+        .step-hollow {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid #3a453f;
+          flex: none;
+        }
+        .step-sep {
+          width: 34px;
+          height: 2px;
+          background: rgba(43, 217, 124, 0.22);
+          border-radius: 1px;
+          flex: none;
+        }
+
+        /* ---------- constellation ---------- */
+        .t6-constellation {
+          position: absolute;
+          top: 160px;
+          left: 0;
+          width: 1080px;
+          height: 960px;
+        }
+        .t6-lines {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 960px;
+        }
+        .t6-line {
+          fill: none;
+          stroke: rgba(43, 217, 124, 0.55);
+          stroke-width: 2.5;
+          stroke-linecap: round;
+        }
+
+        /* center node + progress ring */
+        .t6-node {
+          position: absolute;
+          left: calc(50% - 130px); /* margin-math centering — no CSS transform (GSAP scales this) */
+          top: calc(50% - 130px);
+          width: 260px;
+          height: 260px;
+          opacity: 0;
+        }
+        .t6-ringsvg {
+          position: absolute;
+          inset: 0;
+          width: 260px;
+          height: 260px;
+        }
+        .ring-track {
+          fill: none;
+          stroke: rgba(43, 217, 124, 0.14);
+          stroke-width: 8;
+        }
+        .ring-fill {
+          fill: none;
+          stroke: #2bd97c;
+          stroke-width: 8;
+          stroke-linecap: round;
+        }
+        .t6-nodecard {
+          position: absolute;
+          left: 35px;
+          top: 35px;
+          width: 190px;
+          height: 190px;
+          border-radius: 50%;
+          background: #11161a;
+          border: 1.5px solid rgba(43, 217, 124, 0.32);
+          display: grid;
+          place-items: center;
+        }
+        .t6-dimdot {
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: rgba(43, 217, 124, 0.6);
+        }
+        .t6-profile {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          opacity: 0;
+        }
+        .t6-profile-label {
+          font-size: 30px;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          color: #f2f5f4;
+          text-align: center;
+          line-height: 1.15;
+        }
+
+        /* answer pills */
+        .t6-pill {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          opacity: 0;
+          will-change: transform;
+        }
+        .pill-core {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 30px;
+          border-radius: 100px;
+          background: rgba(43, 217, 124, 0.1);
+          border: 1.5px solid rgba(43, 217, 124, 0.35);
+          font-size: 29px;
+          font-weight: 500;
+          letter-spacing: 0.01em;
+          color: #f2f5f4;
+          white-space: nowrap;
+          will-change: transform, box-shadow;
+        }
+        .t6-pill-dots .pill-core {
+          border-style: dashed;
+          color: #a8b3ae;
+          padding: 16px 34px;
+          letter-spacing: 0.2em;
+        }
+        .pill-check {
+          flex: none;
+          display: block;
+        }
+
+        /* completion tag */
+        .t6-tag {
+          position: absolute;
+          top: 1146px;
+          left: 0;
+          width: 1080px;
+          display: flex;
+          justify-content: center;
+          opacity: 0;
+        }
+        .t6-tag-pill {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 14px 32px;
+          border-radius: 100px;
+          background: rgba(43, 217, 124, 0.16);
+          color: #2bd97c;
+          font-size: 24px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+      </style>
+
+      <div id="root" data-composition-id="06-triangulating" data-width="1080" data-height="1920">
+        <!-- full-bleed ground on its own clip layer -->
+        <div
+          class="clip t6-bg"
+          data-start="0"
+          data-duration="5.013"
+          data-track-index="0"
+        ></div>
+
+        <!-- content layer -->
+        <div
+          class="clip t6-content"
+          data-start="0"
+          data-duration="5.013"
+          data-track-index="1"
+        >
+          <!-- stepper chrome (in-app continuity) -->
+          <div class="t6-stepper" id="t6-stepper">
+            <div class="step active">
+              <span class="step-dot">
+                <svg viewBox="0 0 24 24" width="17" height="17">
+                  <path
+                    d="M5 12.5 L10 17.5 L19 7"
+                    fill="none"
+                    stroke="#0B0E11"
+                    stroke-width="3.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              Find stocks
+            </div>
+            <div class="step-sep"></div>
+            <div class="step"><span class="step-hollow"></span>Build the strategy</div>
+            <div class="step-sep"></div>
+            <div class="step"><span class="step-hollow"></span>Test live</div>
+          </div>
+
+          <!-- constellation: lines under, node + pills over -->
+          <div class="t6-constellation">
+            <svg class="t6-lines" viewBox="0 0 1080 960" xmlns="http://www.w3.org/2000/svg">
+              <!-- center (540,480); each line runs node-edge -> toward its pill -->
+              <path id="t6-line-years" class="t6-line" d="M 540 345 L 540 176" />
+              <path id="t6-line-hold" class="t6-line" d="M 658 414 L 812 328" />
+              <path id="t6-line-grow" class="t6-line" d="M 642 568 L 780 688" />
+              <path id="t6-line-nothing" class="t6-line" d="M 438 568 L 300 688" />
+              <path id="t6-line-dots" class="t6-line" d="M 422 414 L 268 328" />
+            </svg>
+
+            <div class="t6-node" id="t6-node">
+              <svg class="t6-ringsvg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+                <circle class="ring-track" cx="130" cy="130" r="112" />
+                <circle
+                  id="t6-ring"
+                  class="ring-fill"
+                  cx="130"
+                  cy="130"
+                  r="112"
+                  style="transform-origin: 130px 130px; transform: rotate(-90deg)"
+                />
+              </svg>
+              <div class="t6-nodecard">
+                <div class="t6-dimdot" id="t6-dimdot"></div>
+                <div class="t6-profile" id="t6-profile">
+                  <svg viewBox="0 0 48 48" width="46" height="46">
+                    <circle cx="24" cy="24" r="18" fill="none" stroke="#2BD97C" stroke-width="2.5" opacity="0.45" />
+                    <circle cx="24" cy="24" r="9.5" fill="none" stroke="#2BD97C" stroke-width="2.5" opacity="0.8" />
+                    <circle cx="24" cy="24" r="3.2" fill="#2BD97C" />
+                  </svg>
+                  <div class="t6-profile-label">Your profile</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- answered pills (frames 3-5) + the "…" pill -->
+            <div class="t6-pill" id="t6-pill-years" data-tx="0" data-ty="-380" data-at="0.15">
+              <div class="pill-core" id="t6-core-years">
+                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
+                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                A few years
+              </div>
+            </div>
+            <div class="t6-pill" id="t6-pill-hold" data-tx="340" data-ty="-190" data-at="0.22">
+              <div class="pill-core" id="t6-core-hold">
+                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
+                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Hold on
+              </div>
+            </div>
+            <div class="t6-pill" id="t6-pill-grow" data-tx="300" data-ty="260" data-at="0.29">
+              <div class="pill-core">
+                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
+                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Grow fast
+              </div>
+            </div>
+            <div class="t6-pill" id="t6-pill-nothing" data-tx="-300" data-ty="260" data-at="0.36">
+              <div class="pill-core">
+                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
+                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Nothing yet
+              </div>
+            </div>
+            <div class="t6-pill t6-pill-dots" id="t6-pill-dots" data-tx="-340" data-ty="-190" data-at="0.70">
+              <div class="pill-core">&middot;&middot;&middot;</div>
+            </div>
+          </div>
+
+          <!-- completion tag -->
+          <div class="t6-tag" id="t6-tag">
+            <div class="t6-tag-pill">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Profile complete
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        const DUR = 5.013; // synced render length
+
+        /* ---- Scene 1 (0.0-1.8) — "A couple more like that" ----------------
+           Pills drift into the ring layout (center-outward-expansion,
+           partially-spread short path); the "…" pill joins last. */
+        tl.fromTo(
+          "#t6-stepper",
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          0.05
+        );
+
+        const EXPAND_DUR = 1.05;
+        const START_PROGRESS = 0.35; // short-path: avoid the center pile-up
+        document.querySelectorAll(".t6-pill").forEach((el) => {
+          const tx = Number(el.dataset.tx);
+          const ty = Number(el.dataset.ty);
+          const at = Number(el.dataset.at);
+          tl.fromTo(
+            el,
+            {
+              xPercent: -50,
+              yPercent: -50,
+              x: tx * START_PROGRESS,
+              y: ty * START_PROGRESS,
+              scale: 0.8,
+              opacity: 0,
+            },
+            { x: tx, y: ty, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: "power3.out" },
+            at
+          );
+        });
+
+        // center node pops in as the ring settles (the frame's one spring)
+        tl.fromTo(
+          "#t6-node",
+          { scale: 0.6, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" },
+          1.45
+        );
+
+        /* ---- Scene 2 (1.8-3.6) — "circle the same thing on purpose" -------
+           Connector lines draw to the node (svg-path-draw: measured
+           dasharray/dashoffset); the two "circling" pills glow in sequence
+           (asr-keyword-glow envelope on the pill cores). */
+        document.querySelectorAll(".t6-line").forEach((p) => {
+          const len = p.getTotalLength();
+          p.style.strokeDasharray = `${len}`;
+          p.style.strokeDashoffset = `${len}`;
+        });
+        const LINE_DUR = 0.55;
+        tl.to("#t6-line-hold", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.0);
+        tl.to("#t6-line-years", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.35);
+        tl.to("#t6-line-grow", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.65);
+        tl.to("#t6-line-nothing", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.85);
+        tl.to("#t6-line-dots", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 3.05);
+
+        // attack-sustain-release glow, word-cued: "circle" 1.99 / "same thing" 2.36-2.73
+        const ATTACK_DUR = 0.15;
+        const RELEASE = 0.4;
+        const REST_LEVEL = 0.16;
+        const MAX_BLUR = 30;
+        const MAX_SCALE_BOOST = 0.07;
+        const GLOWS = [
+          { el: document.getElementById("t6-core-hold"), start: 1.95, end: 2.5 },
+          { el: document.getElementById("t6-core-years"), start: 2.5, end: 3.05 },
+        ];
+        function envelope(time, start, end) {
+          const releaseEnd = end + RELEASE;
+          if (time < start) return 0;
+          if (time < end) return Math.min((time - start) / ATTACK_DUR, 1);
+          if (time < releaseEnd) {
+            const decay = (time - end) / RELEASE;
+            return 1 - decay * (1 - REST_LEVEL);
+          }
+          return REST_LEVEL;
+        }
+        const driver = { t: 0 };
+        tl.to(
+          driver,
+          {
+            t: DUR,
+            duration: DUR,
+            ease: "none",
+            onUpdate: () => {
+              GLOWS.forEach(({ el, start, end }) => {
+                const env = envelope(driver.t, start, end);
+                el.style.boxShadow = `0 0 ${MAX_BLUR * env}px rgba(43, 217, 124, ${0.55 * env})`;
+                el.style.transform = `scale(${1 + MAX_SCALE_BOOST * env})`;
+              });
+            },
+          },
+          0
+        );
+
+        /* ---- Scene 3 (3.6-5.0) — "It's triangulating you" ------------------
+           Progress ring sweeps to full (stat-bars-and-fills ring form via
+           measured stroke draw); "Your profile" fades in; hold still. */
+        const ring = document.getElementById("t6-ring");
+        const RING_LEN = ring.getTotalLength();
+        ring.style.strokeDasharray = `${RING_LEN}`;
+        ring.style.strokeDashoffset = `${RING_LEN}`;
+        tl.to(ring, { strokeDashoffset: 0, duration: 1.1, ease: "power2.out" }, 3.45);
+
+        tl.to("#t6-dimdot", { opacity: 0, duration: 0.3, ease: "power1.out" }, 3.8);
+        tl.fromTo(
+          "#t6-profile",
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          3.9
+        );
+
+        // "not quizzing you" — completion tag seats low, then dead still
+        tl.fromTo(
+          "#t6-tag",
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          4.45
+        );
+
+        window.__timelines["06-triangulating"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
