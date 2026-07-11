@@ -2,496 +2,549 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <!-- Frame 6 — Triangulating you · 1080x1920 · 5.013s
-         Answered pills orbit into a constellation; connector lines draw to a
-         center node; two "circling" pills glow in sequence; progress ring
-         sweeps to full; "Your profile" lands. -->
+    <!-- Frame 6 — "the RADAR" (buddi-first-1000-grow)
+         Triangulation, literally: a radar scope establishes (svg-path-draw rings +
+         crosshair), a green beam sweeps exactly TWO finite rotations (single
+         deterministic rotation tween, ease none, ends at 12 o'clock), and the four
+         answers light up as blips when the beam passes their bearings. On "circle
+         the same thing on purpose" two blips get drawn dashed circles; thin lines
+         then converge from all four blips to the scope center. On "triangulating
+         you" a lock-on corner bracket (ai-tracking-box static brackets) snaps onto
+         the convergence point via spring-pop (power3.out) with "Your profile" +
+         a drawn LOCKED tick. Duration 5.013s (synced). Content stays above y=1250.
+         Everything the runtime needs lives INSIDE <template>. -->
   </head>
   <body>
     <template>
-      <script src="assets/vendor/gsap.min.js"></script>
-
       <style>
+        /* ---------- Fonts (variable, shipped with the project) ---------- */
         @font-face {
           font-family: "Space Grotesk";
-          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2-variations");
           font-weight: 300 800;
+          font-style: normal;
           font-display: block;
         }
         @font-face {
           font-family: "Inter";
-          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          src: url("assets/fonts/inter-var.woff2") format("woff2-variations");
           font-weight: 300 800;
+          font-style: normal;
           font-display: block;
         }
 
+        /* ---------- Root (styled via #root, never a class) ---------- */
         #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed ground — its own clip layer, never on #root */
+        .f6-bg {
+          position: absolute;
+          inset: 0;
+          background: #0B0E11;
+        }
+
+        .f6-stage {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        /* ---------- Eyebrow chrome ---------- */
+        .f6-eyebrow {
+          position: absolute;
+          left: 0;
+          top: 148px;
+          width: 1080px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 22px;
+          opacity: 0;
+        }
+        .f6-eyebrow-line {
+          width: 60px;
+          height: 4px;
+          border-radius: 2px;
+          background: #2BD97C;
+        }
+        .f6-eyebrow-text {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 28px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #2BD97C;
+        }
+
+        /* ---------- Scope grid (rings + crosshair, drawn on) ---------- */
+        .f6-svg {
           position: absolute;
           inset: 0;
           width: 1080px;
           height: 1920px;
-          overflow: hidden;
-          font-family: "Space Grotesk", system-ui, sans-serif;
         }
-
-        /* ---------- full-bleed ground (dedicated clip, never on #root) ---------- */
-        .t6-bg {
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(
-              ellipse 900px 700px at 50% 34%,
-              rgba(43, 217, 124, 0.07),
-              rgba(43, 217, 124, 0) 62%
-            ),
-            #0b0e11;
+        .f6-ring {
+          fill: none;
+          stroke: rgba(43, 217, 124, 0.22);
+          stroke-width: 1.5;
+          transform-origin: 540px 700px;
+          transform: rotate(-90deg); /* stroke starts drawing from 12 o'clock */
         }
-
-        .t6-content {
-          position: absolute;
-          inset: 0;
+        .f6-cross {
+          fill: none;
+          stroke: rgba(43, 217, 124, 0.14);
+          stroke-width: 1.5;
         }
-
-        /* ---------- top stepper chrome ---------- */
-        .t6-stepper {
-          position: absolute;
-          top: 96px;
-          left: 0;
-          width: 1080px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 22px;
+        .f6-scopefill {
+          fill: rgba(43, 217, 124, 0.045);
           opacity: 0;
         }
-        .step {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-size: 26px;
-          font-weight: 500;
-          letter-spacing: 0.02em;
-          color: #76837c;
-          white-space: nowrap;
-        }
-        .step.active {
-          color: #2bd97c;
-        }
-        .step-dot {
-          width: 30px;
-          height: 30px;
+
+        /* ---------- Radar beam (finite rotating wedge, trail behind the edge) ---------- */
+        .f6-beam {
+          position: absolute;
+          left: 150px;
+          top: 310px;
+          width: 780px;
+          height: 780px;
           border-radius: 50%;
-          background: #2bd97c;
-          display: grid;
-          place-items: center;
-          flex: none;
+          overflow: hidden;
+          opacity: 0;
+          will-change: transform;
+          /* leading bright edge at 0deg (12 o'clock), trail fades counter-clockwise */
+          background: conic-gradient(
+            from 278deg,
+            rgba(43, 217, 124, 0) 0deg,
+            rgba(43, 217, 124, 0.02) 12deg,
+            rgba(43, 217, 124, 0.1) 48deg,
+            rgba(43, 217, 124, 0.3) 78deg,
+            rgba(43, 217, 124, 0.5) 82deg,
+            rgba(43, 217, 124, 0) 82.6deg
+          );
         }
-        .step-hollow {
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          border: 2px solid #3a453f;
-          flex: none;
-        }
-        .step-sep {
-          width: 34px;
-          height: 2px;
-          background: rgba(43, 217, 124, 0.22);
-          border-radius: 1px;
-          flex: none;
+        .f6-beam-line {
+          position: absolute;
+          left: 388.5px;
+          top: 0;
+          width: 3px;
+          height: 390px;
+          background: linear-gradient(
+            to bottom,
+            rgba(184, 255, 217, 0.95),
+            rgba(43, 217, 124, 0.35)
+          );
         }
 
-        /* ---------- constellation ---------- */
-        .t6-constellation {
+        /* ---------- Blips (answer echoes) ---------- */
+        .f6-blip {
           position: absolute;
-          top: 160px;
-          left: 0;
-          width: 1080px;
-          height: 960px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          opacity: 0;
+          background: radial-gradient(
+            circle,
+            #B8FFD9 0%,
+            #2BD97C 42%,
+            rgba(43, 217, 124, 0) 72%
+          );
+          will-change: transform;
         }
-        .t6-lines {
+        .f6-ping {
           position: absolute;
-          inset: 0;
-          width: 1080px;
-          height: 960px;
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          border: 2.5px solid rgba(43, 217, 124, 0.8);
+          opacity: 0;
+          pointer-events: none;
+          will-change: transform;
         }
-        .t6-line {
+        .f6-bliplabel {
+          position: absolute;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 27px;
+          font-weight: 500;
+          color: #A8B3AE;
+          white-space: nowrap;
+          opacity: 0;
+        }
+
+        /* ---------- Overlay strokes (dashed circles + converge lines) ---------- */
+        .f6-dash {
           fill: none;
-          stroke: rgba(43, 217, 124, 0.55);
+          stroke: #2BD97C;
+          stroke-width: 3;
+          stroke-linecap: round;
+          opacity: 0.9;
+        }
+        .f6-converge {
+          fill: none;
+          stroke: rgba(43, 217, 124, 0.7);
           stroke-width: 2.5;
           stroke-linecap: round;
         }
 
-        /* center node + progress ring */
-        .t6-node {
+        /* ---------- Center convergence + lock-on bracket ---------- */
+        .f6-centerdot {
           position: absolute;
-          left: calc(50% - 130px); /* margin-math centering — no CSS transform (GSAP scales this) */
-          top: calc(50% - 130px);
-          width: 260px;
-          height: 260px;
-          opacity: 0;
-        }
-        .t6-ringsvg {
-          position: absolute;
-          inset: 0;
-          width: 260px;
-          height: 260px;
-        }
-        .ring-track {
-          fill: none;
-          stroke: rgba(43, 217, 124, 0.14);
-          stroke-width: 8;
-        }
-        .ring-fill {
-          fill: none;
-          stroke: #2bd97c;
-          stroke-width: 8;
-          stroke-linecap: round;
-        }
-        .t6-nodecard {
-          position: absolute;
-          left: 35px;
-          top: 35px;
-          width: 190px;
-          height: 190px;
+          left: 522px;
+          top: 682px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
-          background: #11161a;
-          border: 1.5px solid rgba(43, 217, 124, 0.32);
-          display: grid;
-          place-items: center;
-        }
-        .t6-dimdot {
-          position: absolute;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: rgba(43, 217, 124, 0.6);
-        }
-        .t6-profile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
           opacity: 0;
-        }
-        .t6-profile-label {
-          font-size: 30px;
-          font-weight: 600;
-          letter-spacing: -0.01em;
-          color: #f2f5f4;
-          text-align: center;
-          line-height: 1.15;
-        }
-
-        /* answer pills */
-        .t6-pill {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          opacity: 0;
+          background: radial-gradient(
+            circle,
+            #FFFFFF 0%,
+            #2BD97C 40%,
+            rgba(43, 217, 124, 0) 72%
+          );
           will-change: transform;
         }
-        .pill-core {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 16px 30px;
-          border-radius: 100px;
-          background: rgba(43, 217, 124, 0.1);
-          border: 1.5px solid rgba(43, 217, 124, 0.35);
-          font-size: 29px;
-          font-weight: 500;
-          letter-spacing: 0.01em;
-          color: #f2f5f4;
-          white-space: nowrap;
-          will-change: transform, box-shadow;
-        }
-        .t6-pill-dots .pill-core {
-          border-style: dashed;
-          color: #a8b3ae;
-          padding: 16px 34px;
-          letter-spacing: 0.2em;
-        }
-        .pill-check {
-          flex: none;
-          display: block;
-        }
-
-        /* completion tag */
-        .t6-tag {
+        .f6-bracket {
           position: absolute;
-          top: 1146px;
+          left: 425px;
+          top: 585px;
+          width: 230px;
+          height: 230px;
+          opacity: 0;
+          pointer-events: none;
+          will-change: transform;
+        }
+        .f6-corner {
+          position: absolute;
+          width: 48px;
+          height: 48px;
+        }
+        .f6-corner.tl { top: 0; left: 0; border-top: 6px solid #2BD97C; border-left: 6px solid #2BD97C; }
+        .f6-corner.tr { top: 0; right: 0; border-top: 6px solid #2BD97C; border-right: 6px solid #2BD97C; }
+        .f6-corner.bl { bottom: 0; left: 0; border-bottom: 6px solid #2BD97C; border-left: 6px solid #2BD97C; }
+        .f6-corner.br { bottom: 0; right: 0; border-bottom: 6px solid #2BD97C; border-right: 6px solid #2BD97C; }
+
+        .f6-lockpill {
+          position: absolute;
           left: 0;
+          top: 494px;
           width: 1080px;
           display: flex;
           justify-content: center;
           opacity: 0;
+          will-change: transform;
         }
-        .t6-tag-pill {
+        .f6-lockpill-inner {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 14px 32px;
+          gap: 18px;
+          height: 66px;
+          padding: 0 34px 0 26px;
+          box-sizing: border-box;
+          background: rgba(43, 217, 124, 0.08);
+          border: 1.5px solid rgba(43, 217, 124, 0.35);
           border-radius: 100px;
-          background: rgba(43, 217, 124, 0.16);
-          color: #2bd97c;
+        }
+        .f6-tick {
+          display: block;
+          width: 38px;
+          height: 38px;
+          flex: none;
+        }
+        .f6-tick path {
+          fill: none;
+          stroke: #2BD97C;
+          stroke-width: 4.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f6-lockpill-text {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 32px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #F2F5F4;
+          white-space: nowrap;
+        }
+        .f6-locked {
+          position: absolute;
+          left: 0;
+          top: 838px;
+          width: 1080px;
+          text-align: center;
+          font-family: "Space Grotesk", sans-serif;
           font-size: 24px;
           font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
+          letter-spacing: 0.18em;
+          color: #2BD97C;
+          opacity: 0;
         }
       </style>
 
       <div id="root" data-composition-id="06-triangulating" data-width="1080" data-height="1920">
-        <!-- full-bleed ground on its own clip layer -->
-        <div
-          class="clip t6-bg"
-          data-start="0"
-          data-duration="5.013"
-          data-track-index="0"
-        ></div>
+        <!-- full-bleed ground as a clip layer -->
+        <div class="clip f6-bg" data-start="0" data-duration="5.013" data-track-index="0"></div>
 
-        <!-- content layer -->
-        <div
-          class="clip t6-content"
-          data-start="0"
-          data-duration="5.013"
-          data-track-index="1"
-        >
-          <!-- stepper chrome (in-app continuity) -->
-          <div class="t6-stepper" id="t6-stepper">
-            <div class="step active">
-              <span class="step-dot">
-                <svg viewBox="0 0 24 24" width="17" height="17">
-                  <path
-                    d="M5 12.5 L10 17.5 L19 7"
-                    fill="none"
-                    stroke="#0B0E11"
-                    stroke-width="3.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
-              Find stocks
-            </div>
-            <div class="step-sep"></div>
-            <div class="step"><span class="step-hollow"></span>Build the strategy</div>
-            <div class="step-sep"></div>
-            <div class="step"><span class="step-hollow"></span>Test live</div>
+        <div class="clip f6-stage" data-start="0" data-duration="5.013" data-track-index="1">
+          <!-- eyebrow chrome -->
+          <div class="f6-eyebrow" id="f6-eyebrow">
+            <div class="f6-eyebrow-line"></div>
+            <div class="f6-eyebrow-text">Profile scan</div>
           </div>
 
-          <!-- constellation: lines under, node + pills over -->
-          <div class="t6-constellation">
-            <svg class="t6-lines" viewBox="0 0 1080 960" xmlns="http://www.w3.org/2000/svg">
-              <!-- center (540,480); each line runs node-edge -> toward its pill -->
-              <path id="t6-line-years" class="t6-line" d="M 540 345 L 540 176" />
-              <path id="t6-line-hold" class="t6-line" d="M 658 414 L 812 328" />
-              <path id="t6-line-grow" class="t6-line" d="M 642 568 L 780 688" />
-              <path id="t6-line-nothing" class="t6-line" d="M 438 568 L 300 688" />
-              <path id="t6-line-dots" class="t6-line" d="M 422 414 L 268 328" />
-            </svg>
+          <!-- scope grid: faint fill, 3 rings, crosshair (drawn on) -->
+          <svg class="f6-svg" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+            <circle class="f6-scopefill" id="f6-scopefill" cx="540" cy="700" r="390" />
+            <circle class="f6-ring" id="f6-ring1" cx="540" cy="700" r="150" />
+            <circle class="f6-ring" id="f6-ring2" cx="540" cy="700" r="270" />
+            <circle class="f6-ring" id="f6-ring3" cx="540" cy="700" r="390" />
+            <path class="f6-cross" id="f6-crossh" d="M 150 700 L 930 700" />
+            <path class="f6-cross" id="f6-crossv" d="M 540 310 L 540 1090" />
+          </svg>
 
-            <div class="t6-node" id="t6-node">
-              <svg class="t6-ringsvg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
-                <circle class="ring-track" cx="130" cy="130" r="112" />
-                <circle
-                  id="t6-ring"
-                  class="ring-fill"
-                  cx="130"
-                  cy="130"
-                  r="112"
-                  style="transform-origin: 130px 130px; transform: rotate(-90deg)"
-                />
-              </svg>
-              <div class="t6-nodecard">
-                <div class="t6-dimdot" id="t6-dimdot"></div>
-                <div class="t6-profile" id="t6-profile">
-                  <svg viewBox="0 0 48 48" width="46" height="46">
-                    <circle cx="24" cy="24" r="18" fill="none" stroke="#2BD97C" stroke-width="2.5" opacity="0.45" />
-                    <circle cx="24" cy="24" r="9.5" fill="none" stroke="#2BD97C" stroke-width="2.5" opacity="0.8" />
-                    <circle cx="24" cy="24" r="3.2" fill="#2BD97C" />
-                  </svg>
-                  <div class="t6-profile-label">Your profile</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- answered pills (frames 3-5) + the "…" pill -->
-            <div class="t6-pill" id="t6-pill-years" data-tx="0" data-ty="-380" data-at="0.15">
-              <div class="pill-core" id="t6-core-years">
-                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
-                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                A few years
-              </div>
-            </div>
-            <div class="t6-pill" id="t6-pill-hold" data-tx="340" data-ty="-190" data-at="0.22">
-              <div class="pill-core" id="t6-core-hold">
-                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
-                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Hold on
-              </div>
-            </div>
-            <div class="t6-pill" id="t6-pill-grow" data-tx="300" data-ty="260" data-at="0.29">
-              <div class="pill-core">
-                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
-                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Grow fast
-              </div>
-            </div>
-            <div class="t6-pill" id="t6-pill-nothing" data-tx="-300" data-ty="260" data-at="0.36">
-              <div class="pill-core">
-                <svg class="pill-check" viewBox="0 0 24 24" width="19" height="19">
-                  <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Nothing yet
-              </div>
-            </div>
-            <div class="t6-pill t6-pill-dots" id="t6-pill-dots" data-tx="-340" data-ty="-190" data-at="0.70">
-              <div class="pill-core">&middot;&middot;&middot;</div>
-            </div>
+          <!-- radar beam: ONE finite rotation tween, 0 -> 720deg, ease none -->
+          <div class="f6-beam" id="f6-beam">
+            <div class="f6-beam-line"></div>
           </div>
 
-          <!-- completion tag -->
-          <div class="t6-tag" id="t6-tag">
-            <div class="t6-tag-pill">
-              <svg viewBox="0 0 24 24" width="20" height="20">
-                <path d="M4 12.5 L9.5 18 L20 6.5" fill="none" stroke="#2BD97C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-              Profile complete
+          <!-- blips + pings + labels (positioned from the JS bearing table) -->
+          <div class="f6-ping" id="f6-ping1"></div>
+          <div class="f6-ping" id="f6-ping2"></div>
+          <div class="f6-ping" id="f6-ping3"></div>
+          <div class="f6-ping" id="f6-ping4"></div>
+          <div class="f6-blip" id="f6-blip1"></div>
+          <div class="f6-blip" id="f6-blip2"></div>
+          <div class="f6-blip" id="f6-blip3"></div>
+          <div class="f6-blip" id="f6-blip4"></div>
+          <div class="f6-bliplabel" id="f6-lab1">A few years</div>
+          <div class="f6-bliplabel" id="f6-lab2">Hold on</div>
+          <div class="f6-bliplabel" id="f6-lab3">Grow fast</div>
+          <div class="f6-bliplabel" id="f6-lab4">Nothing yet</div>
+
+          <!-- overlay strokes: dashed circles + converge lines (segments built in JS) -->
+          <svg class="f6-svg" id="f6-overlay" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+
+          <!-- center convergence + lock-on -->
+          <div class="f6-centerdot" id="f6-centerdot"></div>
+          <div class="f6-bracket" id="f6-bracket">
+            <div class="f6-corner tl"></div>
+            <div class="f6-corner tr"></div>
+            <div class="f6-corner bl"></div>
+            <div class="f6-corner br"></div>
+          </div>
+          <div class="f6-lockpill" id="f6-lockpill">
+            <div class="f6-lockpill-inner">
+              <svg class="f6-tick" viewBox="0 0 52 52"><path id="f6-tickpath" d="M13 27 L22 36 L39 17" /></svg>
+              <span class="f6-lockpill-text">Your profile</span>
             </div>
           </div>
+          <div class="f6-locked" id="f6-locked">LOCKED</div>
         </div>
       </div>
 
+      <script src="assets/vendor/gsap.min.js"></script>
       <script>
-        window.__timelines = window.__timelines || {};
-        const tl = gsap.timeline({ paused: true });
+        (function () {
+          window.__timelines = window.__timelines || {};
 
-        const DUR = 5.013; // synced render length
+          var $ = function (id) { return document.getElementById(id); };
+          var SVGNS = "http://www.w3.org/2000/svg";
 
-        /* ---- Scene 1 (0.0-1.8) — "A couple more like that" ----------------
-           Pills drift into the ring layout (center-outward-expansion,
-           partially-spread short path); the "…" pill joins last. */
-        tl.fromTo(
-          "#t6-stepper",
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-          0.05
-        );
-
-        const EXPAND_DUR = 1.05;
-        const START_PROGRESS = 0.35; // short-path: avoid the center pile-up
-        document.querySelectorAll(".t6-pill").forEach((el) => {
-          const tx = Number(el.dataset.tx);
-          const ty = Number(el.dataset.ty);
-          const at = Number(el.dataset.at);
-          tl.fromTo(
-            el,
-            {
-              xPercent: -50,
-              yPercent: -50,
-              x: tx * START_PROGRESS,
-              y: ty * START_PROGRESS,
-              scale: 0.8,
-              opacity: 0,
-            },
-            { x: tx, y: ty, scale: 1, opacity: 1, duration: EXPAND_DUR, ease: "power3.out" },
-            at
-          );
-        });
-
-        // center node pops in as the ring settles (the frame's one spring)
-        tl.fromTo(
-          "#t6-node",
-          { scale: 0.6, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" },
-          1.45
-        );
-
-        /* ---- Scene 2 (1.8-3.6) — "circle the same thing on purpose" -------
-           Connector lines draw to the node (svg-path-draw: measured
-           dasharray/dashoffset); the two "circling" pills glow in sequence
-           (asr-keyword-glow envelope on the pill cores). */
-        document.querySelectorAll(".t6-line").forEach((p) => {
-          const len = p.getTotalLength();
-          p.style.strokeDasharray = `${len}`;
-          p.style.strokeDashoffset = `${len}`;
-        });
-        const LINE_DUR = 0.55;
-        tl.to("#t6-line-hold", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.0);
-        tl.to("#t6-line-years", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.35);
-        tl.to("#t6-line-grow", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.65);
-        tl.to("#t6-line-nothing", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 2.85);
-        tl.to("#t6-line-dots", { strokeDashoffset: 0, duration: LINE_DUR, ease: "power2.out" }, 3.05);
-
-        // attack-sustain-release glow, word-cued: "circle" 1.99 / "same thing" 2.36-2.73
-        const ATTACK_DUR = 0.15;
-        const RELEASE = 0.4;
-        const REST_LEVEL = 0.16;
-        const MAX_BLUR = 30;
-        const MAX_SCALE_BOOST = 0.07;
-        const GLOWS = [
-          { el: document.getElementById("t6-core-hold"), start: 1.95, end: 2.5 },
-          { el: document.getElementById("t6-core-years"), start: 2.5, end: 3.05 },
-        ];
-        function envelope(time, start, end) {
-          const releaseEnd = end + RELEASE;
-          if (time < start) return 0;
-          if (time < end) return Math.min((time - start) / ATTACK_DUR, 1);
-          if (time < releaseEnd) {
-            const decay = (time - end) / RELEASE;
-            return 1 - decay * (1 - REST_LEVEL);
+          /* ---------- geometry: scope center + blip bearing table ---------- */
+          var CX = 540, CY = 700;
+          // bearing: degrees clockwise from 12 o'clock; r: distance from center;
+          // side: which side of the dot the label sits on.
+          var BLIPS = [
+            { bearing: 55,  r: 300, side: "right", circled: true  }, // A few years
+            { bearing: 145, r: 290, side: "right", circled: true  }, // Hold on
+            { bearing: 230, r: 290, side: "left",  circled: false }, // Grow fast
+            { bearing: 300, r: 250, side: "left",  circled: false }, // Nothing yet
+          ];
+          function polar(bearing, r) {
+            var a = (bearing - 90) * Math.PI / 180; // bearing 0 = 12 o'clock
+            return { x: CX + r * Math.cos(a), y: CY + r * Math.sin(a) };
           }
-          return REST_LEVEL;
-        }
-        const driver = { t: 0 };
-        tl.to(
-          driver,
-          {
-            t: DUR,
-            duration: DUR,
-            ease: "none",
-            onUpdate: () => {
-              GLOWS.forEach(({ el, start, end }) => {
-                const env = envelope(driver.t, start, end);
-                el.style.boxShadow = `0 0 ${MAX_BLUR * env}px rgba(43, 217, 124, ${0.55 * env})`;
-                el.style.transform = `scale(${1 + MAX_SCALE_BOOST * env})`;
-              });
-            },
-          },
-          0
-        );
+          BLIPS.forEach(function (b) {
+            var p = polar(b.bearing, b.r);
+            b.x = p.x; b.y = p.y;
+          });
 
-        /* ---- Scene 3 (3.6-5.0) — "It's triangulating you" ------------------
-           Progress ring sweeps to full (stat-bars-and-fills ring form via
-           measured stroke draw); "Your profile" fades in; hold still. */
-        const ring = document.getElementById("t6-ring");
-        const RING_LEN = ring.getTotalLength();
-        ring.style.strokeDasharray = `${RING_LEN}`;
-        ring.style.strokeDashoffset = `${RING_LEN}`;
-        tl.to(ring, { strokeDashoffset: 0, duration: 1.1, ease: "power2.out" }, 3.45);
+          /* position dots, pings, labels from the bearing table (build-time, deterministic) */
+          var dots = [], pings = [], labs = [];
+          BLIPS.forEach(function (b, i) {
+            var dot = $("f6-blip" + (i + 1));
+            var ping = $("f6-ping" + (i + 1));
+            var lab = $("f6-lab" + (i + 1));
+            dot.style.left = (b.x - 18) + "px";
+            dot.style.top = (b.y - 18) + "px";
+            ping.style.left = (b.x - 60) + "px";
+            ping.style.top = (b.y - 60) + "px";
+            lab.style.top = (b.y - 17) + "px";
+            // circled blips get a dashed ring (R=58) — park their label outside it
+            var off = b.circled ? 78 : 30;
+            if (b.side === "right") {
+              lab.style.left = (b.x + off) + "px";
+            } else {
+              lab.style.right = (1080 - b.x + off) + "px";
+            }
+            dots.push(dot); pings.push(ping); labs.push(lab);
+          });
 
-        tl.to("#t6-dimdot", { opacity: 0, duration: 0.3, ease: "power1.out" }, 3.8);
-        tl.fromTo(
-          "#t6-profile",
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-          3.9
-        );
+          /* ---------- overlay strokes built into the overlay svg ---------- */
+          var overlay = $("f6-overlay");
 
-        // "not quizzing you" — completion tag seats low, then dead still
-        tl.fromTo(
-          "#t6-tag",
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
-          4.45
-        );
+          // dashed circles around the two "circled" blips: 10 short arc segments
+          // each, drawn clockwise from 12 o'clock — svg-path-draw per segment,
+          // which reads as a dashed ring being drawn around the blip.
+          function arcPoint(cx, cy, r, deg) {
+            var a = (deg - 90) * Math.PI / 180;
+            return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+          }
+          var dashRings = []; // array (per circled blip) of arrays of path elements
+          BLIPS.forEach(function (b) {
+            if (!b.circled) return;
+            var segs = [];
+            for (var i = 0; i < 10; i++) {
+              var a0 = i * 36, a1 = i * 36 + 24, R = 58;
+              var s = arcPoint(b.x, b.y, R, a0), e = arcPoint(b.x, b.y, R, a1);
+              var p = document.createElementNS(SVGNS, "path");
+              p.setAttribute("class", "f6-dash");
+              p.setAttribute(
+                "d",
+                "M " + s.x.toFixed(2) + " " + s.y.toFixed(2) +
+                " A " + R + " " + R + " 0 0 1 " + e.x.toFixed(2) + " " + e.y.toFixed(2)
+              );
+              overlay.appendChild(p);
+              segs.push(p);
+            }
+            dashRings.push(segs);
+          });
 
-        window.__timelines["06-triangulating"] = tl;
+          // converge lines: from just outside each blip to just short of center
+          var convergeLines = BLIPS.map(function (b) {
+            var ux = (CX - b.x) / b.r, uy = (CY - b.y) / b.r;
+            var sx = b.x + ux * 26, sy = b.y + uy * 26;
+            var ex = CX - ux * 26, ey = CY - uy * 26;
+            var p = document.createElementNS(SVGNS, "path");
+            p.setAttribute("class", "f6-converge");
+            p.setAttribute(
+              "d",
+              "M " + sx.toFixed(2) + " " + sy.toFixed(2) +
+              " L " + ex.toFixed(2) + " " + ey.toFixed(2)
+            );
+            overlay.appendChild(p);
+            return p;
+          });
+
+          /* ---------- svg-path-draw setup: measure + park every stroke ---------- */
+          var grid = [$("f6-ring1"), $("f6-ring2"), $("f6-ring3"), $("f6-crossh"), $("f6-crossv")];
+          var tickPath = $("f6-tickpath");
+          function park(p) {
+            var len = p.getTotalLength();
+            p.style.strokeDasharray = String(len);
+            p.style.strokeDashoffset = String(len);
+          }
+          grid.concat(convergeLines, [tickPath]).forEach(park);
+          dashRings.forEach(function (segs) { segs.forEach(park); });
+
+          var tl = gsap.timeline({ paused: true });
+
+          /* ===== Scene 1 (0.00–1.8s) — the scope establishes, the beam sweeps,
+                 the four answers echo back as blips.
+                 VO: "A couple more like that" 0.10–1.07. ===== */
+
+          // faint scope fill breathes in immediately (hero region visible < 0.5s)
+          tl.fromTo("#f6-scopefill", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.0);
+
+          // rings + crosshair draw on quickly (svg-path-draw, ~75% stagger)
+          tl.to("#f6-ring1", { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, 0.05);
+          tl.to("#f6-ring2", { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, 0.18);
+          tl.to("#f6-ring3", { strokeDashoffset: 0, duration: 0.45, ease: "power2.out" }, 0.31);
+          tl.to("#f6-crossh", { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 0.42);
+          tl.to("#f6-crossv", { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 0.48);
+
+          // eyebrow settles in
+          tl.fromTo("#f6-eyebrow", { opacity: 0, y: -16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+
+          // THE BEAM — fades in, then ONE finite rotation tween: exactly two full
+          // clockwise rotations (0 -> 720deg), ease "none", ending at 12 o'clock.
+          var SWEEP_START = 0.16, SWEEP_DUR = 3.99; // ends 4.15, beam back at 12 o'clock
+          tl.fromTo("#f6-beam", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0.1);
+          tl.fromTo("#f6-beam", { rotation: 0 },
+            { rotation: 720, duration: SWEEP_DUR, ease: "none" }, SWEEP_START);
+
+          // blips bloom exactly when the beam crosses their bearing (first pass),
+          // then settle to steady; label fades in just after; ping ring radiates.
+          function passTime(bearing, lap) {
+            return SWEEP_START + ((bearing + lap * 360) / 720) * SWEEP_DUR;
+          }
+          BLIPS.forEach(function (b, i) {
+            var t = passTime(b.bearing, 0); // 0.465 / 0.963 / 1.434 / 1.822
+            tl.fromTo(dots[i], { scale: 2.1, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, t);
+            tl.fromTo(pings[i], { scale: 0.3, opacity: 0.75 },
+              { scale: 1.6, opacity: 0, duration: 0.55, ease: "power2.out",
+                immediateRender: false }, t + 0.02);
+            tl.fromTo(labs[i], { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, t + 0.14);
+            // second pass: a subtle re-glint as the beam crosses again (finite pair)
+            var t2 = passTime(b.bearing, 1); // 2.46 / 2.96 / 3.43 / 3.82
+            tl.to(dots[i], { scale: 1.3, duration: 0.12, ease: "power2.out" }, t2);
+            tl.to(dots[i], { scale: 1, duration: 0.28, ease: "power2.out" }, t2 + 0.12);
+          });
+
+          /* ===== Scene 2 (1.8–3.6s) — "circle the same thing on purpose" 1.99–3.19:
+                 two blips get drawn dashed circles in sequence, then thin lines
+                 draw from all four blips converging on the scope center. ===== */
+
+          // dashed ring A around "A few years" on "circle" (~2.05),
+          // dashed ring B around "Hold on" on "same thing" (~2.55)
+          dashRings.forEach(function (segs, k) {
+            var at = 2.05 + k * 0.5;
+            segs.forEach(function (p, i) {
+              tl.to(p, { strokeDashoffset: 0, duration: 0.12, ease: "none" }, at + i * 0.045);
+            });
+          });
+
+          // triangulation lines draw blip -> center on "purpose" (~3.02+)
+          convergeLines.forEach(function (p, i) {
+            tl.to(p, { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, 3.02 + i * 0.12);
+          });
+
+          /* ===== Scene 3 (3.6–5.013s) — "It's triangulating you" 3.40–4.10:
+                 lock-on bracket snaps onto the convergence point; LOCKED on
+                 "not quizzing you" 4.10–4.60; the scope holds dead still. ===== */
+
+          // convergence point blooms as the lines land
+          tl.fromTo("#f6-centerdot", { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" }, 3.45);
+
+          // lock-on bracket: spring-pop entrance snapping DOWN onto the point
+          // (scale 1.75 -> 1, smooth power3 settle — no bounce)
+          tl.fromTo("#f6-bracket", { scale: 1.75, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" }, 3.6);
+
+          // "Your profile" pill settles above the bracket
+          tl.fromTo("#f6-lockpill", { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 3.85);
+
+          // green tick traces on (svg-path-draw)
+          tl.to("#f6-tickpath", { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" }, 4.05);
+
+          // LOCKED readout under the bracket on "not quizzing you"
+          tl.fromTo("#f6-locked", { opacity: 0 },
+            { opacity: 1, duration: 0.35, ease: "power1.out" }, 4.35);
+
+          // beam finished its final rotation (4.15) at 12 o'clock; it dims
+          // slightly and the scope holds dead still — a settle, not an exit.
+          tl.to("#f6-beam", { opacity: 0.65, duration: 0.5, ease: "power1.out" }, 4.25);
+
+          window.__timelines["06-triangulating"] = tl;
+        })();
       </script>
     </template>
   </body>

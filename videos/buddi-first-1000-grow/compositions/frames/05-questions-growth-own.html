@@ -3,12 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <!-- Frame 5 — Questions 3 + 4: growth vs cash, what you own (buddi-first-1000-grow)
-         cursor-ui-demo (two-tap sequence, camera servo). Real Buddi product UI:
-         dark ground, top stepper chrome, dark question cards, green selected chips,
-         finger-sized tap highlight + ripples, virtual camera servoing between taps,
-         answers condensing into left-stacked summary pills.
-         Duration 6.549s (synced). Everything the runtime needs lives INSIDE <template>.
-         KEEP-OUT: all visible content stays above screen y=1250 at every camera phase. -->
+         THE SHOT — "tug-of-war, then the shelf":
+         Scene 1 (0.0–3.2s)  two tall panels enter from opposite wings with mirrored
+                             3D book-open tilts (split-tilt-cards / comparison-split
+                             signature). LEFT carries a rising zig-zag arrow, RIGHT a
+                             finite 3-coin drop. They press at the center seam; the tap
+                             lands LEFT on "as fast as possible" — winner fills green +
+                             scales forward, loser tilts away and dims.
+         Scene 2 (3.2–5.6s)  panels clear upward; a shelf of three labeled boxes
+                             spring-pops in (spring-pop-entrance, smooth power3);
+                             the tap lands "Nothing yet" — lid pops open, box fills green.
+         Scene 3 (5.6–6.549) both answers condense to two green summary pills stacking
+                             bottom-left with drawn checks; dead-still hold.
+         Duration 6.549s (locked). Everything the runtime needs lives INSIDE <template>.
+         KEEP-OUT: all visible content stays above y = 1250. No exit (non-final frame). -->
   </head>
   <body>
     <template>
@@ -37,158 +45,154 @@
           font-family: "Inter", sans-serif;
         }
 
-        /* Full-bleed product ground — its own clip layer, never on #root */
+        /* Full-bleed ground — its own clip layer, never on #root */
         .f5-bg {
           position: absolute;
           inset: 0;
           background: #0B0E11;
         }
+        /* two faint ambient side glows (comparison-split ambient, single green accent) */
+        .f5-glow-a,
+        .f5-glow-b {
+          position: absolute;
+          width: 760px;
+          height: 760px;
+          border-radius: 50%;
+          pointer-events: none;
+        }
+        .f5-glow-a {
+          left: -180px;
+          top: 340px;
+          background: radial-gradient(circle, rgba(43, 217, 124, 0.09) 0%, rgba(43, 217, 124, 0) 68%);
+        }
+        .f5-glow-b {
+          right: -200px;
+          top: 480px;
+          background: radial-gradient(circle, rgba(43, 217, 124, 0.055) 0%, rgba(43, 217, 124, 0) 68%);
+        }
 
-        /* Camera stage */
+        /* Stage — static camera; three scene wrappers */
         .f5-stage {
           position: absolute;
           inset: 0;
           overflow: hidden;
         }
-        .f5-world {
+        .f5-s1,
+        .f5-s2,
+        .f5-s3 {
           position: absolute;
-          left: 0;
-          top: 0;
-          width: 1080px;
-          height: 2600px;
-          transform-origin: 0 0;
+          inset: 0;
           will-change: transform;
         }
 
-        /* ---------- Top stepper chrome (pinned product nav) ---------- */
-        .f5-stepper {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-        .f5-stepper-inner {
+        /* ---------- Eyebrow chrome ---------- */
+        .f5-eyebrow {
           position: absolute;
           left: 0;
-          top: 68px;
+          top: 148px;
           width: 1080px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
+          text-align: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 28px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #2BD97C;
+          will-change: transform;
         }
-        .f5-step {
-          display: flex;
-          align-items: center;
-          gap: 14px;
+
+        /* =============== SCENE 1 — the tug-of-war =============== */
+        .f5-duel {
+          position: absolute;
+          left: 0;
+          top: 240px;
+          width: 1080px;
+          height: 800px;
+          perspective: 1500px; /* REQUIRED — rotateY flattens without it */
         }
-        .f5-stepcheck {
+        .f5-seam {
+          position: absolute;
+          left: 539px;
+          top: 40px;
+          width: 2px;
+          height: 720px;
+          background: rgba(242, 245, 244, 0.07);
+        }
+        /* outer = position + entry tilt + shove/yield · inner = seam press + card visuals
+           (two layers so entry x and press x never collide on one alias) */
+        .f5-panel {
+          position: absolute;
+          top: 20px;
+          width: 452px;
+          height: 760px;
+          transform-style: preserve-3d;
+          will-change: transform;
+        }
+        #f5-panL { left: 80px; }
+        #f5-panR { left: 548px; }
+        .f5-pin {
+          position: absolute;
+          inset: 0;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          padding: 44px 40px;
+          background: rgba(43, 217, 124, 0.07);
+          border: 1.5px solid rgba(43, 217, 124, 0.30);
+          border-radius: 24px;
+          will-change: transform;
+        }
+        .f5-glyphzone {
+          flex: 1;
+          display: grid;
+          place-items: center;
+          position: relative;
+        }
+        .f5-plabel {
+          margin-top: auto;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 44px;
+          font-weight: 600;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          color: #F2F5F4;
+        }
+        /* zig-zag rising arrow (LEFT) */
+        .f5-zz {
           display: block;
-          width: 44px;
-          height: 44px;
+          width: 310px;
+          height: 230px;
         }
-        .f5-stepcheck circle {
-          fill: #2BD97C;
-          stroke: #2BD97C;
-          stroke-width: 2;
-        }
-        .f5-stepcheck path {
+        .f5-zz path {
           fill: none;
-          stroke: #06231A;
-          stroke-width: 3.5;
+          stroke: #2BD97C;
+          stroke-width: 11;
           stroke-linecap: round;
           stroke-linejoin: round;
         }
-        .f5-stepnum {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          border: 1.5px solid #262D33;
-          box-sizing: border-box;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 21px;
-          font-weight: 500;
-          color: #76837C;
+        /* falling coin stack (RIGHT) — 3 dots, finite drop */
+        .f5-coins {
+          position: relative;
+          width: 200px;
+          height: 260px;
         }
-        .f5-steplabel {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 26px;
-          font-weight: 500;
-          color: #76837C;
-          white-space: nowrap;
-        }
-        .f5-steplabel-on {
-          color: #F2F5F4;
-        }
-        .f5-stepline {
-          width: 56px;
-          height: 1.5px;
-          background: #23292F;
-        }
-
-        /* ---------- Question cards (real product card) ---------- */
-        .f5-qcard {
+        .f5-coin {
           position: absolute;
-          left: 119px;
-          width: 842px;
-          background: #11161A;
-          border: 1px solid #262D33;
-          border-radius: 16px;
-          padding: 40px 44px;
+          left: 71px;
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: #2BD97C;
+          border: 2px solid rgba(6, 35, 26, 0.45);
           box-sizing: border-box;
+          transform-origin: 50% 100%;
           will-change: transform;
         }
-        #f5-q1 { top: 210px; height: 348px; }
-        #f5-q2 { top: 860px; height: 450px; }
-        .f5-qhead {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 56px;
-        }
-        .f5-qlabel {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 40px;
-          font-weight: 600;
-          letter-spacing: -0.02em;
-          color: #F2F5F4;
-          line-height: 1.2;
-        }
-        .f5-qcount {
-          background: #171C21;
-          border: 1px solid #262D33;
-          color: #76837C;
-          border-radius: 100px;
-          padding: 7px 22px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 22px;
-          font-weight: 500;
-        }
-        .f5-chips {
-          margin-top: 26px;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-        .f5-chip {
-          height: 84px;
-          display: flex;
-          align-items: center;
-          padding: 0 36px;
-          box-sizing: border-box;
-          background: #15191D;
-          border: 1px solid #2A2F34;
-          border-radius: 100px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 30px;
-          font-weight: 600;
-          color: #F2F5F4;
-          will-change: transform;
-        }
+        #f5-coin1 { bottom: 6px; }
+        #f5-coin2 { bottom: 58px; }
+        #f5-coin3 { bottom: 110px; }
 
-        /* ---------- Tap actor (finger-sized highlight, no arrow cursor) ---------- */
+        /* ---------- Tap actor (finger-sized highlight + ripples) ---------- */
         .f5-tap {
           position: absolute;
           width: 96px;
@@ -198,7 +202,7 @@
           border: 1.5px solid rgba(43, 217, 124, 0.4);
           opacity: 0;
           pointer-events: none;
-          z-index: 5;
+          z-index: 6;
           will-change: transform;
         }
         .f5-ripple {
@@ -209,48 +213,168 @@
           border: 2.5px solid rgba(43, 217, 124, 0.8);
           opacity: 0;
           pointer-events: none;
-          z-index: 4;
+          z-index: 5;
           will-change: transform;
         }
-        /* tap/ripple anchors — centered on each tapped chip
-           chip 0 center inside card: y = 164, x = 380 */
-        #f5-tap1 { left: 332px; top: 116px; }
-        .f5-r1   { left: 325px; top: 109px; }
-        #f5-tap2 { left: 332px; top: 116px; }
-        .f5-r2   { left: 325px; top: 109px; }
+        /* tap 1 — over the LEFT panel (floats on the duel parent, never inside the
+           tilted card, so it doesn't inherit the 3D rotation) */
+        #f5-tap1 { left: 258px; top: 500px; }
+        .f5-r1   { left: 251px; top: 493px; }
 
-        /* ---------- Summary stack (Scene 3 resolve — stacking left) ---------- */
+        /* =============== SCENE 2 — the shelf =============== */
+        .f5-shelfboard {
+          position: absolute;
+          left: 60px;
+          top: 832px;
+          width: 960px;
+          height: 10px;
+          border-radius: 5px;
+          background: #2E353B;
+          transform-origin: left center;
+          will-change: transform;
+        }
+        .f5-box {
+          position: absolute;
+          top: 470px;
+          width: 300px;
+          height: 360px;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          padding: 28px 24px 26px;
+          background: #11161A;
+          border: 1.5px solid #2A3138;
+          border-radius: 16px;
+          transform-origin: 50% 100%; /* pops up off the shelf */
+          will-change: transform;
+        }
+        #f5-box1 { left: 60px; }
+        #f5-box2 { left: 390px; }
+        #f5-box3 { left: 720px; }
+        .f5-boxglyph {
+          position: relative;
+          flex: 1;
+        }
+        .f5-blabel {
+          margin-top: 14px;
+          text-align: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 30px;
+          font-weight: 600;
+          color: #F2F5F4;
+          white-space: nowrap;
+        }
+        /* crate drawing — details peek behind the opaque crate front */
+        .f5-cratewrap {
+          position: absolute;
+          left: 50%;
+          margin-left: -85px;
+          bottom: 12px;
+          width: 170px;
+          height: 110px;
+        }
+        .f5-crate {
+          position: absolute;
+          inset: 0;
+          background: #151B20;
+          border: 2px solid #333B42;
+          border-radius: 8px;
+          box-sizing: border-box;
+          z-index: 2;
+        }
+        /* box 1 — lid, slightly open, hinged at its left edge (the animated one) */
+        .f5-lid {
+          position: absolute;
+          left: -7px;
+          top: -28px;
+          width: 184px;
+          height: 20px;
+          background: #1B2126;
+          border: 2px solid #333B42;
+          border-radius: 5px;
+          box-sizing: border-box;
+          transform-origin: 12px 18px;
+          transform: rotate(-10deg); /* only ever re-driven via fromTo (exempt) */
+          z-index: 3;
+          will-change: transform;
+        }
+        /* box 2 — two paper corners peeking above the rim (static) */
+        .f5-paper {
+          position: absolute;
+          width: 54px;
+          height: 66px;
+          border-radius: 4px;
+          z-index: 1;
+        }
+        .f5-paper-a {
+          left: 30px;
+          top: -36px;
+          background: #A8B3AE;
+          transform: rotate(-8deg);
+        }
+        .f5-paper-b {
+          left: 88px;
+          top: -30px;
+          background: #76837C;
+          transform: rotate(7deg);
+        }
+        /* box 3 — a clock corner peeking above the rim (static) */
+        .f5-clock {
+          position: absolute;
+          right: 18px;
+          top: -40px;
+          width: 66px;
+          height: 66px;
+          z-index: 1;
+        }
+        .f5-clock circle {
+          fill: #151B20;
+          stroke: #76837C;
+          stroke-width: 4;
+        }
+        .f5-clock path {
+          fill: none;
+          stroke: #A8B3AE;
+          stroke-width: 4;
+          stroke-linecap: round;
+        }
+        /* tap 2 — over "Nothing yet" */
+        #f5-tap2 { left: 162px; top: 602px; }
+        .f5-r2   { left: 155px; top: 595px; }
+
+        /* =============== SCENE 3 — summary pills, bottom-left =============== */
         .f5-sumhead {
           position: absolute;
-          left: 119px;
-          top: 1440px;
+          left: 90px;
+          top: 938px;
           font-family: "Space Grotesk", sans-serif;
           font-size: 27px;
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           color: #76837C;
+          will-change: transform;
         }
         .f5-sumpill {
           position: absolute;
-          left: 119px;
-          height: 108px;
-          display: flex;
+          left: 90px;
+          height: 104px;
+          display: inline-flex;
           align-items: center;
-          gap: 26px;
-          padding: 0 44px 0 36px;
+          gap: 24px;
+          padding: 0 46px 0 34px;
           box-sizing: border-box;
-          background: #11161A;
-          border: 1px solid rgba(43, 217, 124, 0.35);
+          background: rgba(43, 217, 124, 0.10);
+          border: 1.5px solid rgba(43, 217, 124, 0.5);
           border-radius: 100px;
           will-change: transform;
         }
-        #f5-sum1 { top: 1510px; }
-        #f5-sum2 { top: 1648px; }
+        #f5-sum1 { top: 1000px; }
+        #f5-sum2 { top: 1128px; }
         .f5-check {
           display: block;
-          width: 48px;
-          height: 48px;
+          width: 46px;
+          height: 46px;
           flex: none;
         }
         .f5-check path {
@@ -262,7 +386,7 @@
         }
         .f5-sumlabel {
           font-family: "Space Grotesk", sans-serif;
-          font-size: 32px;
+          font-size: 33px;
           font-weight: 500;
           color: #F2F5F4;
           white-space: nowrap;
@@ -270,43 +394,97 @@
       </style>
 
       <div id="root" data-composition-id="05-questions-growth-own" data-width="1080" data-height="1920">
-        <!-- full-bleed ground as a clip layer -->
-        <div class="clip f5-bg" data-start="0" data-duration="6.549" data-track-index="0"></div>
+        <!-- full-bleed ground as a clip layer (never on #root) -->
+        <div class="clip f5-bg" data-start="0" data-duration="6.549" data-track-index="0">
+          <div class="f5-glow-a"></div>
+          <div class="f5-glow-b"></div>
+        </div>
 
         <div class="clip f5-stage" data-start="0" data-duration="6.549" data-track-index="1">
-          <div class="f5-world" id="f5-world">
-            <!-- Scene 1: question 3 — the goal -->
-            <div class="f5-qcard" id="f5-q1">
-              <div class="f5-qhead">
-                <div class="f5-qlabel">What&rsquo;s the goal for it?</div>
-                <div class="f5-qcount">3 of 5</div>
+          <!-- ========== Scene 1 — the tug-of-war ========== -->
+          <div class="f5-s1" id="f5-s1">
+            <div class="f5-eyebrow" id="f5-e1">Goal &middot; 3 of 5</div>
+            <div class="f5-duel">
+              <div class="f5-seam" id="f5-seam"></div>
+
+              <div class="f5-panel" id="f5-panL">
+                <div class="f5-pin" id="f5-pinL">
+                  <div class="f5-glyphzone">
+                    <svg class="f5-zz" viewBox="0 0 310 230">
+                      <path class="f5-zzdraw" id="f5-zz1" d="M28 196 L112 112 L164 156 L276 44" />
+                      <path class="f5-zzdraw" id="f5-zz2" d="M216 44 L276 44 L276 104" />
+                    </svg>
+                  </div>
+                  <div class="f5-plabel" id="f5-labL">Grow as fast as possible</div>
+                </div>
               </div>
-              <div class="f5-chips">
-                <div class="f5-chip" id="f5-q1c1">Grow as fast as possible</div>
-                <div class="f5-chip" id="f5-q1c2">Pay me steady cash</div>
+
+              <div class="f5-panel" id="f5-panR">
+                <div class="f5-pin" id="f5-pinR">
+                  <div class="f5-glyphzone">
+                    <div class="f5-coins">
+                      <div class="f5-coin" id="f5-coin1"></div>
+                      <div class="f5-coin" id="f5-coin2"></div>
+                      <div class="f5-coin" id="f5-coin3"></div>
+                    </div>
+                  </div>
+                  <div class="f5-plabel" id="f5-labR">Pay me steady cash</div>
+                </div>
               </div>
+
+              <!-- tap actor floats on the duel parent (never inside a tilted card) -->
               <div class="f5-ripple f5-r1" id="f5-r1a"></div>
               <div class="f5-ripple f5-r1" id="f5-r1b"></div>
               <div class="f5-tap" id="f5-tap1"></div>
             </div>
+          </div>
 
-            <!-- Scene 2: question 4 — what you already own -->
-            <div class="f5-qcard" id="f5-q2">
-              <div class="f5-qhead">
-                <div class="f5-qlabel">What do you already own?</div>
-                <div class="f5-qcount">4 of 5</div>
+          <!-- ========== Scene 2 — the shelf ========== -->
+          <div class="f5-s2" id="f5-s2">
+            <div class="f5-eyebrow" id="f5-e2">Owned &middot; 4 of 5</div>
+            <div class="f5-shelfboard" id="f5-board"></div>
+
+            <div class="f5-box" id="f5-box1">
+              <div class="f5-boxglyph">
+                <div class="f5-cratewrap">
+                  <div class="f5-crate" id="f5-crate1"></div>
+                  <div class="f5-lid" id="f5-lid"></div>
+                </div>
               </div>
-              <div class="f5-chips">
-                <div class="f5-chip" id="f5-q2c1">Nothing yet</div>
-                <div class="f5-chip" id="f5-q2c2">Some stocks</div>
-                <div class="f5-chip" id="f5-q2c3">A retirement fund</div>
-              </div>
-              <div class="f5-ripple f5-r2" id="f5-r2a"></div>
-              <div class="f5-ripple f5-r2" id="f5-r2b"></div>
-              <div class="f5-tap" id="f5-tap2"></div>
+              <div class="f5-blabel" id="f5-blab1">Nothing yet</div>
             </div>
 
-            <!-- Scene 3: answers condense into compact summary pills, stacking left -->
+            <div class="f5-box" id="f5-box2">
+              <div class="f5-boxglyph">
+                <div class="f5-cratewrap">
+                  <div class="f5-paper f5-paper-a"></div>
+                  <div class="f5-paper f5-paper-b"></div>
+                  <div class="f5-crate"></div>
+                </div>
+              </div>
+              <div class="f5-blabel">Some stocks</div>
+            </div>
+
+            <div class="f5-box" id="f5-box3">
+              <div class="f5-boxglyph">
+                <div class="f5-cratewrap">
+                  <svg class="f5-clock" viewBox="0 0 66 66">
+                    <circle cx="33" cy="33" r="29" />
+                    <path d="M33 18 L33 34 L44 40" />
+                  </svg>
+                  <div class="f5-crate"></div>
+                </div>
+              </div>
+              <div class="f5-blabel">A retirement fund</div>
+            </div>
+
+            <div class="f5-ripple f5-r2" id="f5-r2a"></div>
+            <div class="f5-ripple f5-r2" id="f5-r2b"></div>
+            <div class="f5-tap" id="f5-tap2"></div>
+          </div>
+
+          <!-- ========== Scene 3 — condensed answers, bottom-left ========== -->
+          <div class="f5-s3" id="f5-s3">
             <div class="f5-sumhead" id="f5-sumhead">4 of 5 answered</div>
             <div class="f5-sumpill" id="f5-sum1">
               <svg class="f5-check" viewBox="0 0 52 52"><path class="f5-checkpath" d="M13 27 L22 36 L39 17" /></svg>
@@ -315,29 +493,6 @@
             <div class="f5-sumpill" id="f5-sum2">
               <svg class="f5-check" viewBox="0 0 52 52"><path class="f5-checkpath" d="M13 27 L22 36 L39 17" /></svg>
               <span class="f5-sumlabel">Nothing yet</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Top stepper chrome — pinned above the camera world -->
-        <div class="clip f5-stepper" data-start="0" data-duration="6.549" data-track-index="2">
-          <div class="f5-stepper-inner" id="f5-stepper-inner">
-            <div class="f5-step">
-              <svg class="f5-stepcheck" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="20.5" />
-                <path d="M14 22.5 L20 28.5 L31 16.5" />
-              </svg>
-              <span class="f5-steplabel f5-steplabel-on">Find stocks</span>
-            </div>
-            <div class="f5-stepline"></div>
-            <div class="f5-step">
-              <div class="f5-stepnum">2</div>
-              <span class="f5-steplabel">Build the strategy</span>
-            </div>
-            <div class="f5-stepline"></div>
-            <div class="f5-step">
-              <div class="f5-stepnum">3</div>
-              <span class="f5-steplabel">Test live</span>
             </div>
           </div>
         </div>
@@ -351,126 +506,192 @@
           var root = document.querySelector('[data-composition-id="05-questions-growth-own"]');
           var $ = function (id) { return document.getElementById(id); };
 
-          var world = $("f5-world");
-          var stepperInner = $("f5-stepper-inner");
-          var q1 = $("f5-q1"), q2 = $("f5-q2");
-          var chips = [$("f5-q1c1"), $("f5-q2c1")];
-          var dims = [[$("f5-q1c2")], [$("f5-q2c2"), $("f5-q2c3")]];
-          var taps = [$("f5-tap1"), $("f5-tap2")];
-          var ripples = [
-            [$("f5-r1a"), $("f5-r1b")],
-            [$("f5-r2a"), $("f5-r2b")],
-          ];
+          var s1 = $("f5-s1"), s2 = $("f5-s2");
+          var e1 = $("f5-e1"), e2 = $("f5-e2"), seam = $("f5-seam");
+          var panL = $("f5-panL"), panR = $("f5-panR");
+          var pinL = $("f5-pinL"), pinR = $("f5-pinR");
+          var labL = $("f5-labL"), labR = $("f5-labR");
+          var zz = [$("f5-zz1"), $("f5-zz2")];
+          var coins = [$("f5-coin1"), $("f5-coin2"), $("f5-coin3")];
+          var tap1 = $("f5-tap1"), tap2 = $("f5-tap2");
+          var r1 = [$("f5-r1a"), $("f5-r1b")];
+          var r2 = [$("f5-r2a"), $("f5-r2b")];
+          var board = $("f5-board");
+          var boxes = [$("f5-box1"), $("f5-box2"), $("f5-box3")];
+          var crate1 = $("f5-crate1"), lid = $("f5-lid"), blab1 = $("f5-blab1");
           var sumhead = $("f5-sumhead");
           var sumpills = [$("f5-sum1"), $("f5-sum2")];
           var checkPaths = root.querySelectorAll(".f5-checkpath");
 
-          // svg-path-draw setup — measure each summary check, park it undrawn
+          // svg-path-draw setup — measure once (deterministic), park undrawn
+          zz.forEach(function (p) {
+            var len = p.getTotalLength();
+            p.style.strokeDasharray = String(len);
+            p.style.strokeDashoffset = String(len);
+          });
           checkPaths.forEach(function (p) {
             var len = p.getTotalLength();
             p.style.strokeDasharray = String(len);
             p.style.strokeDashoffset = String(len);
           });
 
-          // --- virtual camera (viewport-change, single-wrapper composite) ---
-          // transform-origin is 0 0, so screen = S * world + cam offset.
-          var cam = { s: 1, x: 0, y: 0 };
-          function applyCamera() {
-            world.style.transform =
-              "translate(" + cam.x + "px, " + cam.y + "px) scale(" + cam.s + ")";
-          }
-          applyCamera();
-
           var tl = gsap.timeline({ paused: true });
 
-          // shared helpers
-          function enterCard(card, at) {
-            tl.fromTo(card, { opacity: 0, y: 90, scale: 0.98 },
-              { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" }, at);
-          }
-          // cursor-click-ripple (thumb-tap variant) + press-release-spring
-          function tap(i, at) {
-            var dot = taps[i], chip = chips[i], rings = ripples[i];
-            // finger-sized tap-highlight lands (fade-grow instead of a mouse travel)
+          // shared tap helper — finger highlight lands, presses, releases, ripples
+          function tapIn(dot, at) {
             tl.fromTo(dot, { opacity: 0, scale: 0.5 },
-              { opacity: 1, scale: 1, duration: 0.28, ease: "power2.out" }, at);
-            // press — linear compression (tap dot + chip compress together)
-            tl.to(dot, { scale: 0.82, duration: 0.09, ease: "power1.in" }, at + 0.32);
-            tl.to(chip, { scale: 0.955, duration: 0.09, ease: "power1.in" }, at + 0.32);
-            // release — micro spring recovery (state-continuous with the press)
-            tl.to(dot, { scale: 1, duration: 0.2, ease: "power2.out" }, at + 0.41);
-            tl.to(chip, { scale: 1, duration: 0.42, ease: "back.out(1.3)" }, at + 0.41);
-            // chip commits — fills solid product green, near-black text
-            tl.to(chip, {
-              backgroundColor: "#2BD97C",
-              color: "#06231A",
-              borderColor: "#2BD97C",
-              duration: 0.22,
-              ease: "power1.out",
-            }, at + 0.41);
-            // ripple rings radiate from the tap point (hold CSS-hidden until now)
+              { opacity: 1, scale: 1, duration: 0.26, ease: "power2.out" }, at);
+          }
+          function rippleAt(rings, at) {
             rings.forEach(function (r, k) {
               tl.fromTo(r, { scale: 0.35, opacity: 0.75 },
-                { scale: 2.5, opacity: 0, duration: 0.55, ease: "power2.out",
-                  immediateRender: false }, at + 0.38 + k * 0.08);
+                { scale: 2.4, opacity: 0, duration: 0.55, ease: "power2.out",
+                  immediateRender: false }, at + k * 0.08);
             });
-            // tap-highlight lifts off
-            tl.to(dot, { opacity: 0, scale: 0.8, duration: 0.25, ease: "power1.in" }, at + 0.62);
-            // unselected chips recede — the choice reads at a glance
-            tl.to(dims[i], { opacity: 0.55, duration: 0.3, ease: "power1.out" }, at + 0.55);
           }
 
-          /* ===== Scene 1 (0.00–2.99s) — Q3 "What's the goal for it?" =====
-             VO: "Then:" 0.10 → card enters; "growing as fast as possible"
-             0.97–2.03 → tap lands "Grow as fast as possible". */
+          /* ===== Scene 1 (0.0–3.2s) — the TUG-OF-WAR =====
+             VO "Then:" 0.10 → panels enter from opposite wings, mirrored book-open
+             tilts. "as fast as possible" 1.38–2.03 → tap lands LEFT, green commit,
+             winner shoves forward, loser tilts away and dims. */
 
-          // stepper chrome settles in quietly at the top (step 1 already checked)
-          tl.fromTo(stepperInner, { opacity: 0, y: -18 },
-            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.1);
+          tl.fromTo(e1, { opacity: 0, y: -16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.05);
+          tl.fromTo(seam, { opacity: 0 },
+            { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.4);
 
-          // hero card arrives on the first "Then:" (visible well before t=0.5)
-          enterCard(q1, 0.05);
+          // split-tilt-cards signature — opposite-wing entry, mirrored rotateY,
+          // slight pivot-into-place overshoot on the tilt, ~0.2s stagger
+          tl.fromTo(panL, { x: -460, rotationY: 22, opacity: 0 },
+            { x: 0, rotationY: 12, opacity: 1, duration: 0.75, ease: "power3.out" }, 0.08);
+          tl.fromTo(panR, { x: 460, rotationY: -22, opacity: 0 },
+            { x: 0, rotationY: -12, opacity: 1, duration: 0.75, ease: "power3.out" }, 0.28);
 
-          // tap lands during "as fast as possible" — green fill commits ~1.67
-          tap(0, 0.95);
+          // labels rise in on the entry tail
+          tl.fromTo(labL, { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0.55);
+          tl.fromTo(labR, { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0.75);
 
-          /* ===== Scene 2 (2.99–5.24s) — camera servos down to Q4 =====
-             VO: second "Then:" 3.12 → servo + card 2; "what you already own"
-             3.40–4.20 → tap lands "Nothing yet". */
+          // LEFT glyph — zig-zag arrow draws upward ("growing")
+          tl.to(zz[0], { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, 0.6);
+          tl.to(zz[1], { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 1.08);
 
-          // camera servos down (viewport-change: cam pans down → world translates up)
-          tl.to(cam, { y: -500, duration: 0.75, ease: "power2.inOut", onUpdate: applyCamera }, 2.85);
-          enterCard(q2, 3.25);
-          tap(1, 3.95);
+          // RIGHT glyph — three coins drop into a stack (finite, deterministic stagger)
+          coins.forEach(function (c, i) {
+            var at = 0.9 + i * 0.16;
+            tl.fromTo(c, { y: -160, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.34, ease: "power2.in" }, at);
+            tl.to(c, { scaleY: 0.85, duration: 0.07, ease: "power1.in" }, at + 0.34);
+            tl.to(c, { scaleY: 1, duration: 0.16, ease: "power2.out" }, at + 0.41);
+          });
 
-          /* ===== Scene 3 (5.24–6.549s) — "more of the same" 5.31–6.12: =====
-             answered chips condense into compact green summary pills stacking left. */
+          // the pair presses against the center seam (inner layer, finite yoyo)
+          tl.fromTo(pinL, { x: 0 },
+            { x: 8, duration: 0.38, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.0);
+          tl.fromTo(pinR, { x: 0 },
+            { x: -8, duration: 0.38, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.0);
 
-          // answered cards condense away (within-scene swap, not an exit)
-          tl.to([q1, q2], { opacity: 0, scale: 0.94, duration: 0.45, ease: "power2.in" }, 5.15);
+          // tap lands the LEFT panel on "as fast as possible"
+          tapIn(tap1, 1.42);
+          tl.to(tap1, { scale: 0.82, duration: 0.09, ease: "power1.in" }, 1.7);
+          tl.to(pinL, { scale: 0.965, duration: 0.09, ease: "power1.in" }, 1.7);
+          tl.to(tap1, { scale: 1, duration: 0.18, ease: "power2.out" }, 1.79);
+          tl.to(pinL, { scale: 1, duration: 0.4, ease: "back.out(1.3)" }, 1.79);
+          // commit — winner fills product green
+          tl.to(pinL, {
+            backgroundColor: "#2BD97C",
+            borderColor: "#2BD97C",
+            duration: 0.24,
+            ease: "power1.out",
+          }, 1.79);
+          tl.to(labL, { color: "#06231A", duration: 0.24, ease: "power1.out" }, 1.79);
+          tl.to(zz, { stroke: "#06231A", duration: 0.24, ease: "power1.out" }, 1.79);
+          rippleAt(r1, 1.84);
+          tl.to(tap1, { opacity: 0, scale: 0.8, duration: 0.22, ease: "power1.in" }, 2.06);
 
-          // camera settles slightly wider on the summary
-          // (S=0.95; x centers 1080-wide world: (1080-1080*0.95)/2 = 27; y = 280 - 0.95*1440)
-          tl.to(cam, { s: 0.95, x: 27, y: -1088, duration: 0.9, ease: "power3.inOut",
-            onUpdate: applyCamera }, 5.15);
+          // the winner shoves forward, the loser yields — tilts away and dims
+          tl.to(panL, { scale: 1.06, rotationY: 5, x: 12,
+            duration: 0.5, ease: "power3.out" }, 2.02);
+          tl.to(panR, { rotationY: -26, x: 64, scale: 0.94, opacity: 0.45,
+            duration: 0.55, ease: "power3.out" }, 2.02);
 
-          // muted eyebrow
-          tl.fromTo(sumhead, { opacity: 0, y: 24 },
-            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 5.45);
+          /* ===== Scene 2 (3.2–5.6s) — the SHELF =====
+             Panels clear upward (within-scene swap); on the second "Then:" (3.12)
+             the shelf slides in and three boxes spring-pop up off it (power3, no
+             overshoot, stagger capped). "what you already own" 3.40–4.20 → tap
+             lands "Nothing yet": lid pops open, box fills green. */
 
-          // answered chips re-land as compact pills, stacking left (smooth power3 settle)
+          tl.to(s1, { y: -1250, opacity: 0, duration: 0.55, ease: "power2.in" }, 2.98);
+
+          tl.fromTo(s2, { opacity: 0, x: 110 },
+            { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.12);
+          tl.fromTo(e2, { opacity: 0, y: -16 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 3.16);
+          tl.fromTo(board, { scaleX: 0 },
+            { scaleX: 1, duration: 0.5, ease: "power3.out" }, 3.2);
+
+          // spring-pop-entrance — boxes grow up off the shelf (origin 50% 100%),
+          // deterministic index stagger: 3 × 0.12s ≤ 0.5s (one arriving beat)
+          boxes.forEach(function (b, i) {
+            tl.fromTo(b, { scale: 0, opacity: 0, y: 26 },
+              { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+              3.32 + i * 0.12);
+          });
+
+          // tap lands "Nothing yet"
+          tapIn(tap2, 4.02);
+          tl.to(tap2, { scale: 0.82, duration: 0.09, ease: "power1.in" }, 4.28);
+          tl.to(boxes[0], { scale: 0.96, duration: 0.09, ease: "power1.in" }, 4.28);
+          tl.to(tap2, { scale: 1, duration: 0.18, ease: "power2.out" }, 4.37);
+          tl.to(boxes[0], { scale: 1, duration: 0.4, ease: "back.out(1.3)" }, 4.37);
+          // lid pops fully open (sanctioned pop — the one playful overshoot here)
+          tl.fromTo(lid, { rotation: -10 },
+            { rotation: -74, duration: 0.5, ease: "back.out(1.5)" }, 4.37);
+          // box fills green
+          tl.to(boxes[0], {
+            backgroundColor: "#2BD97C",
+            borderColor: "#2BD97C",
+            duration: 0.24,
+            ease: "power1.out",
+          }, 4.37);
+          tl.to(blab1, { color: "#06231A", duration: 0.24, ease: "power1.out" }, 4.37);
+          tl.to(crate1, {
+            backgroundColor: "rgba(6,35,26,0.30)",
+            borderColor: "#06231A",
+            duration: 0.24,
+            ease: "power1.out",
+          }, 4.37);
+          tl.to(lid, {
+            backgroundColor: "rgba(6,35,26,0.30)",
+            borderColor: "#06231A",
+            duration: 0.24,
+            ease: "power1.out",
+          }, 4.37);
+          rippleAt(r2, 4.42);
+          // unchosen boxes recede — the choice reads at a glance
+          tl.to([boxes[1], boxes[2]], { opacity: 0.5, duration: 0.3, ease: "power1.out" }, 4.55);
+          tl.to(tap2, { opacity: 0, scale: 0.8, duration: 0.22, ease: "power1.in" }, 4.62);
+
+          /* ===== Scene 3 (5.6–6.549s) — "more of the same" 5.31–6.12: =====
+             both answers condense to two compact green summary pills stacking
+             bottom-left, checks draw on, then a dead-still hold. */
+
+          tl.to(s2, { y: -160, opacity: 0, scale: 0.96, duration: 0.42, ease: "power2.in" }, 5.42);
+
+          tl.fromTo(sumhead, { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 5.52);
           sumpills.forEach(function (p, i) {
-            tl.fromTo(p, { opacity: 0, scale: 0.86, y: 22 },
-              { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "power3.out" },
-              5.6 + i * 0.18);
+            tl.fromTo(p, { opacity: 0, x: -60 },
+              { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" },
+              5.6 + i * 0.16);
           });
-
-          // svg-path-draw — green check marks trace on, staggered
+          // svg-path-draw — green checks trace on, staggered; done by 6.38
           checkPaths.forEach(function (p, i) {
-            tl.to(p, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" },
-              5.92 + i * 0.16);
+            tl.to(p, { strokeDashoffset: 0, duration: 0.28, ease: "power2.out" },
+              5.94 + i * 0.16);
           });
-          // then: still settle to 6.549 — no exit (root transition owns it)
+          // dead-still hold to 6.549 — no exit (root transition owns it)
 
           window.__timelines["05-questions-growth-own"] = tl;
         })();
