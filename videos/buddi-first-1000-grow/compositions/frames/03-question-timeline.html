@@ -2,11 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <!-- Frame 3 — Question 1: timeline (buddi-first-1000-grow)
-         Buddi replies, then question card 1 slides up; a thumb-tap selects
-         "A few years" (press-release-spring + ripple); annotation "sooner = safer".
-         cursor-ui-demo (Adapt — single-question tap, NO camera servo).
-         Duration 4.715s. Content keeps above y≈1250 (captions burn at y1290–1440).
+    <!-- Frame 3 — "the question is a journey" (buddi-first-1000-grow) — REBUILD
+         Scene 1 (0.0–1.4s): question lands as clean type upper-third ("When will you
+           need this money?" near-white h3, "QUESTION 1" green eyebrow); a long gently
+           undulating green path draws left→right (svg-path-draw) with three milestone
+           nodes popping along it: "Under a year" / "A few years" / "5+ years".
+         Scene 2 (1.4–3.3s): on "how soon you'll need the money," a glowing green dot
+           departs the path start and TRAVELS along it (transform along path points
+           sampled deterministically from the drawn path — one onUpdate master tween,
+           small motion trail), passing "Under a year" and settling ON "A few years":
+           that chip fills solid green (near-black text) and pulses once. A small clock
+           beside the question has LIVE spinning hands during the travel window only
+           (svg-icon-enrichment — SVG transform attribute rotation, stops on landing).
+         Scene 3 (3.3–4.715s): on "plays it safer," a green shield glyph draws itself
+           (svg-path-draw) beneath the landed milestone with the muted tag
+           "sooner = safer"; dead-still hold.
+         Duration EXACTLY 4.715s. Content above y≈1250. No exits, no repeats, no
+           randomness — one paused timeline at window.__timelines["03-question-timeline"].
          Everything the runtime needs lives INSIDE <template>. -->
   </head>
   <body>
@@ -36,322 +48,240 @@
           font-family: "Inter", sans-serif;
         }
 
-        /* Full-bleed product ground — its own clip layer, never on #root */
-        .f3qt-bg {
+        /* Full-bleed ground — its own clip layer, never on #root */
+        .f3jt-bg {
           position: absolute;
           inset: 0;
           background: #0B0E11;
         }
 
-        /* Static stage (camera stays put — the interaction is the beat) */
-        .f3qt-stage {
+        .f3jt-stage {
           position: absolute;
           inset: 0;
           overflow: hidden;
         }
 
-        /* ---------- Top stepper chrome (product nav, all in-app frames) ---------- */
-        .f3qt-stepper {
+        /* ---------- Scene 1 — the question as clean type, upper third ---------- */
+        .f3jt-eyebrow {
+          position: absolute;
+          left: 84px;
+          top: 300px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 26px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #2BD97C;
+          opacity: 0;
+        }
+        .f3jt-question {
+          position: absolute;
+          left: 84px;
+          top: 352px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 48px;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          line-height: 1.25;
+          color: #F2F5F4;
+          white-space: nowrap;
+          opacity: 0;
+        }
+
+        /* clock icon beside the question — hands rotate during the travel window */
+        .f3jt-clock {
+          position: absolute;
+          left: 918px;
+          top: 322px;
+          width: 76px;
+          height: 76px;
+          opacity: 0;
+        }
+
+        /* ---------- The journey path (SVG, viewBox units == canvas px) ---------- */
+        .f3jt-pathsvg {
           position: absolute;
           left: 0;
-          top: 68px;
+          top: 620px; /* PATH_TOP — mirrored as a JS constant */
           width: 1080px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
-          pointer-events: none;
+          height: 360px;
+          overflow: visible;
         }
-        .f3qt-step {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-        .f3qt-stepcheck {
-          display: block;
-          width: 44px;
-          height: 44px;
-        }
-        .f3qt-stepcheck circle {
-          fill: rgba(43, 217, 124, 0);
-          stroke: rgba(43, 217, 124, 0.55);
-          stroke-width: 2;
-        }
-        .f3qt-stepcheck path {
+        .f3jt-pathsvg .f3jt-line {
           fill: none;
-          stroke: #2BD97C;
-          stroke-width: 3.5;
+          stroke: rgba(43, 217, 124, 0.4); /* faint green */
+          stroke-width: 5;
           stroke-linecap: round;
           stroke-linejoin: round;
         }
-        .f3qt-stepnum {
-          width: 44px;
-          height: 44px;
+
+        /* milestone nodes — small green dots riding the path (positioned by JS) */
+        .f3jt-node {
+          position: absolute;
+          width: 26px;
+          height: 26px;
           border-radius: 50%;
-          border: 1.5px solid #262D33;
+          background: #10151A;
+          border: 3px solid #2BD97C;
           box-sizing: border-box;
+        }
+
+        /* milestone chips — dark pills hanging just under their node (JS-placed) */
+        .f3jt-chip {
+          position: absolute;
+          height: 64px;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-sizing: border-box;
+          background: #12181C;
+          border: 1px solid #2A3238;
+          border-radius: 100px;
           font-family: "Space Grotesk", sans-serif;
-          font-size: 21px;
-          font-weight: 500;
-          color: #76837C;
-        }
-        .f3qt-steplabel {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 26px;
-          font-weight: 500;
-          color: #76837C;
-          white-space: nowrap;
-        }
-        .f3qt-steplabel-on {
+          font-size: 28px;
+          font-weight: 600;
           color: #F2F5F4;
-        }
-        .f3qt-stepline {
-          width: 56px;
-          height: 1.5px;
-          background: #23292F;
+          white-space: nowrap;
+          opacity: 0;
+          will-change: transform;
         }
 
-        /* ---------- Buddi reply (plain text + teal avatar + label) ---------- */
-        .f3qt-buddirow {
+        /* ---------- Scene 2 — the traveling dot + motion trail ---------- */
+        /* wrappers are moved ONLY by the onUpdate transform write (never gsap-tweened) */
+        .f3jt-dotwrap {
           position: absolute;
-          left: 84px;
-          top: 250px;
-          display: flex;
-          align-items: center;
-          gap: 18px;
+          left: 0;
+          top: 0;
+          width: 30px;
+          height: 30px;
+          margin-left: -15px;
+          margin-top: -15px;
+          pointer-events: none;
+          z-index: 6;
         }
-        .f3qt-avatar {
-          width: 46px;
-          height: 46px;
+        .f3jt-dotinner {
+          position: absolute;
+          inset: 0;
           border-radius: 50%;
-          background: #14B8A6;
-          flex: none;
-        }
-        .f3qt-buddiname {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 31px;
-          font-weight: 700;
-          color: #FFFFFF;
-          letter-spacing: -0.01em;
-        }
-        .f3qt-dots {
-          position: absolute;
-          left: 88px;
-          top: 342px;
-          display: flex;
-          gap: 12px;
-        }
-        .f3qt-dot {
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: #76837C;
-          opacity: 0.25;
-        }
-        /* plain near-white text on the ground, no bubble */
-        .f3qt-reply {
-          position: absolute;
-          left: 84px;
-          top: 328px;
-          width: 900px;
-          display: flex;
-          align-items: baseline;
-          font-size: 36px;
-          font-weight: 400;
-          line-height: 1.5;
-          color: #E8EDEA;
-          white-space: nowrap;
-        }
-        .f3qt-caret {
-          display: inline-block;
-          width: 4px;
-          height: 40px;
-          margin-left: 6px;
           background: #2BD97C;
+          box-shadow: 0 0 26px 7px rgba(43, 217, 124, 0.55);
           opacity: 0;
-          align-self: center;
         }
-
-        /* ---------- Question card 1 (real product card) ---------- */
-        .f3qt-qcard {
+        .f3jt-trailgroup {
           position: absolute;
-          left: 119px;
-          top: 500px;
-          width: 842px;
-          height: 450px;
-          background: #11161A;
-          border: 1px solid #262D33;
-          border-radius: 16px;
-          padding: 40px 44px;
-          box-sizing: border-box;
-          opacity: 0;
-          will-change: transform;
-        }
-        .f3qt-qhead {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 56px;
-        }
-        .f3qt-qlabel {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 40px;
-          font-weight: 600;
-          letter-spacing: -0.02em;
-          color: #F2F5F4;
-          line-height: 1.2;
-        }
-        .f3qt-qcount {
-          background: #171C21;
-          border: 1px solid #262D33;
-          color: #76837C;
-          border-radius: 100px;
-          padding: 7px 22px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 22px;
-          font-weight: 500;
-          white-space: nowrap;
-        }
-        .f3qt-chips {
-          margin-top: 26px;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-        .f3qt-chip {
-          height: 84px;
-          display: flex;
-          align-items: center;
-          padding: 0 36px;
-          box-sizing: border-box;
-          background: #15191D;
-          border: 1px solid #2A2F34;
-          border-radius: 100px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 30px;
-          font-weight: 600;
-          color: #F2F5F4;
-          will-change: transform;
-        }
-
-        /* ---------- Tap actor (finger-sized highlight, no arrow cursor) ---------- */
-        .f3qt-tap {
-          position: absolute;
-          left: 332px;
-          top: 218px; /* centered on chip "A few years" (center 380, 266 card-rel) */
-          width: 96px;
-          height: 96px;
-          border-radius: 50%;
-          background: rgba(43, 217, 124, 0.26);
-          border: 1.5px solid rgba(43, 217, 124, 0.4);
+          inset: 0;
           opacity: 0;
           pointer-events: none;
           z-index: 5;
-          will-change: transform;
         }
-        .f3qt-ripple {
+        .f3jt-trail {
           position: absolute;
-          left: 325px;
-          top: 211px;
-          width: 110px;
-          height: 110px;
+          left: 0;
+          top: 0;
           border-radius: 50%;
-          border: 2.5px solid rgba(43, 217, 124, 0.8);
+          background: #2BD97C;
+        }
+        .f3jt-trail-1 { width: 18px; height: 18px; margin: -9px 0 0 -9px; opacity: 0.38; }
+        .f3jt-trail-2 { width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; opacity: 0.22; }
+        .f3jt-trail-3 { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; opacity: 0.12; }
+
+        /* landing flare ring (JS-placed on the landing point, CSS-hidden until fired) */
+        .f3jt-flare {
+          position: absolute;
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          border: 3px solid rgba(43, 217, 124, 0.8);
           opacity: 0;
           pointer-events: none;
           z-index: 4;
           will-change: transform;
         }
 
-        /* ---------- Scene 3 annotation (muted, under the card) ---------- */
-        .f3qt-note {
+        /* ---------- Scene 3 — shield draws itself + muted tag (JS-placed) ---------- */
+        .f3jt-shieldrow {
           position: absolute;
-          left: 119px;
-          top: 1000px;
-          width: 842px;
+          width: 300px;
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 16px;
-          opacity: 0;
         }
-        .f3qt-note-rule {
-          width: 44px;
-          height: 3px;
-          border-radius: 2px;
-          background: rgba(43, 217, 124, 0.55);
+        .f3jt-shield {
+          width: 56px;
+          height: 56px;
           flex: none;
         }
-        .f3qt-note-text {
+        .f3jt-shield path {
+          fill: none;
+          stroke: #2BD97C;
+          stroke-width: 4;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f3jt-tag {
           font-family: "Space Grotesk", sans-serif;
           font-size: 30px;
           font-weight: 500;
           letter-spacing: 0.02em;
           color: #A8B3AE;
           white-space: nowrap;
+          opacity: 0;
         }
       </style>
 
       <div id="root" data-composition-id="03-question-timeline" data-width="1080" data-height="1920">
         <!-- full-bleed ground as a clip layer (never on #root) -->
-        <div class="clip f3qt-bg" data-start="0" data-duration="4.715" data-track-index="0"></div>
+        <div class="clip f3jt-bg" data-start="0" data-duration="4.715" data-track-index="0"></div>
 
-        <div class="clip f3qt-stage" data-start="0" data-duration="4.715" data-track-index="1">
-          <!-- Top stepper chrome -->
-          <div class="f3qt-stepper" id="f3qt-stepper">
-            <div class="f3qt-step">
-              <svg class="f3qt-stepcheck" viewBox="0 0 44 44">
-                <circle cx="22" cy="22" r="20.5" />
-                <path d="M14 22.5 L20 28.5 L31 16.5" />
-              </svg>
-              <span class="f3qt-steplabel f3qt-steplabel-on">Find stocks</span>
-            </div>
-            <div class="f3qt-stepline"></div>
-            <div class="f3qt-step">
-              <div class="f3qt-stepnum">2</div>
-              <span class="f3qt-steplabel">Build the strategy</span>
-            </div>
-            <div class="f3qt-stepline"></div>
-            <div class="f3qt-step">
-              <div class="f3qt-stepnum">3</div>
-              <span class="f3qt-steplabel">Test live</span>
-            </div>
-          </div>
+        <div class="clip f3jt-stage" data-start="0" data-duration="4.715" data-track-index="1">
+          <!-- Scene 1: the question lands as clean type -->
+          <div class="f3jt-eyebrow" id="f3jt-eyebrow">Question 1</div>
+          <div class="f3jt-question" id="f3jt-question">When will you need this money?</div>
 
-          <!-- Scene 1: Buddi replies (plain text, teal avatar, typed on) -->
-          <div class="f3qt-buddirow" id="f3qt-buddirow">
-            <div class="f3qt-avatar"></div>
-            <div class="f3qt-buddiname">Buddi</div>
-          </div>
-          <div class="f3qt-dots" id="f3qt-dots">
-            <span class="f3qt-dot"></span><span class="f3qt-dot"></span><span class="f3qt-dot"></span>
-          </div>
-          <div class="f3qt-reply">
-            <span id="f3qt-replytext"></span><span class="f3qt-caret" id="f3qt-caret"></span>
-          </div>
+          <!-- clock beside the question — hands enriched during the travel window -->
+          <svg class="f3jt-clock" id="f3jt-clock" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(43,217,124,0.45)" stroke-width="6" />
+            <line id="f3jt-hand-min" x1="60" y1="60" x2="60" y2="26"
+              stroke="#F2F5F4" stroke-width="6" stroke-linecap="round" />
+            <line id="f3jt-hand-sec" x1="60" y1="60" x2="60" y2="34"
+              stroke="#2BD97C" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="60" cy="60" r="6" fill="#F2F5F4" />
+          </svg>
 
-          <!-- Scene 2: question card 1 — one tap selects "A few years" -->
-          <div class="f3qt-qcard" id="f3qt-qcard">
-            <div class="f3qt-qhead">
-              <div class="f3qt-qlabel">When will you need this money?</div>
-              <div class="f3qt-qcount">Question 1</div>
-            </div>
-            <div class="f3qt-chips">
-              <div class="f3qt-chip">Under a year</div>
-              <div class="f3qt-chip" id="f3qt-chip-sel">A few years</div>
-              <div class="f3qt-chip">5+ years</div>
-            </div>
-            <div class="f3qt-ripple" id="f3qt-r1"></div>
-            <div class="f3qt-ripple" id="f3qt-r2"></div>
-            <div class="f3qt-tap" id="f3qt-tap"></div>
-          </div>
+          <!-- the journey path — draws left→right, undulating, faint green -->
+          <svg class="f3jt-pathsvg" viewBox="0 0 1080 360" xmlns="http://www.w3.org/2000/svg">
+            <path class="f3jt-line" id="f3jt-path"
+              d="M 70 190 C 200 118, 330 252, 470 192 C 590 140, 680 246, 810 198 C 892 168, 962 212, 1012 184" />
+          </svg>
 
-          <!-- Scene 3: muted annotation under the card -->
-          <div class="f3qt-note" id="f3qt-note">
-            <span class="f3qt-note-rule"></span>
-            <span class="f3qt-note-text">sooner = safer</span>
+          <!-- milestone nodes + chips (positions computed from the path at load) -->
+          <div class="f3jt-node" id="f3jt-node1"></div>
+          <div class="f3jt-node" id="f3jt-node2"></div>
+          <div class="f3jt-node" id="f3jt-node3"></div>
+          <div class="f3jt-chip" id="f3jt-chip1">Under a year</div>
+          <div class="f3jt-chip" id="f3jt-chip2">A few years</div>
+          <div class="f3jt-chip" id="f3jt-chip3">5+ years</div>
+
+          <!-- Scene 2: traveling dot, motion trail, landing flare -->
+          <div class="f3jt-trailgroup" id="f3jt-trailgroup">
+            <div class="f3jt-dotwrap" id="f3jt-trail1"><div class="f3jt-trail f3jt-trail-1"></div></div>
+            <div class="f3jt-dotwrap" id="f3jt-trail2"><div class="f3jt-trail f3jt-trail-2"></div></div>
+            <div class="f3jt-dotwrap" id="f3jt-trail3"><div class="f3jt-trail f3jt-trail-3"></div></div>
+          </div>
+          <div class="f3jt-dotwrap" id="f3jt-dotwrap">
+            <div class="f3jt-dotinner" id="f3jt-dotinner"></div>
+          </div>
+          <div class="f3jt-flare" id="f3jt-flare"></div>
+
+          <!-- Scene 3: shield draws itself + muted tag, under the landed milestone -->
+          <div class="f3jt-shieldrow" id="f3jt-shieldrow">
+            <svg class="f3jt-shield" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+              <path id="f3jt-shield-outline"
+                d="M 32 6 L 54 15 L 54 31 C 54 45 45 55 32 60 C 19 55 10 45 10 31 L 10 15 Z" />
+              <path id="f3jt-shield-check" d="M 22 32 L 29 39 L 42 25" />
+            </svg>
+            <span class="f3jt-tag" id="f3jt-tag">sooner = safer</span>
           </div>
         </div>
       </div>
@@ -361,116 +291,165 @@
         (function () {
           window.__timelines = window.__timelines || {};
 
-          var root = document.querySelector('[data-composition-id="03-question-timeline"]');
           var $ = function (id) { return document.getElementById(id); };
 
-          var stepper = $("f3qt-stepper");
-          var buddirow = $("f3qt-buddirow");
-          var dots = root.querySelectorAll(".f3qt-dot");
-          var replyText = $("f3qt-replytext");
-          var caret = $("f3qt-caret");
-          var qcard = $("f3qt-qcard");
-          var chip = $("f3qt-chip-sel");
-          var tap = $("f3qt-tap");
-          var rings = [$("f3qt-r1"), $("f3qt-r2")];
-          var note = $("f3qt-note");
+          /* ---------- deterministic geometry from the drawn path ---------- */
+          var PATH_TOP = 620; // must mirror .f3jt-pathsvg top
+          var path = $("f3jt-path");
+          var L = path.getTotalLength();
+          // svg-path-draw: one dash the length of the whole path, offset fully out
+          path.style.strokeDasharray = String(L);
+          path.style.strokeDashoffset = String(L);
+
+          // milestone fractions along the path: under-a-year / a-few-years / 5+-years
+          var FR = [0.18, 0.52, 0.86];
+          var CHIP_W = [252, 240, 188]; // fixed widths — no font-dependent measuring
+          var pts = FR.map(function (f) { return path.getPointAtLength(L * f); });
+
+          ["f3jt-node1", "f3jt-node2", "f3jt-node3"].forEach(function (id, i) {
+            var n = $(id);
+            n.style.left = (pts[i].x - 13) + "px";
+            n.style.top = (PATH_TOP + pts[i].y - 13) + "px";
+          });
+          ["f3jt-chip1", "f3jt-chip2", "f3jt-chip3"].forEach(function (id, i) {
+            var c = $(id);
+            c.style.width = CHIP_W[i] + "px";
+            c.style.left = (pts[i].x - CHIP_W[i] / 2) + "px";
+            c.style.top = (PATH_TOP + pts[i].y + 40) + "px";
+          });
+
+          var land = pts[1]; // the dot settles on "A few years"
+          var flare = $("f3jt-flare");
+          flare.style.left = (land.x - 45) + "px";
+          flare.style.top = (PATH_TOP + land.y - 45) + "px";
+
+          var srow = $("f3jt-shieldrow");
+          srow.style.left = (land.x - 150) + "px";
+          srow.style.top = (PATH_TOP + land.y + 140) + "px"; // under the landed chip
+
+          // shield glyph dash prep (svg-path-draw, per-segment measured lengths)
+          ["f3jt-shield-outline", "f3jt-shield-check"].forEach(function (id) {
+            var p = $(id);
+            var l = p.getTotalLength();
+            p.style.strokeDasharray = String(l);
+            p.style.strokeDashoffset = String(l);
+          });
+
+          /* ---------- travel machinery (transform written ONLY by onUpdate) ---------- */
+          var dotWrap = $("f3jt-dotwrap");
+          var trailWraps = [$("f3jt-trail1"), $("f3jt-trail2"), $("f3jt-trail3")];
+          var TARGET = FR[1]; // travel covers path start → the middle milestone
+          function placeAt(el, p) {
+            var pt = path.getPointAtLength(L * TARGET * p);
+            el.style.transform = "translate(" + pt.x + "px," + (PATH_TOP + pt.y) + "px)";
+          }
+          placeAt(dotWrap, 0);
+          trailWraps.forEach(function (w) { placeAt(w, 0); });
+
+          var hMin = $("f3jt-hand-min");
+          var hSec = $("f3jt-hand-sec");
 
           var tl = gsap.timeline({ paused: true });
 
-          /* ===== Scene 1 (0.0–1.73s) — Buddi's reply types on =====
+          /* ===== Scene 1 (0.0–1.4s) — the question lands, the journey draws =====
              VO: "Then it just asks you a few simple things." (0.10–1.53) */
 
-          // stepper chrome settles quietly at the top
-          tl.fromTo(stepper, { opacity: 0, y: -18 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.05);
+          tl.fromTo("#f3jt-eyebrow", { opacity: 0, y: -14 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.05);
 
-          // teal avatar + bold "Buddi" label — visible well before t=0.5
-          tl.fromTo(buddirow, { opacity: 0, scale: 0.7 },
-            { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 0.08);
+          // hero type — visible well before t=0.5
+          tl.fromTo("#f3jt-question", { opacity: 0, y: 26 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.12);
 
-          // typing indicator — finite staggered pulses (no infinite loops)
-          dots.forEach(function (d, i) {
-            tl.fromTo(d, { opacity: 0.25 },
-              { opacity: 1, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 1 },
-              0.25 + i * 0.09);
+          tl.fromTo("#f3jt-clock", { opacity: 0, scale: 0.6 },
+            { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 0.3);
+
+          // svg-path-draw — the long undulating path traces left→right, pen-steady
+          var DRAW_START = 0.35, DRAW_DUR = 0.8;
+          tl.to(path, { strokeDashoffset: 0, duration: DRAW_DUR, ease: "none" }, DRAW_START);
+
+          // milestone nodes pop exactly as the draw front reaches them (linear draw
+          // → node k appears at DRAW_START + DRAW_DUR * FR[k]); chip follows a beat later
+          FR.forEach(function (f, i) {
+            var at = DRAW_START + DRAW_DUR * f;
+            tl.fromTo("#f3jt-node" + (i + 1), { scale: 0, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.7)" }, at);
+            tl.fromTo("#f3jt-chip" + (i + 1), { opacity: 0, y: 14 },
+              { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, at + 0.08);
           });
-          // pulses settle by ~0.73; fade the dots after (no property overlap)
-          tl.to(dots, { opacity: 0, duration: 0.12, ease: "power1.out" }, 0.76);
 
-          // discrete-text-sequence (smooth-slice) — reply types on, fast (~1.5x ramp)
-          // lands on "asks you a few simple things" (0.54–1.53)
-          var replyFull = "A few quick questions first.";
-          var len = { v: 0 };
-          tl.to(len, {
-            v: replyFull.length,
-            duration: 0.85,
-            ease: "none",
-            onUpdate: function () {
-              replyText.textContent = replyFull.substring(0, Math.floor(len.v));
-            },
-          }, 0.88);
-
-          // deterministic caret blink during typing — sin-driven, ends at 0
-          var blink = { p: 0 };
-          tl.to(blink, {
-            p: Math.PI * 2 * 2,
-            duration: 1.0,
-            ease: "none",
-            onUpdate: function () {
-              caret.style.opacity = Math.sin(blink.p) > 0 ? "1" : "0";
-            },
-          }, 0.88);
-
-          /* ===== Scene 2 (1.73–3.46s) — question card slides up, one tap =====
+          /* ===== Scene 2 (1.4–3.3s) — the glowing dot travels the path =====
              VO: "First: how soon you'll need the money" (1.76–3.02) */
 
-          // card slides up on "how soon you'll need"
-          tl.fromTo(qcard, { opacity: 0, y: 90, scale: 0.98 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out" }, 1.8);
+          // dot ignites at the path start on "First:"
+          tl.fromTo("#f3jt-dotinner", { opacity: 0, scale: 0.3 },
+            { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.7);
 
-          // --- tap on "A few years", commit lands on "money" (2.77–3.02) ---
-          var AT = 2.5;
+          // master travel tween — dot + trail ghosts + clock hands share one
+          // deterministic onUpdate; the hands spin ONLY while the dot travels
+          // and stop the instant it lands (svg-icon-enrichment, SVG attr rotation)
+          var travel = { p: 0 };
+          tl.to(travel, {
+            p: 1,
+            duration: 1.0,
+            ease: "power2.inOut",
+            onUpdate: function () {
+              placeAt(dotWrap, travel.p);
+              for (var k = 0; k < 3; k++) {
+                placeAt(trailWraps[k], Math.max(0, travel.p - 0.055 * (k + 1)));
+              }
+              hMin.setAttribute("transform", "rotate(" + (330 * travel.p) + " 60 60)");
+              hSec.setAttribute("transform", "rotate(" + (1250 * travel.p) + " 60 60)");
+            },
+          }, 2.0);
 
-          // cursor-click-ripple (thumb-tap variant): finger highlight fade-grows on
-          tl.fromTo(tap, { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 0.26, ease: "power2.out" }, AT);
+          // motion trail breathes in while moving, gone before the landing
+          tl.fromTo("#f3jt-trailgroup", { opacity: 0 },
+            { opacity: 1, duration: 0.2, ease: "power1.out" }, 2.05);
+          tl.to("#f3jt-trailgroup", { opacity: 0, duration: 0.3, ease: "power1.in" }, 2.8);
 
-          // press — linear compression (tap dot + chip compress together)
-          tl.to(tap, { scale: 0.82, duration: 0.09, ease: "power1.in" }, AT + 0.3);
-          tl.to(chip, { scale: 0.955, duration: 0.09, ease: "power1.in" }, AT + 0.3);
+          // the dot passes "Under a year" (~p where eased progress hits FR ratio) — nudge
+          tl.to("#f3jt-node1", { scale: 1.14, duration: 0.12, ease: "power2.out" }, 2.4);
+          tl.to("#f3jt-node1", { scale: 1, duration: 0.2, ease: "power2.inOut" }, 2.52);
 
-          // release — spring recovery, state-continuous with the press
-          // (the frame's one sanctioned spring-pop)
-          tl.to(tap, { scale: 1, duration: 0.2, ease: "power2.out" }, AT + 0.39);
-          tl.to(chip, { scale: 1, duration: 0.42, ease: "back.out(1.3)" }, AT + 0.39);
-
-          // chip commits — fills solid product green, near-black text
-          tl.to(chip, {
+          // ---- landing on "A few years" at t=3.0 ----
+          // chip commits: fills solid product green, near-black text
+          tl.to("#f3jt-chip2", {
             backgroundColor: "#2BD97C",
             color: "#06231A",
             borderColor: "#2BD97C",
             duration: 0.22,
             ease: "power1.out",
-          }, AT + 0.39);
+          }, 3.0);
 
-          // ripple rings radiate from the tap point (CSS-hidden until now)
-          rings.forEach(function (r, k) {
-            tl.fromTo(r, { scale: 0.35, opacity: 0.75 },
-              { scale: 2.5, opacity: 0, duration: 0.55, ease: "power2.out",
-                immediateRender: false }, AT + 0.36 + k * 0.08);
-          });
+          // node flares up and holds slightly enlarged (the dot merges into it)
+          tl.to("#f3jt-node2", { scale: 1.5, duration: 0.15, ease: "power2.out" }, 3.0);
+          tl.to("#f3jt-node2", { scale: 1.2, duration: 0.25, ease: "power2.inOut" }, 3.15);
+          tl.fromTo(flare, { scale: 0.4, opacity: 0.85 },
+            { scale: 2.4, opacity: 0, duration: 0.5, ease: "power2.out",
+              immediateRender: false }, 3.0);
 
-          // tap-highlight lifts off
-          tl.to(tap, { opacity: 0, scale: 0.8, duration: 0.24, ease: "power1.in" }, AT + 0.6);
+          // the one sanctioned pulse — chip swells once and settles
+          tl.to("#f3jt-chip2", { scale: 1.06, duration: 0.14, ease: "power2.out" }, 3.05);
+          tl.to("#f3jt-chip2", { scale: 1, duration: 0.28, ease: "power2.inOut" }, 3.19);
 
-          /* ===== Scene 3 (3.46–4.715s) — annotation lands, settle still =====
+          // traveling dot hands off to the lit node (mid-shot handoff, not an exit)
+          tl.to("#f3jt-dotinner", { opacity: 0, duration: 0.3, ease: "power1.in" }, 3.12);
+
+          /* ===== Scene 3 (3.3–4.715s) — shield draws, tag lands, dead-still =====
              VO: "sooner means it plays it safer." (3.19–4.28) */
 
-          // muted "sooner = safer" fades in under the card on "plays it safer"
-          tl.fromTo(note, { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 3.62);
+          // svg-path-draw: outline traces, then the check strikes through
+          tl.to("#f3jt-shield-outline",
+            { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 3.55);
+          tl.to("#f3jt-shield-check",
+            { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 3.95);
 
-          // then: dead-still hold to 4.715 — no exit (root transition owns it)
+          // muted tag beside the shield on "plays it safer"
+          tl.fromTo("#f3jt-tag", { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 4.05);
+
+          // 4.45 → 4.715: dead-still hold — no exit (the root transition owns it)
 
           window.__timelines["03-question-timeline"] = tl;
         })();
