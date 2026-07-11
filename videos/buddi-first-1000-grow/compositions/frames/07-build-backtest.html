@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 7 — It builds the whole thing + backtest.
+         Two-act shot: rule cards assemble → clear-upward → 0.5s HOLD →
+         BACKTEST RESULT chart draws (shape only — NO numbers anywhere).
+         Everything the runtime needs lives inside <template>. -->
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* Root styled via #root (never a class on the data-composition-id element) */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed dark ground — dedicated clip layer, never the root itself */
+        .f07-bg {
+          position: absolute;
+          inset: 0;
+          background: #0b0e11;
+        }
+
+        .f07-stage {
+          position: absolute;
+          inset: 0;
+        }
+
+        /* ════ ACT 1 — the strategy assembles (cleared upward mid-shot) ════ */
+        .f07-act1 {
+          position: absolute;
+          inset: 0;
+          transform-origin: 50% 40%;
+          will-change: transform, opacity, filter;
+        }
+
+        .f07-header {
+          position: absolute;
+          left: 70px;
+          right: 70px;
+          top: 200px;
+          display: flex;
+          align-items: center;
+          gap: 26px;
+        }
+        .f07-header-title {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 58px;
+          letter-spacing: -0.02em;
+          color: #f2f5f4;
+          will-change: transform, opacity;
+        }
+        .f07-divpill {
+          display: inline-flex;
+          align-items: center;
+          padding: 12px 26px;
+          background: rgba(43, 217, 124, 0.16);
+          border: 1px solid rgba(43, 217, 124, 0.32);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 24px;
+          letter-spacing: 0.12em;
+          color: #2bd97c;
+          transform-origin: 50% 50%;
+          will-change: transform, opacity;
+        }
+
+        .f07-card {
+          position: absolute;
+          left: 70px;
+          width: 940px;
+          height: 182px;
+          padding: 0 40px;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          gap: 32px;
+          background: #11161a;
+          border: 1.5px solid rgba(43, 217, 124, 0.32);
+          border-radius: 14px;
+          box-shadow: none;
+          will-change: transform, opacity;
+        }
+        #f07-card1 { top: 322px; }
+        #f07-card2 { top: 528px; }
+        #f07-card3 { top: 734px; }
+        #f07-card4 { top: 940px; }
+
+        .f07-ico {
+          flex: none;
+          width: 82px;
+          height: 82px;
+          display: grid;
+          place-items: center;
+          background: rgba(43, 217, 124, 0.16);
+          border-radius: 50%;
+        }
+        .f07-ico svg {
+          display: block;
+          width: 44px;
+          height: 44px;
+        }
+        .f07-ico-path {
+          fill: none;
+          stroke: #2bd97c;
+          stroke-width: 2.6;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f07-card-text {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .f07-card-title {
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 500;
+          font-size: 42px;
+          letter-spacing: -0.01em;
+          line-height: 1.1;
+          color: #f2f5f4;
+        }
+        .f07-card-sub {
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 25px;
+          color: #a8b3ae;
+          will-change: opacity;
+        }
+
+        /* ════ ACT 2 — the backtest proof ════ */
+        /* Ambient green glow — sits BEHIND the chart card */
+        .f07-glow {
+          position: absolute;
+          z-index: 1;
+          left: -60px;
+          top: 120px;
+          width: 1200px;
+          height: 1200px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle at 50% 50%,
+            rgba(43, 217, 124, 0.5) 0%,
+            rgba(43, 217, 124, 0.18) 42%,
+            rgba(43, 217, 124, 0) 68%
+          );
+          opacity: 0;
+          transform-origin: 50% 50%;
+          pointer-events: none;
+          will-change: transform, opacity;
+        }
+
+        .f07-btpill {
+          position: absolute;
+          z-index: 2;
+          left: 70px;
+          top: 228px;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 14px 30px;
+          background: rgba(43, 217, 124, 0.16);
+          border: 1px solid rgba(43, 217, 124, 0.32);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-weight: 600;
+          font-size: 27px;
+          letter-spacing: 0.14em;
+          color: #2bd97c;
+          will-change: transform, opacity;
+        }
+        .f07-btpill-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #2bd97c;
+        }
+
+        .f07-chartcard {
+          position: absolute;
+          z-index: 2;
+          left: 60px;
+          top: 312px;
+          width: 960px;
+          height: 762px;
+          padding: 30px;
+          box-sizing: border-box;
+          background: #0f1418;
+          border: 1.5px solid rgba(43, 217, 124, 0.22);
+          border-radius: 16px;
+          box-shadow: none;
+          will-change: transform, opacity;
+        }
+        .f07-svg {
+          display: block;
+          width: 900px;
+          height: 640px;
+        }
+        .f07-grid {
+          stroke: rgba(255, 255, 255, 0.07);
+          stroke-width: 1.5;
+        }
+        .f07-grid-base {
+          stroke: rgba(255, 255, 255, 0.12);
+          stroke-width: 1.5;
+        }
+        .f07-line {
+          fill: none;
+          stroke: #2bd97c;
+          stroke-width: 5.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .f07-cmp {
+          fill: none;
+          stroke: #8b93a7;
+          stroke-width: 3.5;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 10 11;
+          opacity: 0.8;
+        }
+        .f07-enddot {
+          fill: #2bd97c;
+          stroke: #0f1418;
+          stroke-width: 3;
+        }
+        .f07-chart-note {
+          margin-top: 12px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 27px;
+          color: #a8b3ae;
+          will-change: transform, opacity;
+        }
+
+        /* Fine-print disclaimer — small, muted, above the y≈1250 keep-out */
+        .f07-disclaimer {
+          position: absolute;
+          z-index: 2;
+          left: 110px;
+          right: 110px;
+          top: 1148px;
+          text-align: center;
+          font-family: "Inter", sans-serif;
+          font-weight: 400;
+          font-size: 19px;
+          line-height: 1.55;
+          color: #76837c;
+          will-change: transform, opacity;
+        }
+      </style>
+
+      <div
+        id="root"
+        data-composition-id="07-build-backtest"
+        data-duration="9.515"
+        data-width="1080"
+        data-height="1920"
+      >
+        <div
+          id="f07-bg"
+          class="clip f07-bg"
+          data-start="0"
+          data-duration="9.515"
+          data-track-index="0"
+        ></div>
+
+        <div
+          id="f07-stage"
+          class="clip f07-stage"
+          data-start="0"
+          data-duration="9.515"
+          data-track-index="1"
+        >
+          <!-- ══ ACT 1 — "it builds the whole thing": four rule cards assemble ══ -->
+          <div class="f07-act1" id="f07-act1">
+            <div class="f07-header">
+              <span class="f07-header-title" id="f07-header-title">Your strategy</span>
+              <span class="f07-divpill" id="f07-divpill">DIVERSIFIED</span>
+            </div>
+
+            <div class="f07-card" id="f07-card1">
+              <span class="f07-ico">
+                <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="f07-ico-path" d="M 5 18 H 22" />
+                  <path class="f07-ico-path" d="M 15 10 L 23 18 L 15 26" />
+                  <path class="f07-ico-path" d="M 30 7 V 29" />
+                </svg>
+              </span>
+              <span class="f07-card-text">
+                <span class="f07-card-title">Entry rules</span>
+                <span class="f07-card-sub f07-sub">Set by your answers</span>
+              </span>
+            </div>
+
+            <div class="f07-card" id="f07-card2">
+              <span class="f07-ico">
+                <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="f07-ico-path" d="M 6 7 V 29" />
+                  <path class="f07-ico-path" d="M 13 18 H 30" />
+                  <path class="f07-ico-path" d="M 23 10 L 31 18 L 23 26" />
+                </svg>
+              </span>
+              <span class="f07-card-text">
+                <span class="f07-card-title">Exit rules</span>
+                <span class="f07-card-sub f07-sub">Set by your answers</span>
+              </span>
+            </div>
+
+            <div class="f07-card" id="f07-card3">
+              <span class="f07-ico">
+                <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="f07-ico-path" d="M 9 29 V 20" />
+                  <path class="f07-ico-path" d="M 18 29 V 11" />
+                  <path class="f07-ico-path" d="M 27 29 V 16" />
+                  <path class="f07-ico-path" d="M 5 33 H 31" />
+                </svg>
+              </span>
+              <span class="f07-card-text">
+                <span class="f07-card-title">Position sizing</span>
+                <span class="f07-card-sub f07-sub">Set by your answers</span>
+              </span>
+            </div>
+
+            <div class="f07-card" id="f07-card4">
+              <span class="f07-ico">
+                <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="f07-ico-path" d="M 29 18 a 11 11 0 0 0 -19 -7.6" />
+                  <path class="f07-ico-path" d="M 10 4.5 V 10.8 H 16.3" />
+                  <path class="f07-ico-path" d="M 7 18 a 11 11 0 0 0 19 7.6" />
+                  <path class="f07-ico-path" d="M 26 31.5 V 25.2 H 19.7" />
+                </svg>
+              </span>
+              <span class="f07-card-text">
+                <span class="f07-card-title">Rebalancing</span>
+                <span class="f07-card-sub f07-sub">Set by your answers</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- ══ ACT 2 — the backtest chart (SHAPE ONLY — no numbers anywhere) ══ -->
+          <div class="f07-glow" id="f07-glow"></div>
+
+          <div class="f07-btpill" id="f07-btpill">
+            <span class="f07-btpill-dot"></span>
+            BACKTEST RESULT
+          </div>
+
+          <div class="f07-chartcard" id="f07-chartcard">
+            <svg
+              class="f07-svg"
+              id="f07-svg"
+              viewBox="0 0 900 640"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="f07-areagrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="rgba(43,217,124,0.18)" />
+                  <stop offset="1" stop-color="rgba(43,217,124,0)" />
+                </linearGradient>
+                <clipPath id="f07-cmpclip">
+                  <rect id="f07-cmprect" x="30" y="0" width="0" height="600" />
+                </clipPath>
+              </defs>
+
+              <!-- faint gridlines — SHAPE ONLY, no axis labels, no numbers -->
+              <line class="f07-grid f07-gridln" x1="30" y1="60" x2="870" y2="60" />
+              <line class="f07-grid f07-gridln" x1="30" y1="180" x2="870" y2="180" />
+              <line class="f07-grid f07-gridln" x1="30" y1="300" x2="870" y2="300" />
+              <line class="f07-grid f07-gridln" x1="30" y1="420" x2="870" y2="420" />
+              <line class="f07-grid-base f07-gridln" x1="30" y1="540" x2="870" y2="540" />
+
+              <!-- faint area fill under the equity curve -->
+              <path
+                id="f07-area"
+                fill="url(#f07-areagrad)"
+                stroke="none"
+                d="M 30 505
+                   C 60 500, 90 498, 118 489
+                   S 168 466, 200 455
+                   S 250 472, 285 458
+                   S 340 412, 385 400
+                   S 435 452, 470 446
+                   S 520 384, 558 364
+                   S 608 382, 645 350
+                   S 700 272, 740 246
+                   S 800 176, 840 138
+                   S 862 104, 870 90
+                   L 870 540 L 30 540 Z"
+              />
+
+              <!-- gray dashed comparison line — revealed by an expanding clip rect -->
+              <path
+                class="f07-cmp"
+                id="f07-cmp"
+                clip-path="url(#f07-cmpclip)"
+                d="M 30 505
+                   C 120 490, 210 468, 290 446
+                   S 440 400, 520 372
+                   S 660 312, 740 268
+                   S 830 200, 870 172"
+              />
+
+              <!-- the equity curve — draws left→right -->
+              <path
+                class="f07-line"
+                id="f07-line"
+                d="M 30 505
+                   C 60 500, 90 498, 118 489
+                   S 168 466, 200 455
+                   S 250 472, 285 458
+                   S 340 412, 385 400
+                   S 435 452, 470 446
+                   S 520 384, 558 364
+                   S 608 382, 645 350
+                   S 700 272, 740 246
+                   S 800 176, 840 138
+                   S 862 104, 870 90"
+              />
+
+              <!-- small green end dot where the draw finishes -->
+              <circle class="f07-enddot" id="f07-enddot" cx="870" cy="90" r="7" />
+            </svg>
+
+            <div class="f07-chart-note" id="f07-note">on real past prices</div>
+          </div>
+
+          <!-- fine-print disclaimer, verbatim, above the caption keep-out -->
+          <div class="f07-disclaimer" id="f07-disclaimer">
+            For educational purposes only. Backtested results do not represent actual
+            trading outcomes. Past performance is not indicative of future results.
+            Not investment advice.
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/vendor/gsap.min.js"></script>
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        /* Word cues (audio_meta frame 7): "builds" 1.065 · "diversified" 3.07 ·
+           "$1,000" 4.42–5.05 · "shows…performed" 5.43–7.06 ·
+           "real past prices" 7.23–7.89 · "risk a cent" 8.5–9.04 */
+
+        /* ── Scene 1 (0.0–3.6s): "it builds the whole thing" — header settles,
+           four rule cards stagger-assemble (short-path slide directly into
+           slot), each icon stroke draws in; DIVERSIFIED pill spring-pops on
+           the spoken word (the frame's one sanctioned spring). ───────────── */
+        tl.fromTo(
+          "#f07-header-title",
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+          0.12
+        );
+
+        // per-icon stroke draw setup (svg-path-draw: measured lengths)
+        const f07IcoPaths = gsap.utils.toArray(".f07-ico-path");
+        f07IcoPaths.forEach((p) => {
+          const len = p.getTotalLength() * 1.02;
+          p.style.strokeDasharray = String(len);
+          p.style.strokeDashoffset = String(len);
+        });
+
+        const f07Cards = ["#f07-card1", "#f07-card2", "#f07-card3", "#f07-card4"];
+        f07Cards.forEach((sel, i) => {
+          const at = 1.05 + i * 0.42; // cascade across "builds the whole thing for you"
+          tl.fromTo(
+            sel,
+            { opacity: 0, y: 46, scale: 0.97 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out" },
+            at
+          );
+          // the card's icon strokes draw as the card lands
+          const paths = gsap.utils.toArray(sel + " .f07-ico-path");
+          paths.forEach((p, j) => {
+            tl.to(
+              p,
+              { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" },
+              at + 0.14 + j * 0.08
+            );
+          });
+          // sub-line fades a hair after the title
+          tl.fromTo(
+            sel + " .f07-sub",
+            { opacity: 0 },
+            { opacity: 1, duration: 0.4, ease: "power2.out" },
+            at + 0.26
+          );
+        });
+
+        // DIVERSIFIED tag-pill spring-pops on the word (3.07s)
+        tl.fromTo(
+          "#f07-divpill",
+          { opacity: 0, scale: 0.5 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" },
+          3.05
+        );
+
+        // gentle macro push under act 1 keeps the stack alive until the clear
+        tl.fromTo(
+          "#f07-act1",
+          { scale: 1 },
+          { scale: 1.012, duration: 3.3, ease: "none" },
+          1.0
+        );
+
+        /* ── Scene 2 (4.38–5.38s): clear-upward + the REQUIRED ~0.5s HOLD.
+           Cut-the-curve exit: the whole act-1 stack accelerates up and out
+           (power3.in) with blur, opacity on its own linear tween — leaving
+           near-empty dark from ~4.88 to 5.38 (the pre-chart beat). ───────── */
+        tl.to(
+          "#f07-act1",
+          { y: -860, duration: 0.5, ease: "power3.in" },
+          4.38
+        );
+        tl.fromTo(
+          "#f07-act1",
+          { filter: "blur(0px)" },
+          { filter: "blur(10px)", duration: 0.5, ease: "power3.in" },
+          4.38
+        );
+        tl.to(
+          "#f07-act1",
+          { opacity: 0, duration: 0.44, ease: "none" },
+          4.44
+        );
+
+        /* ── Scene 3 (5.38–7.7s): the proof — BACKTEST RESULT pill leads, the
+           chart card rises, gridlines wash in, the green equity curve DRAWS
+           left→right (svg-path-draw, linear rate) with the gray dashed
+           comparison revealed just behind; "on real past prices" lands on
+           its spoken cue. No numbers, no axis labels, no markers. ────────── */
+        tl.fromTo(
+          "#f07-btpill",
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          5.38
+        );
+        tl.fromTo(
+          "#f07-chartcard",
+          { opacity: 0, y: 64, scale: 0.97 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" },
+          5.46
+        );
+
+        const f07Grid = gsap.utils.toArray(".f07-gridln");
+        f07Grid.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.35, ease: "power2.out" },
+            5.7 + i * 0.05
+          );
+        });
+
+        // equity curve draw (getTotalLength dasharray, constant rate)
+        const f07Line = document.getElementById("f07-line");
+        const f07Len = f07Line.getTotalLength() * 1.02;
+        f07Line.style.strokeDasharray = String(f07Len);
+        f07Line.style.strokeDashoffset = String(f07Len);
+        tl.fromTo(
+          f07Line,
+          { strokeDashoffset: f07Len },
+          { strokeDashoffset: 0, duration: 1.6, ease: "none" },
+          5.95
+        );
+
+        // dashed comparison line — dash pattern intact; clip rect expands
+        tl.fromTo(
+          "#f07-cmprect",
+          { attr: { width: 0 } },
+          { attr: { width: 840 }, duration: 1.6, ease: "none" },
+          6.15
+        );
+
+        // faint area fill develops as the draw crosses mid-chart
+        tl.fromTo(
+          "#f07-area",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.8, ease: "power1.inOut" },
+          6.7
+        );
+
+        // end dot lands as the draw finishes
+        tl.fromTo(
+          "#f07-enddot",
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power3.out",
+            svgOrigin: "870 90",
+          },
+          7.5
+        );
+
+        // "on real past prices" — muted caption on its spoken cue (7.23s)
+        tl.fromTo(
+          "#f07-note",
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          7.28
+        );
+
+        /* ── Scene 4 (8.0–9.515s): resolve — soft green glow blooms behind
+           the chart (bloom-and-hold, restrained peak), the fine-print
+           disclaimer fades in small, then a held read. NO exit — the root
+           transition owns the cut out of this frame. ─────────────────────── */
+        tl.fromTo(
+          "#f07-glow",
+          { opacity: 0, scale: 0.88 },
+          { opacity: 0.28, scale: 1, duration: 0.85, ease: "power2.out" },
+          8.05
+        );
+        tl.fromTo(
+          "#f07-disclaimer",
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          8.35
+        );
+
+        window.__timelines["07-build-backtest"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
