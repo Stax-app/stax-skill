@@ -179,7 +179,7 @@ keyMessage: The questions aren't a quiz — they're how it locks onto you.
 - blueprint: grid-card-assemble → dataviz (chart-draw, NO count-up — no verified figures exist)
 - focal: the rule-card stack, then the backtest chart
 - roles: rule cards = cutout (hero 1) · chart card = cutout (hero 2) · Backtest Result pill + fine print = supporting · dark field = background
-- sfx: pop, riser, chime
+- sfx: pop, chime
 - asset_candidates: none — hand-built strategy + chart recreation (capture gap; GUARDRAIL: no numeric values on the chart)
 
 Two-act shot. GUARDRAILS bind: no tickers, no company names, no percentages, no dollar values on the chart (the "$1,000" in the VO is spoken only). The "Backtest Result" label is REQUIRED and visible whenever the chart is.
