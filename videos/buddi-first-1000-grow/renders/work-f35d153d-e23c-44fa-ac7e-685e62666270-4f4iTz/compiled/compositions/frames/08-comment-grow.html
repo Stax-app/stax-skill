@@ -1,0 +1,478 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Frame 8 — Comment GROW (CTA, FINAL frame / end card).
+         THE SHOT: "GROW literally grows" — each typed letter lands larger than the last,
+         and as the W seats, a live sprout draws up out of the comment pill.
+         Everything the runtime needs lives inside <template> (transport rule). -->
+  </head>
+  <body>
+    <template>
+      <script src="assets/vendor/gsap.min.js"></script>
+
+      <style>
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2");
+          font-weight: 300 800;
+          font-display: block;
+        }
+
+        /* Root styled via #root (never a class on the composition root).
+           No background here — the ground is a track-0 clip. */
+        #root {
+          position: absolute;
+          inset: 0;
+          width: 1080px;
+          height: 1920px;
+          overflow: hidden;
+          font-family: "Inter", system-ui, sans-serif;
+        }
+
+        /* ---- Track 0: full-bleed dark ground + faint green concentric rings ---- */
+        .cg-bg {
+          position: absolute;
+          inset: 0;
+          background: #0b0e11;
+          z-index: 0;
+        }
+        #cg-rings {
+          position: absolute;
+          inset: 0;
+          transform-origin: 540px 640px; /* rings breathe around the CTA stack's center */
+          will-change: transform, opacity;
+        }
+        .cg-ring {
+          position: absolute;
+          border-radius: 50%;
+        }
+        #cg-ring-1 {
+          width: 700px;
+          height: 700px;
+          left: 190px;
+          top: 290px;
+          border: 1.5px solid rgba(43, 217, 124, 0.2);
+        }
+        #cg-ring-2 {
+          width: 1000px;
+          height: 1000px;
+          left: 40px;
+          top: 140px;
+          border: 1.5px solid rgba(43, 217, 124, 0.13);
+        }
+        #cg-ring-3 {
+          width: 1160px;
+          height: 1160px;
+          left: -40px;
+          top: 60px; /* bottom edge 1220 — stays above the y≈1250 keep-out */
+          border: 1.5px solid rgba(43, 217, 124, 0.08);
+        }
+
+        /* ---- Track 1: the CTA stack (ALL content above y≈1250) ---- */
+        .cg-stack {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+
+        /* Scene 1 — "Comment" h1 slams dead-center */
+        #cg-h1 {
+          position: absolute;
+          top: 245px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          font-size: 150px;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: #f2f5f4;
+          will-change: transform, filter, opacity;
+        }
+
+        /* Scene 2 — the sprout that grows OUT of the pill's top edge.
+           Sits behind the pill (z below) so the stem base emerges from the pill rim. */
+        #cg-sprout {
+          position: absolute;
+          top: 420px;
+          left: 480px;
+          width: 120px;
+          height: 175px;
+          z-index: 1;
+        }
+        #cg-sprout svg {
+          display: block;
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+        }
+        #cg-stem {
+          fill: none;
+          stroke: #2bd97c;
+          stroke-width: 7;
+          stroke-linecap: round;
+          /* dasharray/offset set from measured getTotalLength() in the script */
+        }
+        .cg-leaf {
+          stroke: #2bd97c;
+          stroke-width: 4;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          fill: #2bd97c;
+          fill-opacity: 0; /* fill fades in as the leaf finishes drawing */
+        }
+
+        /* Scene 2 — the comment-input pill (tinted card atoms: 8% fill, green border, pill radius, NO shadow) */
+        #cg-pill {
+          position: absolute;
+          top: 585px;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 560px;
+          height: 168px;
+          border-radius: 100px;
+          background: rgba(43, 217, 124, 0.1);
+          border: 1.5px solid rgba(43, 217, 124, 0.4);
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          will-change: transform, opacity;
+        }
+        /* "GROW" — a stepped scale ramp baked into the per-letter spans:
+           G smallest → W largest. The word itself GROWS as it types. */
+        #cg-word {
+          white-space: nowrap;
+          text-align: center;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          color: #f2f5f4;
+          line-height: 1;
+        }
+        .cg-letter {
+          display: inline-block; /* block-level so GSAP scale applies cleanly */
+          transform-origin: 50% 100%; /* grows up from the baseline, like a plant */
+          will-change: transform, opacity;
+        }
+        #cg-l1 { font-size: 50px; }
+        #cg-l2 { font-size: 62px; }
+        #cg-l3 { font-size: 76px; }
+        #cg-l4 { font-size: 92px; }
+        #cg-caret {
+          display: inline-block;
+          width: 6px;
+          height: 78px;
+          margin-left: 9px;
+          vertical-align: -8px;
+          background: #2bd97c;
+          opacity: 0; /* the deterministic blink driver owns this; ends SOLID */
+        }
+
+        /* Scene 2 — big green down-arrow beneath the pill (inline SVG, no emoji fonts) */
+        #cg-arrow {
+          position: absolute;
+          top: 790px;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          width: 150px;
+          height: 180px;
+          will-change: transform, opacity;
+        }
+        #cg-arrow svg {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Scene 3 — muted "free" scope sub-line (only "free" in green) */
+        #cg-sub {
+          position: absolute;
+          top: 1002px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Inter", system-ui, sans-serif;
+          font-weight: 400;
+          font-size: 38px;
+          line-height: 1.4;
+          color: #a8b3ae;
+          will-change: transform, opacity;
+        }
+        #cg-sub .cg-free {
+          color: #2bd97c;
+          font-weight: 600;
+        }
+
+        /* Scene 3 — lowercase buddi wordmark (typeset; no logo file ships) */
+        #cg-wordmark {
+          position: absolute;
+          top: 1078px;
+          left: 0;
+          width: 1080px;
+          text-align: center;
+          font-family: "Space Grotesk", system-ui, sans-serif;
+          font-weight: 700;
+          font-size: 72px;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          color: #f2f5f4;
+          text-transform: lowercase;
+          will-change: transform, opacity;
+        }
+
+        /* Scene 3 — disclaimer fine print, seated just above the y≈1250 keep-out */
+        #cg-fine {
+          position: absolute;
+          top: 1170px;
+          left: 70px;
+          width: 940px;
+          text-align: center;
+          font-family: "Inter", system-ui, sans-serif;
+          font-weight: 400;
+          font-size: 19px;
+          line-height: 1.3;
+          color: #76837c;
+          will-change: opacity;
+        }
+      </style>
+
+      <div id="root" data-composition-id="08-comment-grow" data-width="1080" data-height="1920">
+        <!-- Ground + closing-rings atmosphere (sanctioned on the closing frame only) -->
+        <div class="cg-bg clip" data-start="0" data-duration="4.864" data-track-index="0">
+          <div id="cg-rings">
+            <div class="cg-ring" id="cg-ring-1"></div>
+            <div class="cg-ring" id="cg-ring-2"></div>
+            <div class="cg-ring" id="cg-ring-3"></div>
+          </div>
+        </div>
+
+        <!-- CTA stack -->
+        <div class="cg-stack clip" data-start="0" data-duration="4.864" data-track-index="1">
+          <div id="cg-h1">Comment</div>
+
+          <!-- The sprout: stem draws up out of the pill; two leaves unfurl from it -->
+          <div id="cg-sprout">
+            <svg viewBox="0 0 120 175" aria-hidden="true">
+              <!-- stem path starts at the BOTTOM so the dash draw grows upward -->
+              <path id="cg-stem" d="M60 172 C 65 132, 52 94, 58 30" />
+              <!-- left leaf, attached mid-stem -->
+              <path
+                class="cg-leaf"
+                id="cg-leaf-1"
+                d="M56 96 C 36 90, 20 72, 15 48 C 41 52, 54 72, 56 96 Z"
+              />
+              <!-- right leaf, attached nearer the tip -->
+              <path
+                class="cg-leaf"
+                id="cg-leaf-2"
+                d="M58 56 C 78 50, 93 34, 97 12 C 72 16, 60 34, 58 56 Z"
+              />
+            </svg>
+          </div>
+
+          <div id="cg-pill">
+            <div id="cg-word"><span class="cg-letter" id="cg-l1">G</span><span
+                class="cg-letter"
+                id="cg-l2"
+              >R</span><span class="cg-letter" id="cg-l3">O</span><span
+                class="cg-letter"
+                id="cg-l4"
+              >W</span><span id="cg-caret"></span></div>
+          </div>
+
+          <div id="cg-arrow">
+            <svg viewBox="0 0 140 180" aria-hidden="true">
+              <path
+                d="M70 14 V128 M22 92 L70 146 L118 92"
+                stroke="#2BD97C"
+                stroke-width="26"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div id="cg-sub">building + paper trading on real prices = <span class="cg-free">free</span></div>
+
+          <div id="cg-wordmark">buddi</div>
+
+          <div id="cg-fine">
+            For educational purposes only. Backtested results do not represent actual trading
+            outcomes. Past performance is not indicative of future results. Not investment advice.
+          </div>
+        </div>
+      </div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+
+        // VO (4.864s): "Comment | 'GROW' | and I'll DM you the link | — building it and
+        // paper-trading on real prices | is totally free."
+        // Choreography: Scene 1 slam → Scene 2 the word GROWS as it types + the sprout
+        // draws out of the pill + the arrow drops → Scene 3 quiet fades, then the end
+        // card locks DEAD STATIC (all motion resolves by ~3.0s; frame duration is fixed).
+        const BEATS = {
+          h1: 0.1, // "Comment" slams as the word is spoken
+          pill: 1.05, // the comment pill spring-pops beneath
+          type: 1.18, // "GROW" letters start landing (each larger than the last)
+          typeStep: 0.14, // per-letter stagger — typing cadence
+          stem: 1.75, // sprout stem draws upward as the W seats
+          arrow: 1.95, // "DM you the link" — the down-arrow drops
+          leaf1: 2.1, // left leaf unfurls from the stem
+          leaf2: 2.25, // right leaf, staggered
+          sub: 2.45, // "free" scope line fades up
+          mark: 2.55, // buddi wordmark seats at the stack's foot
+          fine: 2.65, // disclaimer fine print — last motion ends ~3.0s
+        };
+
+        // Rings ground: one quiet settle-in behind everything, then dead still.
+        tl.fromTo(
+          "#cg-rings",
+          { opacity: 0, scale: 0.94 },
+          { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" },
+          0,
+        );
+
+        // Scene 1 — "Comment" slams in dead-center (scale + blur → sharp). Hero visible < 0.5s.
+        tl.fromTo(
+          "#cg-h1",
+          { scale: 1.45, opacity: 0, filter: "blur(14px)" },
+          { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power4.out" },
+          BEATS.h1,
+        );
+
+        // Scene 2 — the comment pill spring-pops (smooth long-tail settle, no overshoot).
+        tl.fromTo(
+          "#cg-pill",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+          BEATS.pill,
+        );
+
+        // Scene 2 — "GROW" types in, and the word itself GROWS: font sizes step up
+        // G → W in the CSS; each letter springs up from its baseline as it lands.
+        const letters = gsap.utils.toArray(".cg-letter");
+        letters.forEach((el, i) => {
+          tl.fromTo(
+            el,
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" },
+            BEATS.type + i * BEATS.typeStep,
+          );
+        });
+
+        // Caret — ONE deterministic driver owns caret opacity from pill-pop to the end
+        // of the frame: a floor()-derived square-wave blink while GROW types, then it
+        // locks SOLID for the static end card. Pure function of seek time — no repeats.
+        const caretEl = document.getElementById("cg-caret");
+        const CARET_SPAN = 4.864 - BEATS.pill; // driver runs to the final frame
+        const BLINK_END = 1.2; // local seconds of blinking, then solid
+        const blink = { t: 0 };
+        tl.to(
+          blink,
+          {
+            t: 1,
+            duration: CARET_SPAN,
+            ease: "none",
+            onUpdate: () => {
+              const phase = blink.t * CARET_SPAN;
+              caretEl.style.opacity =
+                phase >= BLINK_END ? "1" : Math.floor(phase / 0.2) % 2 === 0 ? "1" : "0";
+            },
+          },
+          BEATS.pill,
+        );
+
+        // Scene 2 — the SPROUT grows out of the pill top (svg-path-draw):
+        // stem stroke draws upward via measured dasharray/dashoffset.
+        const stem = document.getElementById("cg-stem");
+        const stemLen = stem.getTotalLength();
+        stem.style.strokeDasharray = `${stemLen}`;
+        stem.style.strokeDashoffset = `${stemLen}`;
+        tl.to(
+          "#cg-stem",
+          { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" },
+          BEATS.stem,
+        );
+
+        // Two leaves unfurl from the stem, staggered: each draws its outline AND
+        // scale-pops from its attach point on the stem (origin-anchored pop),
+        // with the fill washing in on the tail. All finite, all fromTo.
+        const LEAVES = [
+          { sel: "#cg-leaf-1", at: BEATS.leaf1, origin: "56 96" },
+          { sel: "#cg-leaf-2", at: BEATS.leaf2, origin: "58 56" },
+        ];
+        LEAVES.forEach((leaf) => {
+          const el = document.querySelector(leaf.sel);
+          const len = el.getTotalLength();
+          el.style.strokeDasharray = `${len}`;
+          el.style.strokeDashoffset = `${len}`;
+          tl.fromTo(
+            leaf.sel,
+            { scale: 0, opacity: 0, svgOrigin: leaf.origin },
+            { scale: 1, opacity: 1, svgOrigin: leaf.origin, duration: 0.35, ease: "power3.out" },
+            leaf.at,
+          );
+          tl.to(
+            leaf.sel,
+            { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" },
+            leaf.at,
+          );
+          tl.to(
+            leaf.sel,
+            { fillOpacity: 0.85, duration: 0.25, ease: "power1.out" },
+            leaf.at + 0.18,
+          );
+        });
+
+        // Scene 2 — the big down-arrow drops in under the pill (hard snap, distinct ease).
+        tl.fromTo(
+          "#cg-arrow",
+          { y: -90, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.45, ease: "expo.out" },
+          BEATS.arrow,
+        );
+
+        // Scene 3 — the muted "free" scope line fades up.
+        tl.fromTo(
+          "#cg-sub",
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" },
+          BEATS.sub,
+        );
+
+        // Scene 3 — the buddi wordmark seats at the foot of the stack.
+        tl.fromTo(
+          "#cg-wordmark",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+          BEATS.mark,
+        );
+
+        // Scene 3 — disclaimer fine print, quiet fade only. Last motion ends ~3.05s;
+        // the end card then locks DEAD STATIC (caret solid, sprout still) to 4.864s.
+        tl.fromTo(
+          "#cg-fine",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "power1.out" },
+          BEATS.fine,
+        );
+
+        window.__timelines["08-comment-grow"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
