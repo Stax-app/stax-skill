@@ -114,3 +114,28 @@ Today's restructure optimizes for **CompleteRegistration** with a sub-$15 target
 6. **Remap touchpoint events** to `Conversion_*` custom events (they already have that fallback format).
 7. **De-dupe Labs PageView** — let `MetaPixelRouterEvents` be the single PageView source; strip the direct calls from `NavigationContext`.
 8. **Verify after deploy** with Meta Pixel Helper + Events Manager Test Events: one and only one CompleteRegistration per signup (both email and Google paths), Dedupe column showing browser/server pairs merging.
+
+---
+
+## Implementation status (2026-07-23, same day)
+
+All 8 fixes implemented on branch `claude/meta-api-pixel-integration-hrm1zn` of `stax-app/stax`:
+
+| # | Fix | Where |
+|---|---|---|
+| 1 | CompleteRegistration + CAPI now fire for OAuth **and** emailed-link signups, new accounts only (`isNewAcquisition` guard), deterministic `signup-<user.id>` event_id so any double path dedups at Meta | `app/labs/callback/page.tsx` |
+| 2 | Shared event_ids added to every browser+CAPI pair (signup page, auth form, waitlist) | 3 files |
+| 3 | Lead = waitlist only. `email_verification_sent` → custom `EmailVerificationSent`; referral → custom `ReferralSignup`; onboarding → custom `OnboardingComplete`; quiz free tier → custom `FreeTierSelected` | 4 files |
+| 4 | Subscribe-on-login removed | `hooks/useAuthForm.ts` |
+| 5 | Local dedup now keyed `${event}:${id}`; Subscribe/Purchase get distinct derived ids — browser Purchase no longer swallowed | `trackMetaPixelEvent.ts`, `labs/home/page.tsx` |
+| 6 | Paywall touchpoints now emit only custom `Conversion_*` events (no more fake ViewContent/AddToCart/InitiateCheckout/Purchase) | `useConversionTracking.ts` |
+| 7 | Labs SPA PageView single-sourced to `MetaPixelRouterEvents` | `NavigationContext.tsx` |
+| + | Custom events sent via `fbq('trackCustom')`; FinBucks gained CAPI InitiateCheckout + email on Purchase CAPI | 3 files |
+
+Verification: 28 analytics test suites (168 tests) pass; ESLint clean of new issues (5 pre-existing errors unrelated to these edits); SignupForm test failures confirmed pre-existing on pristine `polish`.
+
+**Post-deploy checklist (human, in Events Manager):**
+1. Test Events: one CompleteRegistration per signup via Google *and* via email; Dedupe column shows browser/server merging.
+2. Confirm the ad sets' conversion event is CompleteRegistration (it will now include OAuth volume — expect reported registrations to RISE and CPA to DROP; that's the fix, not a fluke).
+3. Legacy custom conversions built on Lead/AddToCart/Subscribe should be reviewed — their meanings changed (Lead = waitlist only now).
+4. Verify `META_PIXEL_ID` + `META_CAPI_ACCESS_TOKEN` are set in Supabase Edge Function secrets (the function fails silently without them).
