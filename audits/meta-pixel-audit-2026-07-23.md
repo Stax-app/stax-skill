@@ -134,6 +134,17 @@ All 8 fixes implemented on branch `claude/meta-api-pixel-integration-hrm1zn` of 
 
 Verification: 28 analytics test suites (168 tests) pass; ESLint clean of new issues (5 pre-existing errors unrelated to these edits); SignupForm test failures confirmed pre-existing on pristine `polish`.
 
+### Round 2 — re-verification pass (same day)
+
+Corrections and confirmations from a second full pass:
+
+- **Waitlist is retired** (confirmed: `WaitlistService` has zero live callers). The standard `Lead` event is now retired entirely — no code path emits it. If the waitlist ever returns it fires a custom `WaitlistJoin`, which cannot pollute ad conversions. **CompleteRegistration is the single ad optimization event.**
+- **Ad-click attribution verified end to end in production topology.** Production is a Cloudflare Pages static export; `public/_redirects` maps `/ → /labs/ 200` as a *rewrite*, so the browser URL keeps `?fbclid=...` — the pixel sees it and mints the `_fbc` cookie. (The dev-only `redirect('/labs')` in `(public)/page.tsx` would drop the query string, but it does not run in production.)
+- **All OAuth doors covered.** The hero chat gate's direct-Google flow bypasses `/labs/signup` entirely (`HeroSection.tsx`) — it, the login dropdown, and the signup page all redirect to `/labs/callback`, which now fires CompleteRegistration for new accounts. Without the callback fix, the single highest-traffic ad-funnel path was untracked.
+- **Registration fires only after Labs access is granted** — failed signups never count.
+- Final emitter inventory: CompleteRegistration ×3 paths (callback, signup page, main-app form), Subscribe/Purchase only on real Stripe success, InitiateCheckout ×2 (tier + FinBucks, both with CAPI), CustomizeProduct on deploy, ViewContent/PageView from router events, custom events for everything else (`ReferralSignup`, `EmailVerificationSent`, `OnboardingComplete`, `FreeTierSelected`, `WaitlistJoin`, `Conversion_*`). Zero `Lead`, zero `AddToCart`, zero login-triggered `Subscribe`.
+- Note for later: Next middleware (geo cookie via `cf-ipcountry`) may not execute on the static-export production host; unknown region falls back to `allow`, so tracking is unaffected — flagging only for GDPR posture review.
+
 **Post-deploy checklist (human, in Events Manager):**
 1. Test Events: one CompleteRegistration per signup via Google *and* via email; Dedupe column shows browser/server merging.
 2. Confirm the ad sets' conversion event is CompleteRegistration (it will now include OAuth volume — expect reported registrations to RISE and CPA to DROP; that's the fix, not a fluke).
