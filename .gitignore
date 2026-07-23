@@ -1,0 +1,17 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies & build output
+node_modules/
+dist/
+
+# Logs (could contain sensitive runtime output)
+*.log
+logs/
+
+# OS / editor
+.DS_Store
