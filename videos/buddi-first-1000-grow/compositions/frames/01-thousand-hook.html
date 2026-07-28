@@ -1,5 +1,5 @@
 <template>
-  <div id="root" data-composition-id="01-thousand-hook" data-duration="5.343" data-width="1080" data-height="1920">
+  <div id="root" data-composition-id="01-thousand-hook" data-duration="6.324" data-width="1080" data-height="1920">
     <style>
       @font-face {
         font-family: "Space Grotesk";
@@ -146,6 +146,27 @@
         z-index: 3;
       }
 
+      /* ── "2026" tag-pill — uppercase tracked chrome, pops beside the
+         numeral on the spoken "2026" cue (sanctioned pop #2) ── */
+      .thk-tag {
+        position: absolute;
+        top: -34px;
+        left: calc(50% + 330px);
+        padding: 12px 26px;
+        border-radius: 999px;
+        background: rgba(43, 217, 124, 0.12);
+        border: 1.5px solid rgba(43, 217, 124, 0.42);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #2bd97c;
+        opacity: 0;
+        z-index: 3;
+        will-change: transform, opacity;
+      }
+
       /* ── Line 2 — streaking arrow + typed question + caret ── */
       .thk-l2 {
         position: relative;
@@ -188,8 +209,8 @@
     </style>
 
     <!-- Track 0 — full-bleed dark field (hook atmosphere: faint tint + rings).
-         Spans the whole host window (4.843s shot + 0.5s crossfade tail). -->
-    <div class="clip thk-bg" data-start="0" data-duration="5.343" data-track-index="0">
+         Spans the whole host window (5.824s shot + 0.5s crossfade tail). -->
+    <div class="clip thk-bg" data-start="0" data-duration="6.324" data-track-index="0">
       <div class="thk-tint"></div>
       <div class="thk-ring thk-ring-1"></div>
       <div class="thk-ring thk-ring-2"></div>
@@ -197,7 +218,7 @@
     </div>
 
     <!-- Track 1 — the cash odometer shot -->
-    <div class="clip" data-start="0" data-duration="5.343" data-track-index="1"
+    <div class="clip" data-start="0" data-duration="6.324" data-track-index="1"
          style="position: absolute; inset: 0;">
       <!-- motion-blur-streak (Path A): horizontal-only gaussian smear for the arrow -->
       <svg width="0" height="0" aria-hidden="true" style="position: absolute">
@@ -233,6 +254,9 @@
           </div>
         </div>
 
+        <!-- "2026" tag-pill — text set at setup from the script (deterministic) -->
+        <div class="thk-tag" id="01-thousand-hook-tag"></div>
+
         <!-- Line 2: green arrow streaks in, then the question types behind it -->
         <div class="thk-l2">
           <span class="thk-arrow" id="01-thousand-hook-arrow">&#8594;</span><span
@@ -247,8 +271,8 @@
       (function () {
         window.__timelines = window.__timelines || {};
 
-        var SHOT = 4.843;      /* VO / shot length — all choreography completes by here */
-        var TL_END = 5.343;    /* host window incl. 0.5s crossfade tail (still hold) */
+        var SHOT = 5.824;      /* VO / shot length — all choreography completes by here */
+        var TL_END = 6.324;    /* host window incl. 0.5s crossfade tail (still hold) */
         var H = 264;           /* digit cell height */
 
         var odo = document.getElementById("01-thousand-hook-odo");
@@ -257,6 +281,8 @@
         var typed = document.getElementById("01-thousand-hook-typed");
         var caret = document.getElementById("01-thousand-hook-caret");
         var blurNode = document.getElementById("01-thousand-hook-streakblur");
+        var tag = document.getElementById("01-thousand-hook-tag");
+        tag.textContent = "2026"; /* script-sourced, matches the spoken cue */
 
         /* Build the digit strips synchronously at setup (index-driven, no randomness).
            Each strip = full 0-9 revolutions ending on the target digit; column A
@@ -286,11 +312,11 @@
 
         var tl = gsap.timeline({ paused: true });
 
-        /* ── Scene 1 (0–2.0s): the cash odometer.
+        /* ── Scene 1 (0–2.6s): the cash odometer.
            "$" fixed; four columns roll $0,000 → $1,000 like a slot-machine
            odometer. Outer columns settle first; the thousands "1" lands LAST
            with a decelerating overshoot (sanctioned pop #1), locking the full
-           "$1,000" at ~1.74s — on the spoken "$1,000" cue (1.68–2.30s). ── */
+           "$1,000" at ~2.30s — on the spoken "$1,000" cue (2.25–3.09s). ── */
         tl.fromTo(
           odo,
           { opacity: 0, y: 36 },
@@ -300,29 +326,38 @@
 
         var ROLL_AT = 0.12;
         /* rightmost first — each column its own duration + revolutions */
-        tl.fromTo(colD, { y: 0 }, { y: -40 * H, duration: 0.95, ease: "power2.inOut" }, ROLL_AT);
-        tl.fromTo(colC, { y: 0 }, { y: -30 * H, duration: 1.13, ease: "power2.inOut" }, ROLL_AT);
-        tl.fromTo(colB, { y: 0 }, { y: -20 * H, duration: 1.3,  ease: "power2.inOut" }, ROLL_AT);
+        tl.fromTo(colD, { y: 0 }, { y: -40 * H, duration: 1.33, ease: "power2.inOut" }, ROLL_AT);
+        tl.fromTo(colC, { y: 0 }, { y: -30 * H, duration: 1.59, ease: "power2.inOut" }, ROLL_AT);
+        tl.fromTo(colB, { y: 0 }, { y: -20 * H, duration: 1.82, ease: "power2.inOut" }, ROLL_AT);
         /* the "1": rolls PAST its landing by a third of a cell, then settles
            back with a soft deceleration — two adjacent finite tweens, no yoyo */
-        tl.fromTo(colA, { y: 0 }, { y: -(21 * H + 90), duration: 1.38, ease: "power2.inOut" }, ROLL_AT);
-        tl.to(colA, { y: -21 * H, duration: 0.24, ease: "power3.out" }, 1.5);
+        tl.fromTo(colA, { y: 0 }, { y: -(21 * H + 90), duration: 1.94, ease: "power2.inOut" }, ROLL_AT);
+        tl.to(colA, { y: -21 * H, duration: 0.24, ease: "power3.out" }, 2.06);
 
-        /* faint green glow pulses ONCE as the full "$1,000" locks (1.74s) */
+        /* faint green glow pulses ONCE as the full "$1,000" locks (2.30s) */
         tl.fromTo(
           glow,
           { opacity: 0, scale: 0.9 },
           { opacity: 0.34, scale: 1, duration: 0.22, ease: "power2.out" },
-          1.72
+          2.28
         );
-        tl.to(glow, { opacity: 0.1, duration: 0.6, ease: "power2.inOut" }, 1.96);
+        tl.to(glow, { opacity: 0.1, duration: 0.6, ease: "power2.inOut" }, 2.52);
 
-        /* ── Scene 2 (2.0–3.9s): on "without picking a single stock" (VO 2.84s)
+        /* "2026" tag-pill pops beside the numeral on the spoken "2026" cue
+           (3.79–4.63s) — sanctioned pop #2: one finite overshoot, no exit */
+        tl.fromTo(
+          tag,
+          { opacity: 0, scale: 0.5, y: 16 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: "back.out(2.2)" },
+          3.84
+        );
+
+        /* ── Scene 2 (4.8–5.8s): on "without picking a single stock" (VO 4.90s)
            the green arrow SHOOTS in from off-left with a motion-blur streak —
            blur envelope shares the position tween's window + ease, so peak
            smear rides peak speed and the arrow snaps sharp as it skids to a
            stop. Then the question types fast behind it. ── */
-        var MOVE_AT = 2.8;
+        var MOVE_AT = 4.86;
         var MOVE_DUR = 0.42;
         var blurProxy = { v: 26 };
         var writeBlur = function () {
@@ -343,10 +378,10 @@
           MOVE_AT
         );
 
-        /* discrete-text-sequence — fast ~0.048s keystrokes, done by ~3.91s */
+        /* discrete-text-sequence — fast ~0.036s keystrokes, done by ~5.74s */
         var PHRASE = "where does it go?";
-        var TYPE_AT = 3.14;
-        var STEP = 0.048;
+        var TYPE_AT = 5.16;
+        var STEP = 0.036;
         var SEQ = [{ t: 0, s: "" }];
         for (var c = 1; c <= PHRASE.length; c++) {
           SEQ.push({ t: TYPE_AT + (c - 1) * STEP, s: PHRASE.substring(0, c) });
@@ -358,9 +393,10 @@
           return "";
         }
 
-        /* ── Scene 3 (3.9s–end): dead still; only the caret sin-blinks,
-           deterministically, and ends SOLID. One driver owns typed text +
-           caret state — no CSS animation, seek-safe. ── */
+        /* ── Scene 3 (5.74s–end): dead still; only the caret sin-blinks,
+           deterministically, and ends HIDDEN (mid off-phase held through the
+           crossfade tail). One driver owns typed text + caret state — no CSS
+           animation, seek-safe. ── */
         var drv = { t: 0 };
         tl.to(
           drv,
@@ -371,16 +407,16 @@
             onUpdate: function () {
               var t = drv.t;
               typed.textContent = textAt(t);
-              if (t < 2.92) {
+              if (t < 4.98) {
                 caret.style.opacity = "0"; /* hidden until the arrow arrives */
-              } else if (t < 3.96) {
+              } else if (t < 5.79) {
                 caret.style.opacity = "1"; /* solid while typing */
-              } else if (t < 4.62) {
-                /* blink in the hold — sin period 0.66s, phase-locked at 3.96 */
-                caret.style.opacity =
-                  Math.sin(((t - 3.96) * Math.PI * 2) / 0.66) >= 0 ? "1" : "0";
               } else {
-                caret.style.opacity = "1"; /* ends solid through the crossfade */
+                /* blink in the hold — sin period 0.66s, phase-locked at 5.79:
+                   ON 5.79–6.12, OFF 6.12–6.324 → ends hidden, deterministic
+                   (no flicker across the crossfade tail's final frames) */
+                caret.style.opacity =
+                  Math.sin(((t - 5.79) * Math.PI * 2) / 0.66) >= 0 ? "1" : "0";
               }
             }
           },
