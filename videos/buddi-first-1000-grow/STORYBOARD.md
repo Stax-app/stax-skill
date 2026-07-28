@@ -18,8 +18,8 @@ music: none available offline — logged as gap; SFX only
 ## Frame 1 — The $1,000 hook
 
 - scene: Big "$1,000" motion text with a blinking green cursor; it types out "→ where does it go?" beneath. On-screen text: "$1,000 →"
-- voiceover: "Here's exactly how to put your first $1,000 to work — without picking a single stock yourself."
-- duration: 4.843s
+- voiceover: "Here's exactly how to put your first $1,000 to work in 2026 — without picking a single stock yourself."
+- duration: 5.824s
 - transition_in: cut
 - status: animated
 - src: compositions/frames/01-thousand-hook.html
@@ -40,7 +40,32 @@ Scene 3 (3.2–4.0s): both lines settle; a soft green glow blooms faintly behind
 narrativeRole: Hook — names the exact viewer (first $1,000) and the exact fear (picking stocks) in one breath.
 keyMessage: There's a way to deploy your first $1,000 without stock-picking.
 
-## Frame 2 — One sentence into Buddi
+## Frame 2 — Follow beat: the strategy shelf
+
+- scene: A strategy dashboard flashes — a scrolling list of strategy cards (generic names, NO tickers) with green "tested" ticks; a counter rolls to "40+ strategies tested"; a follow button gets tapped and flips to "Following ✓".
+- voiceover: "I'm Max, and this year I've built over 40 tested strategies without ever picking a stock on gut — so hit follow if you want your money actually working."
+- duration: 6.848s
+- transition_in: crossfade
+- status: outline
+- src: compositions/frames/02-follow-dashboard.html
+- type: social_proof
+- persuasion: Authority by volume of process — 40 tested strategies, zero gut picks
+- beat: credibility
+- blueprint: grid-card-assemble (Adapt — scrolling strategy list + counter)
+- focal: the scrolling strategy list
+- roles: strategy list = cutout (hero) · counter + follow button = supporting · dark field = background
+- sfx: pop, click
+- asset_candidates: none — hand-built dashboard recreation (capture gap: talking-head footage unavailable)
+
+Adapt: keep the stagger-assemble signature — strategy cards cascade in and the list SCROLLS slowly upward while the counter rolls; the follow tap is the payoff.
+Scene 1 (0.0–2.4s): on "I'm Max, and this year," a dashboard header "MY STRATEGIES" (uppercase tracked chrome) lands upper-third with a counter that rolls 0→40+ (deterministic object-value fromTo, integer, lands on "over 40" cue); beneath it strategy cards cascade in (dark cards, green tick icon + generic names: "Steady growth blend", "Dividend tilt", "Momentum screen", "Low-vol core", "Value filter"…) — NO tickers, NO company names, NO performance numbers.
+Scene 2 (2.4–4.6s): on "without ever picking a stock on gut," the list SCROLLS slowly upward (one finite translate) revealing more cards — the volume IS the message; each passing card's tick draws (svg-path-draw, staggered).
+Scene 3 (4.6–6.0s): on "hit follow," a follow button (green solid pill "Follow") slides in bottom-right of the content zone; the finger tap-highlight lands it (press-release-spring + ripple — the frame's sanctioned pop) and it flips to a dark "Following ✓" state; settle still.
+
+narrativeRole: Credibility beat — process volume (40 tested strategies) without a single named pick, plus the platform-native follow ask.
+keyMessage: This guy tests strategies for a living — follow.
+
+## Frame 3 — One sentence into Buddi
 
 - scene: The product input bar; the exact sentence "I've got $1,000 and no idea what to do with it" types in fast (~1.5× speed-ramp) and sends as the green-tinted user bubble. Top stepper chrome appears.
 - voiceover: "Here's the move. Instead of you guessing, you tell an AI called Buddi one sentence: 'I've got $1,000 and no idea what to do with it.'"
@@ -65,7 +90,7 @@ Scene 3 (4.4–6.0s): tap-highlight lands the send button (cursor-click-ripple +
 narrativeRole: The move — replaces "guessing" with a single typed sentence; the product enters as the answer's address.
 keyMessage: You don't pick — you say one sentence to Buddi.
 
-## Frame 3 — Question 1: timeline
+## Frame 4 — Question 1: timeline
 
 - scene: Buddi replies, then question card 1 — "When will you need this money?" — with three chips; one tap selects, the chip fills green.
 - voiceover: "Then it just asks you a few simple things. First: how soon you'll need the money — sooner means it plays it safer."
@@ -90,11 +115,11 @@ Scene 3 (4.4–6.0s): on "plays it safer," a small muted annotation "sooner = sa
 narrativeRole: Question demo 1 — the first concrete proof that "no idea needed" works: a calendar question anyone can answer.
 keyMessage: Question one is about time, not tickers.
 
-## Frame 4 — Question 2: your real risk tolerance
+## Frame 5 — Question 2: your real risk tolerance
 
 - scene: Risk question card — "A rough month hits and it drops hard. What do you do?" — chips tapped; held an extra beat. On-screen text: "your real one 👀"
-- voiceover: "Then: how you'd actually feel watching it drop hard in a rough month — that's your real risk tolerance, not the brave one in your head."
-- duration: 5.483s
+- voiceover: "Then: how you'd actually feel watching it drop 20% in a rough month — that's your real risk tolerance, not the brave one in your head."
+- duration: 5.888s
 - transition_in: push-slide LEFT
 - status: animated
 - src: compositions/frames/04-question-risk.html
@@ -115,7 +140,7 @@ Scene 3 (4.0–6.0s): on "not the brave one in your head," everything holds an e
 narrativeRole: Question demo 2 — the smartest line in the script gets the quietest frame; the hold sells it.
 keyMessage: Buddi measures the real you, not the confident you.
 
-## Frame 5 — Questions 3 + 4: growth vs cash, what you own
+## Frame 6 — Questions 3 + 4: growth vs cash, what you own
 
 - scene: Two quick taps — "Grow fast or steady cash?" then "What do you already own?" — back to back, camera stepping down between them.
 - voiceover: "Then: do you want it growing as fast as possible, or paying you steady cash. Then: what you already own, so it doesn't pile you into more of the same."
@@ -140,7 +165,7 @@ Scene 3 (5.6–7.0s): on "more of the same," both answered chips condense into c
 narrativeRole: Question demo 3 — pace quickens; diversification logic ("doesn't pile you into more of the same") shown as a plain question.
 keyMessage: Even diversification is just a question about you.
 
-## Frame 6 — Triangulating you
+## Frame 7 — Triangulating you
 
 - scene: Progress completing — the answered chips orbit into a profile: a progress ring fills as summary pills connect with thin lines to a center "Your profile" node; two "circling" questions glow to show overlap on purpose.
 - voiceover: "A couple more like that — and yeah, some of them circle the same thing on purpose. It's triangulating you, not quizzing you."
@@ -165,7 +190,7 @@ Scene 3 (3.6–5.0s): on "triangulating you," the progress ring around the cente
 narrativeRole: The trust beat — turns the "too many questions" objection into the product's intelligence.
 keyMessage: The questions aren't a quiz — they're how it locks onto you.
 
-## Frame 7 — It builds the whole thing + backtest
+## Frame 8 — It builds the whole thing + backtest
 
 - scene: Strategy rule cards assemble (NO tickers, no named companies) → a 0.5s HOLD → the results chart draws under a "Backtest Result" label — chart is SHAPE ONLY, no numeric values anywhere. Fine print: "For educational purposes only. Backtested results do not represent actual trading outcomes. Past performance is not indicative of future results. Not investment advice."
 - voiceover: "Answer those, and it builds the whole thing for you — a complete, diversified strategy for your $1,000 — and shows you how it would have performed on real past prices before you risk a cent."
@@ -191,11 +216,11 @@ Scene 4 (7.6–9.0s): soft green glow blooms behind the chart; the fine-print di
 narrativeRole: The payoff — build and proof in one unbroken sequence, honest to the guardrails: shape and label, no invented numbers.
 keyMessage: It builds it, and shows you the evidence, before a cent is at risk.
 
-## Frame 8 — Comment GROW
+## Frame 9 — Comment BUDDI
 
 - scene: End card — "Comment" snaps in, a comment pill types "GROW", a green down arrow drops; sub-line "building + paper trading = free"; buddi wordmark; disclaimer fine print. Holds static the final 4–5s.
-- voiceover: "Comment 'GROW' and I'll DM you the link — building it and paper-trading on real prices is totally free."
-- duration: 4.864s
+- voiceover: "Comment 'BUDDI' and I'll DM you the link — building it and paper-trading on real prices is totally free."
+- duration: 4.757s
 - transition_in: zoom-through
 - status: animated
 - src: compositions/frames/08-comment-grow.html

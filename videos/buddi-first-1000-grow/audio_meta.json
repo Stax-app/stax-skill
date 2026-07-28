@@ -4,1056 +4,1116 @@
   {
    "frame": 1,
    "path": "assets/voice/01.wav",
-   "duration_s": 4.843,
+   "duration_s": 7.552,
    "words": [
     {
      "text": "Here's",
      "start": 0.1,
-     "end": 0.396
+     "end": 0.503
     },
     {
      "text": "exactly",
-     "start": 0.396,
-     "end": 0.816
+     "start": 0.503,
+     "end": 1.074
     },
     {
      "text": "how",
-     "start": 0.816,
-     "end": 0.989
+     "start": 1.074,
+     "end": 1.309
     },
     {
      "text": "to",
-     "start": 0.989,
-     "end": 1.162
+     "start": 1.309,
+     "end": 1.544
     },
     {
      "text": "put",
-     "start": 1.162,
-     "end": 1.335
+     "start": 1.544,
+     "end": 1.779
     },
     {
      "text": "your",
-     "start": 1.335,
-     "end": 1.507
+     "start": 1.779,
+     "end": 2.014
     },
     {
      "text": "first",
-     "start": 1.507,
-     "end": 1.68
+     "start": 2.014,
+     "end": 2.249
     },
     {
      "text": "$1,000",
-     "start": 1.68,
-     "end": 2.297
+     "start": 2.249,
+     "end": 3.088
     },
     {
      "text": "to",
-     "start": 2.297,
-     "end": 2.47
+     "start": 3.088,
+     "end": 3.323
     },
     {
      "text": "work",
-     "start": 2.47,
-     "end": 2.643
+     "start": 3.323,
+     "end": 3.558
+    },
+    {
+     "text": "in",
+     "start": 3.558,
+     "end": 3.793
+    },
+    {
+     "text": "2026",
+     "start": 3.793,
+     "end": 4.633
     },
     {
      "text": "\u2014",
-     "start": 2.643,
-     "end": 2.643
+     "start": 4.633,
+     "end": 4.633
     },
     {
      "text": "without",
-     "start": 2.841,
-     "end": 3.137
+     "start": 4.901,
+     "end": 5.304
     },
     {
      "text": "picking",
-     "start": 3.137,
-     "end": 3.433
+     "start": 5.304,
+     "end": 5.707
     },
     {
      "text": "a",
-     "start": 3.433,
-     "end": 3.606
+     "start": 5.707,
+     "end": 5.942
     },
     {
      "text": "single",
-     "start": 3.606,
-     "end": 3.902
+     "start": 5.942,
+     "end": 6.345
     },
     {
      "text": "stock",
-     "start": 3.902,
-     "end": 4.075
+     "start": 6.345,
+     "end": 6.58
     },
     {
      "text": "yourself.",
-     "start": 4.075,
-     "end": 4.371
+     "start": 6.58,
+     "end": 6.983
     }
    ]
   },
   {
    "frame": 2,
    "path": "assets/voice/02.wav",
-   "duration_s": 6.955,
+   "duration_s": 10.411,
    "words": [
     {
-     "text": "Here's",
+     "text": "I'm",
      "start": 0.1,
-     "end": 0.382
+     "end": 0.338
     },
     {
-     "text": "the",
-     "start": 0.382,
-     "end": 0.547
-    },
-    {
-     "text": "move.",
-     "start": 0.547,
-     "end": 0.829
-    },
-    {
-     "text": "Instead",
-     "start": 1.088,
-     "end": 1.37
-    },
-    {
-     "text": "of",
-     "start": 1.37,
-     "end": 1.534
-    },
-    {
-     "text": "you",
-     "start": 1.534,
-     "end": 1.699
-    },
-    {
-     "text": "guessing,",
-     "start": 1.699,
-     "end": 1.981
-    },
-    {
-     "text": "you",
-     "start": 1.981,
-     "end": 2.146
-    },
-    {
-     "text": "tell",
-     "start": 2.146,
-     "end": 2.31
-    },
-    {
-     "text": "an",
-     "start": 2.31,
-     "end": 2.475
-    },
-    {
-     "text": "AI",
-     "start": 2.475,
-     "end": 2.64
-    },
-    {
-     "text": "called",
-     "start": 2.64,
-     "end": 2.922
-    },
-    {
-     "text": "Buddi",
-     "start": 2.922,
-     "end": 3.204
-    },
-    {
-     "text": "one",
-     "start": 3.204,
-     "end": 3.486
-    },
-    {
-     "text": "sentence:",
-     "start": 3.486,
-     "end": 3.886
-    },
-    {
-     "text": "I've",
-     "start": 4.027,
-     "end": 4.309
-    },
-    {
-     "text": "got",
-     "start": 4.309,
-     "end": 4.474
-    },
-    {
-     "text": "$1,000",
-     "start": 4.474,
-     "end": 5.062
+     "text": "Max,",
+     "start": 0.338,
+     "end": 0.575
     },
     {
      "text": "and",
-     "start": 5.062,
-     "end": 5.226
+     "start": 0.575,
+     "end": 0.813
     },
     {
-     "text": "no",
-     "start": 5.226,
-     "end": 5.391
+     "text": "this",
+     "start": 0.813,
+     "end": 1.05
     },
     {
-     "text": "idea",
-     "start": 5.391,
-     "end": 5.673
+     "text": "year",
+     "start": 1.05,
+     "end": 1.288
     },
     {
-     "text": "what",
-     "start": 5.673,
-     "end": 5.838
+     "text": "I've",
+     "start": 1.288,
+     "end": 1.695
     },
     {
-     "text": "to",
-     "start": 5.838,
-     "end": 6.002
+     "text": "built",
+     "start": 1.695,
+     "end": 1.932
     },
     {
-     "text": "do",
-     "start": 6.002,
-     "end": 6.167
+     "text": "over",
+     "start": 1.932,
+     "end": 2.339
     },
     {
-     "text": "with",
-     "start": 6.167,
-     "end": 6.332
+     "text": "40",
+     "start": 2.339,
+     "end": 3.188
     },
     {
-     "text": "it.",
-     "start": 6.332,
-     "end": 6.496
+     "text": "tested",
+     "start": 3.188,
+     "end": 3.595
+    },
+    {
+     "text": "strategies",
+     "start": 3.595,
+     "end": 4.172
+    },
+    {
+     "text": "without",
+     "start": 4.172,
+     "end": 4.579
+    },
+    {
+     "text": "ever",
+     "start": 4.579,
+     "end": 4.986
+    },
+    {
+     "text": "picking",
+     "start": 4.986,
+     "end": 5.393
+    },
+    {
+     "text": "a",
+     "start": 5.393,
+     "end": 5.631
+    },
+    {
+     "text": "stock",
+     "start": 5.631,
+     "end": 5.868
+    },
+    {
+     "text": "on",
+     "start": 5.868,
+     "end": 6.106
+    },
+    {
+     "text": "gut",
+     "start": 6.106,
+     "end": 6.343
+    },
+    {
+     "text": "\u2014",
+     "start": 6.343,
+     "end": 6.343
+    },
+    {
+     "text": "so",
+     "start": 6.614,
+     "end": 6.852
+    },
+    {
+     "text": "hit",
+     "start": 6.852,
+     "end": 7.089
+    },
+    {
+     "text": "follow",
+     "start": 7.089,
+     "end": 7.497
+    },
+    {
+     "text": "if",
+     "start": 7.497,
+     "end": 7.734
+    },
+    {
+     "text": "you",
+     "start": 7.734,
+     "end": 7.972
+    },
+    {
+     "text": "want",
+     "start": 7.972,
+     "end": 8.209
+    },
+    {
+     "text": "your",
+     "start": 8.209,
+     "end": 8.447
+    },
+    {
+     "text": "money",
+     "start": 8.447,
+     "end": 8.854
+    },
+    {
+     "text": "actually",
+     "start": 8.854,
+     "end": 9.431
+    },
+    {
+     "text": "working.",
+     "start": 9.431,
+     "end": 9.838
     }
    ]
   },
   {
    "frame": 3,
    "path": "assets/voice/03.wav",
-   "duration_s": 4.715,
+   "duration_s": 7.168,
    "words": [
     {
-     "text": "Then",
+     "text": "Here's",
      "start": 0.1,
-     "end": 0.247
-    },
-    {
-     "text": "it",
-     "start": 0.247,
-     "end": 0.394
-    },
-    {
-     "text": "just",
-     "start": 0.394,
-     "end": 0.542
-    },
-    {
-     "text": "asks",
-     "start": 0.542,
-     "end": 0.689
-    },
-    {
-     "text": "you",
-     "start": 0.689,
-     "end": 0.836
-    },
-    {
-     "text": "a",
-     "start": 0.836,
-     "end": 0.983
-    },
-    {
-     "text": "few",
-     "start": 0.983,
-     "end": 1.13
-    },
-    {
-     "text": "simple",
-     "start": 1.13,
-     "end": 1.382
-    },
-    {
-     "text": "things.",
-     "start": 1.382,
-     "end": 1.53
-    },
-    {
-     "text": "First:",
-     "start": 1.761,
-     "end": 1.908
-    },
-    {
-     "text": "how",
-     "start": 2.034,
-     "end": 2.181
-    },
-    {
-     "text": "soon",
-     "start": 2.181,
-     "end": 2.329
-    },
-    {
-     "text": "you'll",
-     "start": 2.329,
-     "end": 2.476
-    },
-    {
-     "text": "need",
-     "start": 2.476,
-     "end": 2.623
+     "end": 0.391
     },
     {
      "text": "the",
-     "start": 2.623,
-     "end": 2.77
+     "start": 0.391,
+     "end": 0.561
     },
     {
-     "text": "money",
-     "start": 2.77,
-     "end": 3.022
+     "text": "move.",
+     "start": 0.561,
+     "end": 0.852
     },
     {
-     "text": "\u2014",
-     "start": 3.022,
-     "end": 3.022
+     "text": "Instead",
+     "start": 1.119,
+     "end": 1.411
     },
     {
-     "text": "sooner",
-     "start": 3.191,
-     "end": 3.443
+     "text": "of",
+     "start": 1.411,
+     "end": 1.58
     },
     {
-     "text": "means",
-     "start": 3.443,
-     "end": 3.59
+     "text": "you",
+     "start": 1.58,
+     "end": 1.75
     },
     {
-     "text": "it",
-     "start": 3.59,
-     "end": 3.737
+     "text": "guessing,",
+     "start": 1.75,
+     "end": 2.041
     },
     {
-     "text": "plays",
-     "start": 3.737,
-     "end": 3.884
+     "text": "you",
+     "start": 2.041,
+     "end": 2.211
     },
     {
-     "text": "it",
-     "start": 3.884,
-     "end": 4.031
+     "text": "tell",
+     "start": 2.211,
+     "end": 2.381
     },
     {
-     "text": "safer.",
-     "start": 4.031,
-     "end": 4.284
+     "text": "an",
+     "start": 2.381,
+     "end": 2.551
+    },
+    {
+     "text": "AI",
+     "start": 2.551,
+     "end": 2.721
+    },
+    {
+     "text": "called",
+     "start": 2.721,
+     "end": 3.012
+    },
+    {
+     "text": "Buddi",
+     "start": 3.012,
+     "end": 3.303
+    },
+    {
+     "text": "one",
+     "start": 3.303,
+     "end": 3.595
+    },
+    {
+     "text": "sentence:",
+     "start": 3.595,
+     "end": 4.007
+    },
+    {
+     "text": "I've",
+     "start": 4.153,
+     "end": 4.444
+    },
+    {
+     "text": "got",
+     "start": 4.444,
+     "end": 4.614
+    },
+    {
+     "text": "$1,000",
+     "start": 4.614,
+     "end": 5.221
+    },
+    {
+     "text": "and",
+     "start": 5.221,
+     "end": 5.391
+    },
+    {
+     "text": "no",
+     "start": 5.391,
+     "end": 5.56
+    },
+    {
+     "text": "idea",
+     "start": 5.56,
+     "end": 5.852
+    },
+    {
+     "text": "what",
+     "start": 5.852,
+     "end": 6.022
+    },
+    {
+     "text": "to",
+     "start": 6.022,
+     "end": 6.191
+    },
+    {
+     "text": "do",
+     "start": 6.191,
+     "end": 6.361
+    },
+    {
+     "text": "with",
+     "start": 6.361,
+     "end": 6.531
+    },
+    {
+     "text": "it.",
+     "start": 6.531,
+     "end": 6.701
     }
    ]
   },
   {
    "frame": 4,
    "path": "assets/voice/04.wav",
-   "duration_s": 5.483,
+   "duration_s": 8.341,
    "words": [
     {
-     "text": "Then:",
+     "text": "Then",
      "start": 0.1,
-     "end": 0.251
-    },
-    {
-     "text": "how",
-     "start": 0.381,
-     "end": 0.532
-    },
-    {
-     "text": "you'd",
-     "start": 0.532,
-     "end": 0.683
-    },
-    {
-     "text": "actually",
-     "start": 0.683,
-     "end": 1.05
-    },
-    {
-     "text": "feel",
-     "start": 1.05,
-     "end": 1.201
-    },
-    {
-     "text": "watching",
-     "start": 1.201,
-     "end": 1.461
+     "end": 0.368
     },
     {
      "text": "it",
-     "start": 1.461,
-     "end": 1.612
+     "start": 0.368,
+     "end": 0.636
     },
     {
-     "text": "drop",
-     "start": 1.612,
-     "end": 1.763
+     "text": "just",
+     "start": 0.636,
+     "end": 0.904
     },
     {
-     "text": "hard",
-     "start": 1.763,
-     "end": 1.914
+     "text": "asks",
+     "start": 0.904,
+     "end": 1.172
     },
     {
-     "text": "in",
-     "start": 1.914,
-     "end": 2.065
+     "text": "you",
+     "start": 1.172,
+     "end": 1.44
     },
     {
      "text": "a",
-     "start": 2.065,
-     "end": 2.216
+     "start": 1.44,
+     "end": 1.708
     },
     {
-     "text": "rough",
-     "start": 2.216,
-     "end": 2.368
+     "text": "few",
+     "start": 1.708,
+     "end": 1.976
     },
     {
-     "text": "month",
-     "start": 2.368,
-     "end": 2.519
+     "text": "simple",
+     "start": 1.976,
+     "end": 2.436
     },
     {
-     "text": "\u2014",
-     "start": 2.519,
-     "end": 2.519
+     "text": "things.",
+     "start": 2.436,
+     "end": 2.704
     },
     {
-     "text": "that's",
-     "start": 2.692,
-     "end": 2.843
+     "text": "First:",
+     "start": 3.125,
+     "end": 3.393
     },
     {
-     "text": "your",
-     "start": 2.843,
-     "end": 2.994
+     "text": "how",
+     "start": 3.623,
+     "end": 3.891
     },
     {
-     "text": "real",
-     "start": 2.994,
-     "end": 3.145
+     "text": "soon",
+     "start": 3.891,
+     "end": 4.159
     },
     {
-     "text": "risk",
-     "start": 3.145,
-     "end": 3.296
+     "text": "you'll",
+     "start": 4.159,
+     "end": 4.427
     },
     {
-     "text": "tolerance,",
-     "start": 3.296,
-     "end": 3.771
-    },
-    {
-     "text": "not",
-     "start": 3.771,
-     "end": 3.922
+     "text": "need",
+     "start": 4.427,
+     "end": 4.695
     },
     {
      "text": "the",
-     "start": 3.922,
-     "end": 4.074
+     "start": 4.695,
+     "end": 4.963
     },
     {
-     "text": "brave",
-     "start": 4.074,
-     "end": 4.333
+     "text": "money",
+     "start": 4.963,
+     "end": 5.422
     },
     {
-     "text": "one",
-     "start": 4.333,
-     "end": 4.592
+     "text": "\u2014",
+     "start": 5.422,
+     "end": 5.422
     },
     {
-     "text": "in",
-     "start": 4.592,
-     "end": 4.743
+     "text": "sooner",
+     "start": 5.729,
+     "end": 6.188
     },
     {
-     "text": "your",
-     "start": 4.743,
-     "end": 4.894
+     "text": "means",
+     "start": 6.188,
+     "end": 6.456
     },
     {
-     "text": "head.",
-     "start": 4.894,
-     "end": 5.045
+     "text": "it",
+     "start": 6.456,
+     "end": 6.724
+    },
+    {
+     "text": "plays",
+     "start": 6.724,
+     "end": 6.992
+    },
+    {
+     "text": "it",
+     "start": 6.992,
+     "end": 7.26
+    },
+    {
+     "text": "safer.",
+     "start": 7.26,
+     "end": 7.72
     }
    ]
   },
   {
    "frame": 5,
    "path": "assets/voice/05.wav",
-   "duration_s": 6.549,
+   "duration_s": 9.749,
    "words": [
     {
      "text": "Then:",
      "start": 0.1,
-     "end": 0.249
+     "end": 0.356
     },
     {
-     "text": "do",
-     "start": 0.376,
-     "end": 0.525
+     "text": "how",
+     "start": 0.576,
+     "end": 0.832
     },
     {
-     "text": "you",
-     "start": 0.525,
-     "end": 0.674
+     "text": "you'd",
+     "start": 0.832,
+     "end": 1.089
     },
     {
-     "text": "want",
-     "start": 0.674,
-     "end": 0.823
+     "text": "actually",
+     "start": 1.089,
+     "end": 1.711
     },
     {
-     "text": "it",
-     "start": 0.823,
-     "end": 0.971
+     "text": "feel",
+     "start": 1.711,
+     "end": 1.968
     },
     {
-     "text": "growing",
-     "start": 0.971,
-     "end": 1.227
-    },
-    {
-     "text": "as",
-     "start": 1.227,
-     "end": 1.375
-    },
-    {
-     "text": "fast",
-     "start": 1.375,
-     "end": 1.524
-    },
-    {
-     "text": "as",
-     "start": 1.524,
-     "end": 1.673
-    },
-    {
-     "text": "possible,",
-     "start": 1.673,
-     "end": 2.034
-    },
-    {
-     "text": "or",
-     "start": 2.034,
-     "end": 2.183
-    },
-    {
-     "text": "paying",
-     "start": 2.183,
-     "end": 2.332
-    },
-    {
-     "text": "you",
-     "start": 2.332,
-     "end": 2.481
-    },
-    {
-     "text": "steady",
-     "start": 2.481,
-     "end": 2.736
-    },
-    {
-     "text": "cash.",
-     "start": 2.736,
-     "end": 2.884
-    },
-    {
-     "text": "Then:",
-     "start": 3.118,
-     "end": 3.267
-    },
-    {
-     "text": "what",
-     "start": 3.395,
-     "end": 3.543
-    },
-    {
-     "text": "you",
-     "start": 3.543,
-     "end": 3.692
-    },
-    {
-     "text": "already",
-     "start": 3.692,
-     "end": 4.053
-    },
-    {
-     "text": "own,",
-     "start": 4.053,
-     "end": 4.202
-    },
-    {
-     "text": "so",
-     "start": 4.202,
-     "end": 4.351
+     "text": "watching",
+     "start": 1.968,
+     "end": 2.407
     },
     {
      "text": "it",
-     "start": 4.351,
-     "end": 4.5
+     "start": 2.407,
+     "end": 2.664
     },
     {
-     "text": "doesn't",
-     "start": 4.5,
-     "end": 4.649
+     "text": "drop",
+     "start": 2.664,
+     "end": 2.92
     },
     {
-     "text": "pile",
-     "start": 4.649,
-     "end": 4.904
+     "text": "20%",
+     "start": 2.92,
+     "end": 3.836
     },
     {
-     "text": "you",
-     "start": 4.904,
-     "end": 5.052
+     "text": "in",
+     "start": 3.836,
+     "end": 4.092
     },
     {
-     "text": "into",
-     "start": 5.052,
-     "end": 5.308
+     "text": "a",
+     "start": 4.092,
+     "end": 4.348
     },
     {
-     "text": "more",
-     "start": 5.308,
-     "end": 5.563
+     "text": "rough",
+     "start": 4.348,
+     "end": 4.605
     },
     {
-     "text": "of",
-     "start": 5.563,
-     "end": 5.711
+     "text": "month",
+     "start": 4.605,
+     "end": 4.861
+    },
+    {
+     "text": "\u2014",
+     "start": 4.861,
+     "end": 4.861
+    },
+    {
+     "text": "that's",
+     "start": 5.154,
+     "end": 5.41
+    },
+    {
+     "text": "your",
+     "start": 5.41,
+     "end": 5.667
+    },
+    {
+     "text": "real",
+     "start": 5.667,
+     "end": 5.923
+    },
+    {
+     "text": "risk",
+     "start": 5.923,
+     "end": 6.18
+    },
+    {
+     "text": "tolerance,",
+     "start": 6.18,
+     "end": 6.985
+    },
+    {
+     "text": "not",
+     "start": 6.985,
+     "end": 7.242
     },
     {
      "text": "the",
-     "start": 5.711,
-     "end": 5.86
+     "start": 7.242,
+     "end": 7.498
     },
     {
-     "text": "same.",
-     "start": 5.86,
-     "end": 6.115
+     "text": "brave",
+     "start": 7.498,
+     "end": 7.938
+    },
+    {
+     "text": "one",
+     "start": 7.938,
+     "end": 8.377
+    },
+    {
+     "text": "in",
+     "start": 8.377,
+     "end": 8.633
+    },
+    {
+     "text": "your",
+     "start": 8.633,
+     "end": 8.89
+    },
+    {
+     "text": "head.",
+     "start": 8.89,
+     "end": 9.146
     }
    ]
   },
   {
    "frame": 6,
    "path": "assets/voice/06.wav",
-   "duration_s": 5.013,
+   "duration_s": 8,
    "words": [
     {
-     "text": "A",
+     "text": "Then:",
      "start": 0.1,
-     "end": 0.235
+     "end": 0.283
     },
     {
-     "text": "couple",
-     "start": 0.235,
-     "end": 0.467
+     "text": "do",
+     "start": 0.44,
+     "end": 0.624
+    },
+    {
+     "text": "you",
+     "start": 0.624,
+     "end": 0.807
+    },
+    {
+     "text": "want",
+     "start": 0.807,
+     "end": 0.99
+    },
+    {
+     "text": "it",
+     "start": 0.99,
+     "end": 1.174
+    },
+    {
+     "text": "growing",
+     "start": 1.174,
+     "end": 1.488
+    },
+    {
+     "text": "as",
+     "start": 1.488,
+     "end": 1.671
+    },
+    {
+     "text": "fast",
+     "start": 1.671,
+     "end": 1.855
+    },
+    {
+     "text": "as",
+     "start": 1.855,
+     "end": 2.038
+    },
+    {
+     "text": "possible,",
+     "start": 2.038,
+     "end": 2.483
+    },
+    {
+     "text": "or",
+     "start": 2.483,
+     "end": 2.667
+    },
+    {
+     "text": "paying",
+     "start": 2.667,
+     "end": 2.85
+    },
+    {
+     "text": "you",
+     "start": 2.85,
+     "end": 3.033
+    },
+    {
+     "text": "steady",
+     "start": 3.033,
+     "end": 3.348
+    },
+    {
+     "text": "cash.",
+     "start": 3.348,
+     "end": 3.531
+    },
+    {
+     "text": "Then:",
+     "start": 3.819,
+     "end": 4.002
+    },
+    {
+     "text": "what",
+     "start": 4.16,
+     "end": 4.343
+    },
+    {
+     "text": "you",
+     "start": 4.343,
+     "end": 4.526
+    },
+    {
+     "text": "already",
+     "start": 4.526,
+     "end": 4.971
+    },
+    {
+     "text": "own,",
+     "start": 4.971,
+     "end": 5.155
+    },
+    {
+     "text": "so",
+     "start": 5.155,
+     "end": 5.338
+    },
+    {
+     "text": "it",
+     "start": 5.338,
+     "end": 5.521
+    },
+    {
+     "text": "doesn't",
+     "start": 5.521,
+     "end": 5.705
+    },
+    {
+     "text": "pile",
+     "start": 5.705,
+     "end": 6.019
+    },
+    {
+     "text": "you",
+     "start": 6.019,
+     "end": 6.202
+    },
+    {
+     "text": "into",
+     "start": 6.202,
+     "end": 6.517
     },
     {
      "text": "more",
-     "start": 0.467,
-     "end": 0.699
-    },
-    {
-     "text": "like",
-     "start": 0.699,
-     "end": 0.931
-    },
-    {
-     "text": "that",
-     "start": 0.931,
-     "end": 1.066
-    },
-    {
-     "text": "\u2014",
-     "start": 1.066,
-     "end": 1.066
-    },
-    {
-     "text": "and",
-     "start": 1.22,
-     "end": 1.356
-    },
-    {
-     "text": "yeah,",
-     "start": 1.356,
-     "end": 1.491
-    },
-    {
-     "text": "some",
-     "start": 1.491,
-     "end": 1.723
+     "start": 6.517,
+     "end": 6.831
     },
     {
      "text": "of",
-     "start": 1.723,
-     "end": 1.858
-    },
-    {
-     "text": "them",
-     "start": 1.858,
-     "end": 1.993
-    },
-    {
-     "text": "circle",
-     "start": 1.993,
-     "end": 2.225
+     "start": 6.831,
+     "end": 7.014
     },
     {
      "text": "the",
-     "start": 2.225,
-     "end": 2.36
+     "start": 7.014,
+     "end": 7.198
     },
     {
-     "text": "same",
-     "start": 2.36,
-     "end": 2.592
-    },
-    {
-     "text": "thing",
-     "start": 2.592,
-     "end": 2.727
-    },
-    {
-     "text": "on",
-     "start": 2.727,
-     "end": 2.862
-    },
-    {
-     "text": "purpose.",
-     "start": 2.862,
-     "end": 3.19
-    },
-    {
-     "text": "It's",
-     "start": 3.403,
-     "end": 3.538
-    },
-    {
-     "text": "triangulating",
-     "start": 3.538,
-     "end": 3.963
-    },
-    {
-     "text": "you,",
-     "start": 3.963,
-     "end": 4.098
-    },
-    {
-     "text": "not",
-     "start": 4.098,
-     "end": 4.234
-    },
-    {
-     "text": "quizzing",
-     "start": 4.234,
-     "end": 4.465
-    },
-    {
-     "text": "you.",
-     "start": 4.465,
-     "end": 4.601
+     "text": "same.",
+     "start": 7.198,
+     "end": 7.512
     }
    ]
   },
   {
    "frame": 7,
    "path": "assets/voice/07.wav",
-   "duration_s": 9.515,
+   "duration_s": 14.528,
    "words": [
     {
-     "text": "Answer",
+     "text": "A",
      "start": 0.1,
-     "end": 0.405
+     "end": 0.508
     },
     {
-     "text": "those,",
-     "start": 0.405,
-     "end": 0.709
+     "text": "couple",
+     "start": 0.508,
+     "end": 1.208
+    },
+    {
+     "text": "more",
+     "start": 1.208,
+     "end": 1.908
+    },
+    {
+     "text": "like",
+     "start": 1.908,
+     "end": 2.607
+    },
+    {
+     "text": "that",
+     "start": 2.607,
+     "end": 3.016
+    },
+    {
+     "text": "\u2014",
+     "start": 3.016,
+     "end": 3.016
     },
     {
      "text": "and",
-     "start": 0.709,
-     "end": 0.887
+     "start": 3.482,
+     "end": 3.89
     },
     {
-     "text": "it",
-     "start": 0.887,
-     "end": 1.065
+     "text": "yeah,",
+     "start": 3.89,
+     "end": 4.298
     },
     {
-     "text": "builds",
-     "start": 1.065,
-     "end": 1.242
+     "text": "some",
+     "start": 4.298,
+     "end": 4.998
+    },
+    {
+     "text": "of",
+     "start": 4.998,
+     "end": 5.406
+    },
+    {
+     "text": "them",
+     "start": 5.406,
+     "end": 5.815
+    },
+    {
+     "text": "circle",
+     "start": 5.815,
+     "end": 6.514
     },
     {
      "text": "the",
-     "start": 1.242,
-     "end": 1.42
+     "start": 6.514,
+     "end": 6.922
     },
     {
-     "text": "whole",
-     "start": 1.42,
-     "end": 1.725
+     "text": "same",
+     "start": 6.922,
+     "end": 7.622
     },
     {
      "text": "thing",
-     "start": 1.725,
-     "end": 1.902
-    },
-    {
-     "text": "for",
-     "start": 1.902,
-     "end": 2.08
-    },
-    {
-     "text": "you",
-     "start": 2.08,
-     "end": 2.258
-    },
-    {
-     "text": "\u2014",
-     "start": 2.258,
-     "end": 2.258
-    },
-    {
-     "text": "a",
-     "start": 2.461,
-     "end": 2.639
-    },
-    {
-     "text": "complete,",
-     "start": 2.639,
-     "end": 3.07
-    },
-    {
-     "text": "diversified",
-     "start": 3.07,
-     "end": 3.629
-    },
-    {
-     "text": "strategy",
-     "start": 3.629,
-     "end": 4.06
-    },
-    {
-     "text": "for",
-     "start": 4.06,
-     "end": 4.238
-    },
-    {
-     "text": "your",
-     "start": 4.238,
-     "end": 4.416
-    },
-    {
-     "text": "$1,000",
-     "start": 4.416,
-     "end": 5.05
-    },
-    {
-     "text": "\u2014",
-     "start": 5.05,
-     "end": 5.05
-    },
-    {
-     "text": "and",
-     "start": 5.253,
-     "end": 5.431
-    },
-    {
-     "text": "shows",
-     "start": 5.431,
-     "end": 5.609
-    },
-    {
-     "text": "you",
-     "start": 5.609,
-     "end": 5.786
-    },
-    {
-     "text": "how",
-     "start": 5.786,
-     "end": 5.964
-    },
-    {
-     "text": "it",
-     "start": 5.964,
-     "end": 6.142
-    },
-    {
-     "text": "would",
-     "start": 6.142,
-     "end": 6.319
-    },
-    {
-     "text": "have",
-     "start": 6.319,
-     "end": 6.624
-    },
-    {
-     "text": "performed",
-     "start": 6.624,
-     "end": 7.056
+     "start": 7.622,
+     "end": 8.03
     },
     {
      "text": "on",
-     "start": 7.056,
-     "end": 7.233
+     "start": 8.03,
+     "end": 8.439
     },
     {
-     "text": "real",
-     "start": 7.233,
-     "end": 7.411
+     "text": "purpose.",
+     "start": 8.439,
+     "end": 9.43
     },
     {
-     "text": "past",
-     "start": 7.411,
-     "end": 7.589
+     "text": "It's",
+     "start": 10.071,
+     "end": 10.479
     },
     {
-     "text": "prices",
-     "start": 7.589,
-     "end": 7.893
+     "text": "triangulating",
+     "start": 10.479,
+     "end": 11.762
     },
     {
-     "text": "before",
-     "start": 7.893,
-     "end": 8.325
+     "text": "you,",
+     "start": 11.762,
+     "end": 12.17
     },
     {
-     "text": "you",
-     "start": 8.325,
-     "end": 8.503
+     "text": "not",
+     "start": 12.17,
+     "end": 12.579
     },
     {
-     "text": "risk",
-     "start": 8.503,
-     "end": 8.68
+     "text": "quizzing",
+     "start": 12.579,
+     "end": 13.278
     },
     {
-     "text": "a",
-     "start": 8.68,
-     "end": 8.858
-    },
-    {
-     "text": "cent.",
-     "start": 8.858,
-     "end": 9.036
+     "text": "you.",
+     "start": 13.278,
+     "end": 13.687
     }
    ]
   },
   {
    "frame": 8,
    "path": "assets/voice/08.wav",
-   "duration_s": 4.864,
+   "duration_s": 7.296,
    "words": [
     {
-     "text": "Comment",
+     "text": "Answer",
      "start": 0.1,
-     "end": 0.396
+     "end": 0.331
     },
     {
-     "text": "GROW",
-     "start": 0.396,
-     "end": 0.569
+     "text": "those,",
+     "start": 0.331,
+     "end": 0.563
     },
     {
      "text": "and",
-     "start": 0.569,
-     "end": 0.741
-    },
-    {
-     "text": "I'll",
-     "start": 0.741,
-     "end": 0.914
-    },
-    {
-     "text": "DM",
-     "start": 0.914,
-     "end": 1.087
-    },
-    {
-     "text": "you",
-     "start": 1.087,
-     "end": 1.26
-    },
-    {
-     "text": "the",
-     "start": 1.26,
-     "end": 1.432
-    },
-    {
-     "text": "link",
-     "start": 1.432,
-     "end": 1.605
-    },
-    {
-     "text": "\u2014",
-     "start": 1.605,
-     "end": 1.605
-    },
-    {
-     "text": "building",
-     "start": 1.802,
-     "end": 2.098
+     "start": 0.563,
+     "end": 0.697
     },
     {
      "text": "it",
-     "start": 2.098,
-     "end": 2.271
+     "start": 0.697,
+     "end": 0.832
+    },
+    {
+     "text": "builds",
+     "start": 0.832,
+     "end": 0.967
+    },
+    {
+     "text": "the",
+     "start": 0.967,
+     "end": 1.102
+    },
+    {
+     "text": "whole",
+     "start": 1.102,
+     "end": 1.333
+    },
+    {
+     "text": "thing",
+     "start": 1.333,
+     "end": 1.468
+    },
+    {
+     "text": "for",
+     "start": 1.468,
+     "end": 1.603
+    },
+    {
+     "text": "you",
+     "start": 1.603,
+     "end": 1.738
+    },
+    {
+     "text": "\u2014",
+     "start": 1.738,
+     "end": 1.738
+    },
+    {
+     "text": "a",
+     "start": 1.892,
+     "end": 2.027
+    },
+    {
+     "text": "complete,",
+     "start": 2.027,
+     "end": 2.355
+    },
+    {
+     "text": "diversified",
+     "start": 2.355,
+     "end": 2.779
+    },
+    {
+     "text": "strategy",
+     "start": 2.779,
+     "end": 3.107
+    },
+    {
+     "text": "for",
+     "start": 3.107,
+     "end": 3.241
+    },
+    {
+     "text": "your",
+     "start": 3.241,
+     "end": 3.376
+    },
+    {
+     "text": "$1,000",
+     "start": 3.376,
+     "end": 3.858
+    },
+    {
+     "text": "\u2014",
+     "start": 3.858,
+     "end": 3.858
     },
     {
      "text": "and",
-     "start": 2.271,
-     "end": 2.444
+     "start": 4.012,
+     "end": 4.147
     },
     {
-     "text": "paper-trading",
-     "start": 2.444,
-     "end": 2.986
+     "text": "shows",
+     "start": 4.147,
+     "end": 4.282
+    },
+    {
+     "text": "you",
+     "start": 4.282,
+     "end": 4.417
+    },
+    {
+     "text": "how",
+     "start": 4.417,
+     "end": 4.552
+    },
+    {
+     "text": "it",
+     "start": 4.552,
+     "end": 4.687
+    },
+    {
+     "text": "would",
+     "start": 4.687,
+     "end": 4.822
+    },
+    {
+     "text": "have",
+     "start": 4.822,
+     "end": 5.053
+    },
+    {
+     "text": "performed",
+     "start": 5.053,
+     "end": 5.381
     },
     {
      "text": "on",
-     "start": 2.986,
-     "end": 3.159
+     "start": 5.381,
+     "end": 5.516
     },
     {
      "text": "real",
-     "start": 3.159,
-     "end": 3.332
+     "start": 5.516,
+     "end": 5.651
+    },
+    {
+     "text": "past",
+     "start": 5.651,
+     "end": 5.785
     },
     {
      "text": "prices",
-     "start": 3.332,
-     "end": 3.628
+     "start": 5.785,
+     "end": 6.017
     },
     {
-     "text": "is",
-     "start": 3.628,
-     "end": 3.801
+     "text": "before",
+     "start": 6.017,
+     "end": 6.344
     },
     {
-     "text": "totally",
-     "start": 3.801,
-     "end": 4.22
+     "text": "you",
+     "start": 6.344,
+     "end": 6.479
     },
     {
-     "text": "free.",
-     "start": 4.22,
-     "end": 4.393
+     "text": "risk",
+     "start": 6.479,
+     "end": 6.614
+    },
+    {
+     "text": "a",
+     "start": 6.614,
+     "end": 6.749
+    },
+    {
+     "text": "cent.",
+     "start": 6.749,
+     "end": 6.884
     }
    ]
   }
@@ -1064,105 +1124,119 @@
    "file": "assets/sfx/typing.mp3",
    "offset_s": 0,
    "duration_s": 1.5,
-   "volume": 0.16
+   "volume": 0.35
   },
   {
    "frame": 1,
    "file": "assets/sfx/pop.mp3",
    "offset_s": 0,
    "duration_s": 0.72,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 2,
+   "file": "assets/sfx/pop.mp3",
+   "offset_s": 0,
+   "duration_s": 0.72,
+   "volume": 0.35
+  },
+  {
+   "frame": 2,
+   "file": "assets/sfx/click.mp3",
+   "offset_s": 0,
+   "duration_s": 0.37,
+   "volume": 0.35
+  },
+  {
+   "frame": 3,
    "file": "assets/sfx/typing.mp3",
    "offset_s": 0,
    "duration_s": 1.5,
-   "volume": 0.16
+   "volume": 0.35
   },
   {
-   "frame": 2,
+   "frame": 3,
    "file": "assets/sfx/pop.mp3",
    "offset_s": 0,
    "duration_s": 0.72,
-   "volume": 0.2
-  },
-  {
-   "frame": 3,
-   "file": "assets/sfx/click-soft.mp3",
-   "offset_s": 0,
-   "duration_s": 0.37,
-   "volume": 0.2
-  },
-  {
-   "frame": 3,
-   "file": "assets/sfx/click.mp3",
-   "offset_s": 0,
-   "duration_s": 0.37,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 4,
    "file": "assets/sfx/click-soft.mp3",
    "offset_s": 0,
    "duration_s": 0.37,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 4,
    "file": "assets/sfx/click.mp3",
    "offset_s": 0,
    "duration_s": 0.37,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 5,
    "file": "assets/sfx/click-soft.mp3",
    "offset_s": 0,
    "duration_s": 0.37,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 5,
    "file": "assets/sfx/click.mp3",
    "offset_s": 0,
    "duration_s": 0.37,
-   "volume": 0.2
+   "volume": 0.35
   },
   {
    "frame": 6,
-   "file": "assets/sfx/chime.mp3",
+   "file": "assets/sfx/click-soft.mp3",
    "offset_s": 0,
-   "duration_s": 2.5,
-   "volume": 0.16
+   "duration_s": 0.37,
+   "volume": 0.35
+  },
+  {
+   "frame": 6,
+   "file": "assets/sfx/click.mp3",
+   "offset_s": 0,
+   "duration_s": 0.37,
+   "volume": 0.35
   },
   {
    "frame": 7,
-   "file": "assets/sfx/pop.mp3",
-   "offset_s": 0,
-   "duration_s": 0.72,
-   "volume": 0.2
-  },
-  {
-   "frame": 7,
    "file": "assets/sfx/chime.mp3",
    "offset_s": 0,
    "duration_s": 2.5,
-   "volume": 0.16
+   "volume": 0.35
   },
   {
    "frame": 8,
+   "file": "assets/sfx/pop.mp3",
+   "offset_s": 0,
+   "duration_s": 0.72,
+   "volume": 0.35
+  },
+  {
+   "frame": 8,
+   "file": "assets/sfx/chime.mp3",
+   "offset_s": 0,
+   "duration_s": 2.5,
+   "volume": 0.35
+  },
+  {
+   "frame": 9,
    "file": "assets/sfx/impact-bass-1.mp3",
    "offset_s": 0,
    "duration_s": 2.12,
-   "volume": 0.16
+   "volume": 0.35
   },
   {
-   "frame": 8,
+   "frame": 9,
    "file": "assets/sfx/pop.mp3",
    "offset_s": 0,
    "duration_s": 0.72,
-   "volume": 0.2
+   "volume": 0.35
   }
  ]
 }

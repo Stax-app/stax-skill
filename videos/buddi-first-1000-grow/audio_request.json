@@ -10,15 +10,15 @@
     {
       "id": "02",
       "sfx": [
-        "typing",
-        "pop"
+        "pop",
+        "click"
       ]
     },
     {
       "id": "03",
       "sfx": [
-        "click-soft",
-        "click"
+        "typing",
+        "pop"
       ]
     },
     {
@@ -32,26 +32,32 @@
       "id": "05",
       "sfx": [
         "click-soft",
-        "click",
         "click"
       ]
     },
     {
       "id": "06",
       "sfx": [
-        "chime"
+        "click-soft",
+        "click",
+        "click"
       ]
     },
     {
       "id": "07",
       "sfx": [
-        "pop",
-        "riser",
         "chime"
       ]
     },
     {
       "id": "08",
+      "sfx": [
+        "pop",
+        "chime"
+      ]
+    },
+    {
+      "id": "09",
       "sfx": [
         "impact-bass-1",
         "pop"
