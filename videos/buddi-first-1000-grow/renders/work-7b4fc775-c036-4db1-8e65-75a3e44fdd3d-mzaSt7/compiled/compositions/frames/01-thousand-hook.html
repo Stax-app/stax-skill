@@ -1,0 +1,430 @@
+<template>
+  <div id="root" data-composition-id="01-thousand-hook" data-duration="6.324" data-width="1080" data-height="1920">
+    <style>
+      @font-face {
+        font-family: "Space Grotesk";
+        src: url("assets/fonts/space-grotesk-var.woff2") format("woff2");
+        font-weight: 300 800;
+        font-style: normal;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("assets/fonts/inter-var.woff2") format("woff2");
+        font-weight: 300 800;
+        font-style: normal;
+        font-display: block;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden; /* contains the arrow's off-left streak runway */
+      }
+
+      /* ── Full-bleed ground (dedicated track-0 clip, never on #root) ── */
+      .thk-bg {
+        position: absolute;
+        inset: 0;
+        background: #0b0e11;
+      }
+      .thk-tint {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 92% 44% at 50% 30%,
+          rgba(43, 217, 124, 0.055) 0%,
+          rgba(43, 217, 124, 0) 62%
+        );
+      }
+      .thk-ring {
+        position: absolute;
+        border: 1.5px solid rgba(43, 217, 124, 0.05);
+        border-radius: 50%;
+      }
+      .thk-ring-1 { width: 760px;  height: 760px;  left: 160px; top: 250px; }
+      .thk-ring-2 { width: 1080px; height: 1080px; left: 0;     top: 90px;  border-color: rgba(43, 217, 124, 0.036); }
+      .thk-ring-3 { width: 1260px; height: 1260px; left: -90px; top: 0;     border-color: rgba(43, 217, 124, 0.024); }
+
+      /* ── Content stack — everything lives above y≈1250 (captions y1290+) ── */
+      .thk-stack {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 470px;
+      }
+
+      /* Lock glow — BEHIND the odometer, pulses once when $1,000 locks */
+      .thk-glow {
+        position: absolute;
+        width: 980px;
+        height: 660px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: -190px;
+        background: radial-gradient(
+          ellipse,
+          rgba(43, 217, 124, 0.5) 0%,
+          rgba(43, 217, 124, 0.16) 38%,
+          rgba(43, 217, 124, 0) 70%
+        );
+        opacity: 0;
+        pointer-events: none;
+        will-change: transform, opacity;
+        z-index: 1;
+      }
+
+      /* ── The cash odometer: fixed "$" + 4 rolling digit columns ── */
+      .thk-odo {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        z-index: 2;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        will-change: transform, opacity;
+      }
+      .thk-dollar {
+        width: 150px;
+        height: 264px;
+        line-height: 264px;
+        text-align: center;
+        font-size: 192px;
+        color: #2bd97c; /* the single green accent carries the "$" */
+      }
+      .thk-comma {
+        width: 62px;
+        height: 264px;
+        line-height: 264px;
+        text-align: center;
+        font-size: 192px;
+        color: #f2f5f4;
+      }
+      /* digit window — subtle dark cell, green-tinted border, clips the strip */
+      .thk-win {
+        position: relative;
+        width: 156px;
+        height: 264px;
+        overflow: hidden;
+        background: rgba(43, 217, 124, 0.07);
+        border: 1.5px solid rgba(43, 217, 124, 0.28);
+        border-radius: 14px;
+      }
+      /* the rolling strip — GSAP tweens y; digits 0-9 stacked vertically */
+      .thk-strip {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        will-change: transform;
+      }
+      .thk-cell {
+        height: 264px;
+        line-height: 264px;
+        text-align: center;
+        font-size: 210px;
+        color: #f2f5f4;
+      }
+      /* static top/bottom shading inside each window (odometer drum depth) */
+      .thk-shade {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+          180deg,
+          rgba(11, 14, 17, 0.55) 0%,
+          rgba(11, 14, 17, 0) 24%,
+          rgba(11, 14, 17, 0) 76%,
+          rgba(11, 14, 17, 0.55) 100%
+        );
+        border-radius: 12px;
+        z-index: 3;
+      }
+
+      /* ── "2026" tag-pill — uppercase tracked chrome, pops beside the
+         numeral on the spoken "2026" cue (sanctioned pop #2) ── */
+      .thk-tag {
+        position: absolute;
+        top: -34px;
+        left: calc(50% + 330px);
+        padding: 12px 26px;
+        border-radius: 999px;
+        background: rgba(43, 217, 124, 0.12);
+        border: 1.5px solid rgba(43, 217, 124, 0.42);
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #2bd97c;
+        opacity: 0;
+        z-index: 3;
+        will-change: transform, opacity;
+      }
+
+      /* ── Line 2 — streaking arrow + typed question + caret ── */
+      .thk-l2 {
+        position: relative;
+        width: 740px;
+        height: 96px;
+        margin: 92px auto 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        white-space: nowrap;
+        z-index: 2;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 500;
+        font-size: 62px;
+        letter-spacing: -0.01em;
+      }
+      .thk-arrow {
+        display: inline-block;
+        margin-right: 22px;
+        font-weight: 700;
+        font-size: 72px;
+        color: #2bd97c;
+        opacity: 0;
+        filter: url(#01-thousand-hook-streak);
+        will-change: transform, opacity, filter;
+      }
+      .thk-typed {
+        color: #f2f5f4;
+        white-space: pre;
+      }
+      .thk-caret {
+        display: inline-block;
+        width: 9px;
+        height: 56px;
+        margin-left: 10px;
+        border-radius: 3px;
+        background: #2bd97c;
+        opacity: 0;
+      }
+    </style>
+
+    <!-- Track 0 — full-bleed dark field (hook atmosphere: faint tint + rings).
+         Spans the whole host window (5.824s shot + 0.5s crossfade tail). -->
+    <div class="clip thk-bg" data-start="0" data-duration="6.324" data-track-index="0">
+      <div class="thk-tint"></div>
+      <div class="thk-ring thk-ring-1"></div>
+      <div class="thk-ring thk-ring-2"></div>
+      <div class="thk-ring thk-ring-3"></div>
+    </div>
+
+    <!-- Track 1 — the cash odometer shot -->
+    <div class="clip" data-start="0" data-duration="6.324" data-track-index="1"
+         style="position: absolute; inset: 0;">
+      <!-- motion-blur-streak (Path A): horizontal-only gaussian smear for the arrow -->
+      <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+        <defs>
+          <filter id="01-thousand-hook-streak" x="-120%" y="-50%" width="340%" height="200%">
+            <feGaussianBlur id="01-thousand-hook-streakblur" in="SourceGraphic" stdDeviation="0 0" />
+          </filter>
+        </defs>
+      </svg>
+
+      <div class="thk-stack">
+        <div class="thk-glow" id="01-thousand-hook-glow"></div>
+
+        <!-- The odometer: $ [1] , [0] [0] [0] — strips built at setup (deterministic) -->
+        <div class="thk-odo" id="01-thousand-hook-odo">
+          <div class="thk-dollar">$</div>
+          <div class="thk-win">
+            <div class="thk-strip" id="01-thousand-hook-colA"></div>
+            <div class="thk-shade"></div>
+          </div>
+          <div class="thk-comma">,</div>
+          <div class="thk-win">
+            <div class="thk-strip" id="01-thousand-hook-colB"></div>
+            <div class="thk-shade"></div>
+          </div>
+          <div class="thk-win">
+            <div class="thk-strip" id="01-thousand-hook-colC"></div>
+            <div class="thk-shade"></div>
+          </div>
+          <div class="thk-win">
+            <div class="thk-strip" id="01-thousand-hook-colD"></div>
+            <div class="thk-shade"></div>
+          </div>
+        </div>
+
+        <!-- "2026" tag-pill — text set at setup from the script (deterministic) -->
+        <div class="thk-tag" id="01-thousand-hook-tag"></div>
+
+        <!-- Line 2: green arrow streaks in, then the question types behind it -->
+        <div class="thk-l2">
+          <span class="thk-arrow" id="01-thousand-hook-arrow">&#8594;</span><span
+            class="thk-typed" id="01-thousand-hook-typed"></span><span
+            class="thk-caret" id="01-thousand-hook-caret"></span>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+
+        var SHOT = 5.824;      /* VO / shot length — all choreography completes by here */
+        var TL_END = 6.324;    /* host window incl. 0.5s crossfade tail (still hold) */
+        var H = 264;           /* digit cell height */
+
+        var odo = document.getElementById("01-thousand-hook-odo");
+        var glow = document.getElementById("01-thousand-hook-glow");
+        var arrow = document.getElementById("01-thousand-hook-arrow");
+        var typed = document.getElementById("01-thousand-hook-typed");
+        var caret = document.getElementById("01-thousand-hook-caret");
+        var blurNode = document.getElementById("01-thousand-hook-streakblur");
+        var tag = document.getElementById("01-thousand-hook-tag");
+        tag.textContent = "2026"; /* script-sourced, matches the spoken cue */
+
+        /* Build the digit strips synchronously at setup (index-driven, no randomness).
+           Each strip = full 0-9 revolutions ending on the target digit; column A
+           carries one spare cell ("2") past its landing "1" so the overshoot
+           has a visible drum to roll onto. */
+        function buildStrip(el, revolutions, extraDigits) {
+          var digits = [];
+          for (var r = 0; r < revolutions; r++) {
+            for (var d = 0; d <= 9; d++) digits.push(d);
+          }
+          for (var e = 0; e < extraDigits.length; e++) digits.push(extraDigits[e]);
+          for (var i = 0; i < digits.length; i++) {
+            var cell = document.createElement("div");
+            cell.className = "thk-cell";
+            cell.textContent = String(digits[i]);
+            el.appendChild(cell);
+          }
+        }
+        var colA = document.getElementById("01-thousand-hook-colA");
+        var colB = document.getElementById("01-thousand-hook-colB");
+        var colC = document.getElementById("01-thousand-hook-colC");
+        var colD = document.getElementById("01-thousand-hook-colD");
+        buildStrip(colA, 2, [0, 1, 2]); /* lands index 21 → "1" ("2" = overshoot spare) */
+        buildStrip(colB, 2, [0]);       /* lands index 20 → "0" */
+        buildStrip(colC, 3, [0]);       /* lands index 30 → "0" */
+        buildStrip(colD, 4, [0]);       /* lands index 40 → "0" */
+
+        var tl = gsap.timeline({ paused: true });
+
+        /* ── Scene 1 (0–2.6s): the cash odometer.
+           "$" fixed; four columns roll $0,000 → $1,000 like a slot-machine
+           odometer. Outer columns settle first; the thousands "1" lands LAST
+           with a decelerating overshoot (sanctioned pop #1), locking the full
+           "$1,000" at ~2.30s — on the spoken "$1,000" cue (2.25–3.09s). ── */
+        tl.fromTo(
+          odo,
+          { opacity: 0, y: 36 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+          0.02
+        );
+
+        var ROLL_AT = 0.12;
+        /* rightmost first — each column its own duration + revolutions */
+        tl.fromTo(colD, { y: 0 }, { y: -40 * H, duration: 1.33, ease: "power2.inOut" }, ROLL_AT);
+        tl.fromTo(colC, { y: 0 }, { y: -30 * H, duration: 1.59, ease: "power2.inOut" }, ROLL_AT);
+        tl.fromTo(colB, { y: 0 }, { y: -20 * H, duration: 1.82, ease: "power2.inOut" }, ROLL_AT);
+        /* the "1": rolls PAST its landing by a third of a cell, then settles
+           back with a soft deceleration — two adjacent finite tweens, no yoyo */
+        tl.fromTo(colA, { y: 0 }, { y: -(21 * H + 90), duration: 1.94, ease: "power2.inOut" }, ROLL_AT);
+        tl.to(colA, { y: -21 * H, duration: 0.24, ease: "power3.out" }, 2.06);
+
+        /* faint green glow pulses ONCE as the full "$1,000" locks (2.30s) */
+        tl.fromTo(
+          glow,
+          { opacity: 0, scale: 0.9 },
+          { opacity: 0.34, scale: 1, duration: 0.22, ease: "power2.out" },
+          2.28
+        );
+        tl.to(glow, { opacity: 0.1, duration: 0.6, ease: "power2.inOut" }, 2.52);
+
+        /* "2026" tag-pill pops beside the numeral on the spoken "2026" cue
+           (3.79–4.63s) — sanctioned pop #2: one finite overshoot, no exit */
+        tl.fromTo(
+          tag,
+          { opacity: 0, scale: 0.5, y: 16 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.38, ease: "back.out(2.2)" },
+          3.84
+        );
+
+        /* ── Scene 2 (4.8–5.8s): on "without picking a single stock" (VO 4.90s)
+           the green arrow SHOOTS in from off-left with a motion-blur streak —
+           blur envelope shares the position tween's window + ease, so peak
+           smear rides peak speed and the arrow snaps sharp as it skids to a
+           stop. Then the question types fast behind it. ── */
+        var MOVE_AT = 4.86;
+        var MOVE_DUR = 0.42;
+        var blurProxy = { v: 26 };
+        var writeBlur = function () {
+          blurNode.setAttribute("stdDeviation", blurProxy.v + " 0"); /* X-axis only */
+        };
+        writeBlur(); /* seed so any seek before the settle shows the streaked state */
+
+        tl.fromTo(
+          arrow,
+          { x: -820, opacity: 0 },
+          { x: 0, opacity: 1, duration: MOVE_DUR, ease: "power4.out" },
+          MOVE_AT
+        );
+        tl.fromTo(
+          blurProxy,
+          { v: 26 },
+          { v: 0, duration: MOVE_DUR, ease: "power4.out", onUpdate: writeBlur },
+          MOVE_AT
+        );
+
+        /* discrete-text-sequence — fast ~0.036s keystrokes, done by ~5.74s */
+        var PHRASE = "where does it go?";
+        var TYPE_AT = 5.16;
+        var STEP = 0.036;
+        var SEQ = [{ t: 0, s: "" }];
+        for (var c = 1; c <= PHRASE.length; c++) {
+          SEQ.push({ t: TYPE_AT + (c - 1) * STEP, s: PHRASE.substring(0, c) });
+        }
+        function textAt(time) {
+          for (var i = SEQ.length - 1; i >= 0; i--) {
+            if (time >= SEQ[i].t) return SEQ[i].s;
+          }
+          return "";
+        }
+
+        /* ── Scene 3 (5.74s–end): dead still; only the caret sin-blinks,
+           deterministically, and ends HIDDEN (mid off-phase held through the
+           crossfade tail). One driver owns typed text + caret state — no CSS
+           animation, seek-safe. ── */
+        var drv = { t: 0 };
+        tl.to(
+          drv,
+          {
+            t: TL_END,
+            duration: TL_END,
+            ease: "none",
+            onUpdate: function () {
+              var t = drv.t;
+              typed.textContent = textAt(t);
+              if (t < 4.98) {
+                caret.style.opacity = "0"; /* hidden until the arrow arrives */
+              } else if (t < 5.79) {
+                caret.style.opacity = "1"; /* solid while typing */
+              } else {
+                /* blink in the hold — sin period 0.66s, phase-locked at 5.79:
+                   ON 5.79–6.12, OFF 6.12–6.324 → ends hidden, deterministic
+                   (no flicker across the crossfade tail's final frames) */
+                caret.style.opacity =
+                  Math.sin(((t - 5.79) * Math.PI * 2) / 0.66) >= 0 ? "1" : "0";
+              }
+            }
+          },
+          0
+        );
+
+        window.__timelines["01-thousand-hook"] = tl;
+      })();
+    </script>
+  </div>
+</template>
