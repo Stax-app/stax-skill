@@ -1,0 +1,479 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Storyboard Frame 5 (file keeps id 04-question-risk) — your real risk tolerance
+         (buddi-first-1000-grow)
+         NEW BOLD IDEA — "the chart acts it out, the chips react" (personality frame).
+         VO (5.888s): "Then: how you'd actually feel watching it drop 20% in a rough
+         month — that's your real risk tolerance, not the brave one in your head."
+         Scene 1: question line lands, then an abstract FEELING chart (no numbers/axes/
+                  timeframes on the chart itself) draws a gentle green climb, then
+                  PLUNGES orange landing on the spoken "drop 20%" cue; a tiny orange
+                  "!" chip pops at the cliff edge and the canvas does one deterministic
+                  6px shake (3 oscillations, then still).
+         Scene 2: three answer chips slide up AFTER the plunge and react in character —
+                  "Sell it" trembles (finite 4-oscillation jitter), "Buy more" leans in,
+                  "Hold on" stays perfectly still; the finger tap lands "Hold on"
+                  (press-release-spring + ripple, green fill commit).
+         Scene 3: "your real one" tag pops on "your real risk tolerance" with inline-SVG
+                  eyes that BLINK once (two eyelid rects, finite) — then everything
+                  freezes dead still to 5.888s. The stretched held beat is the point.
+         Everything the runtime needs lives INSIDE <template>. -->
+  </head>
+  <body>
+    <template>
+      <style>
+        /* ---------- Fonts (variable, shipped with the project) ---------- */
+        @font-face {
+          font-family: "Space Grotesk";
+          src: url("assets/fonts/space-grotesk-var.woff2") format("woff2-variations");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+        @font-face {
+          font-family: "Inter";
+          src: url("assets/fonts/inter-var.woff2") format("woff2-variations");
+          font-weight: 300 800;
+          font-style: normal;
+          font-display: block;
+        }
+
+        /* ---------- Root (styled via #root, never a class) ---------- */
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Full-bleed ground — its own clip layer, never on #root.
+           Stays UNSHAKEN (uniform field, so the shake never exposes an edge). */
+        .f4-bg {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(920px 640px at 540px 520px, rgba(43, 217, 124, 0.05), rgba(43, 217, 124, 0) 70%),
+            #0B0E11;
+        }
+
+        .f4-stage {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        /* Shake wrapper — the "camera" that takes the impact. GSAP-only transforms. */
+        .f4-shake {
+          position: absolute;
+          inset: 0;
+          will-change: transform;
+        }
+
+        /* ---------- Header chrome (product continuity, no narration text) ---------- */
+        .f4-headrow {
+          position: absolute;
+          left: 0;
+          top: 96px;
+          width: 1080px;
+          display: flex;
+          justify-content: center;
+        }
+        .f4-qcount {
+          display: inline-flex;
+          align-items: center;
+          height: 52px;
+          background: #171C21;
+          border: 1px solid #262D33;
+          color: #76837C;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          font-size: 22px;
+          border-radius: 100px;
+          padding: 0 30px;
+          box-sizing: border-box;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 25px;
+          font-weight: 500;
+          letter-spacing: 0.05em;
+          will-change: transform;
+        }
+
+        /* ---------- The question line (script-sourced copy — the VO speaks it) ---------- */
+        .f4-question {
+          position: absolute;
+          left: 90px;
+          top: 200px;
+          width: 900px;
+          text-align: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 36px;
+          font-weight: 500;
+          letter-spacing: -0.01em;
+          line-height: 1.3;
+          color: #F2F5F4;
+          will-change: transform;
+        }
+
+        /* ---------- The abstract feeling chart — just the line on the dark ground.
+             GUARDRAIL: no numbers, no axis labels, no timeframes. ---------- */
+        .f4-chart {
+          position: absolute;
+          left: 120px;
+          top: 210px;
+          width: 840px;
+          height: 460px;
+          filter: drop-shadow(0 0 20px rgba(43, 217, 124, 0.28));
+        }
+        .f4-chart path {
+          fill: none;
+          stroke-width: 7;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        #f4-line-climb {
+          stroke: #2BD97C;
+        }
+        #f4-line-drop {
+          stroke: url(#f4-dropgrad);
+        }
+
+        /* Tiny orange "!" chip at the cliff edge (abs coords: peak ≈ 686,328) */
+        .f4-alert {
+          position: absolute;
+          left: 704px;
+          top: 248px;
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: rgba(249, 115, 22, 0.18);
+          border: 1.5px solid rgba(249, 115, 22, 0.55);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 34px;
+          font-weight: 700;
+          color: #F97316;
+          will-change: transform;
+        }
+
+        /* ---------- The three answer chips (row, beneath the chart) ---------- */
+        .f4-chips {
+          position: absolute;
+          left: 0;
+          top: 812px;
+          width: 1080px;
+          display: flex;
+          justify-content: center;
+          gap: 24px;
+        }
+        .f4-chip {
+          width: 280px;
+          height: 92px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          background: #15191D;
+          border: 1px solid #2A2F34;
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 31px;
+          font-weight: 600;
+          color: #F2F5F4;
+          will-change: transform;
+        }
+
+        /* ---------- Tap actor (finger-sized highlight) + ripple rings.
+             "Hold on" chip center = canvas (540, 858). ---------- */
+        .f4-tap {
+          position: absolute;
+          left: 492px;
+          top: 810px;
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+          background: rgba(43, 217, 124, 0.26);
+          border: 1.5px solid rgba(43, 217, 124, 0.4);
+          opacity: 0;
+          pointer-events: none;
+          z-index: 6;
+          will-change: transform;
+        }
+        .f4-ripple {
+          position: absolute;
+          left: 485px;
+          top: 803px;
+          width: 110px;
+          height: 110px;
+          border-radius: 50%;
+          border: 2.5px solid rgba(43, 217, 124, 0.8);
+          opacity: 0;
+          pointer-events: none;
+          z-index: 5;
+          will-change: transform;
+        }
+
+        /* ---------- "your real one" tag + blinking inline-SVG eyes ---------- */
+        .f4-tagrow {
+          position: absolute;
+          left: 0;
+          top: 990px;
+          width: 1080px;
+          display: flex;
+          justify-content: center;
+        }
+        .f4-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 18px;
+          height: 82px;
+          padding: 0 36px;
+          box-sizing: border-box;
+          background: rgba(43, 217, 124, 0.16);
+          border: 1.5px solid rgba(43, 217, 124, 0.32);
+          border-radius: 100px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 36px;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+          color: #2BD97C;
+          will-change: transform;
+        }
+        .f4-eyes {
+          display: block;
+          width: 56px;
+          height: 28px;
+          flex: none;
+        }
+        .f4-eyes .f4-eye {
+          fill: #0B0E11;
+          stroke: #A8B3AE;
+          stroke-width: 2.5;
+        }
+        .f4-eyes .f4-pupil {
+          fill: #A8B3AE;
+        }
+        .f4-eyes .f4-lid {
+          fill: #0B0E11;
+        }
+      </style>
+
+      <div id="root" data-composition-id="04-question-risk" data-width="1080" data-height="1920" data-duration="6.388">
+        <!-- full-bleed ground as a clip layer (track 0).
+             6.388 = 5.888s VO + 0.5s push-slide host overlap. -->
+        <div class="clip f4-bg" data-start="0" data-duration="6.388" data-track-index="0"></div>
+
+        <div class="clip f4-stage" data-start="0" data-duration="6.388" data-track-index="1">
+          <div class="f4-shake" id="f4-shake">
+            <!-- header chrome -->
+            <div class="f4-headrow">
+              <div class="f4-qcount" id="f4-qcount">QUESTION 2</div>
+            </div>
+
+            <!-- the question line — script-sourced (VO speaks the 20%); the chart
+                 below stays label-free and number-free -->
+            <div class="f4-question" id="f4-question">It drops 20% in a rough month. What do you do?</div>
+
+            <!-- Scene 1: the feeling chart — climb (green) + plunge (green→orange) -->
+            <svg class="f4-chart" viewBox="0 0 840 460" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="f4-dropgrad" gradientUnits="userSpaceOnUse"
+                  x1="566" y1="118" x2="648" y2="414">
+                  <stop offset="0" stop-color="#2BD97C" />
+                  <stop offset="0.45" stop-color="#F97316" />
+                  <stop offset="1" stop-color="#F97316" />
+                </linearGradient>
+              </defs>
+              <path id="f4-line-climb"
+                d="M 28 336 C 100 322 150 314 208 296 C 266 278 306 268 358 244 C 410 220 448 208 494 178 C 530 158 552 136 566 118" />
+              <path id="f4-line-drop"
+                d="M 566 118 C 576 168 582 216 596 268 C 608 314 622 366 648 414" />
+            </svg>
+
+            <!-- the tiny orange "!" chip at the cliff edge -->
+            <div class="f4-alert" id="f4-alert">!</div>
+
+            <!-- Scene 2: three answer chips, each with a personality -->
+            <div class="f4-chips">
+              <div class="f4-chip" id="f4-chip-sell">Sell it</div>
+              <div class="f4-chip" id="f4-chip-hold">Hold on</div>
+              <div class="f4-chip" id="f4-chip-buy">Buy more</div>
+            </div>
+
+            <!-- tap actor + ripple rings over the "Hold on" chip -->
+            <div class="f4-ripple" id="f4-ripple-a"></div>
+            <div class="f4-ripple" id="f4-ripple-b"></div>
+            <div class="f4-tap" id="f4-tap"></div>
+
+            <!-- Scene 3: "your real one" tag + eyes that blink once -->
+            <div class="f4-tagrow">
+              <div class="f4-tag" id="f4-tag">
+                <span>your real one</span>
+                <svg class="f4-eyes" viewBox="0 0 52 26" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <clipPath id="f4-lidclip-l"><circle cx="13" cy="13" r="9.3" /></clipPath>
+                    <clipPath id="f4-lidclip-r"><circle cx="39" cy="13" r="9.3" /></clipPath>
+                  </defs>
+                  <circle class="f4-eye" cx="13" cy="13" r="10.5" />
+                  <circle class="f4-eye" cx="39" cy="13" r="10.5" />
+                  <circle class="f4-pupil" cx="15" cy="14" r="4.2" />
+                  <circle class="f4-pupil" cx="41" cy="14" r="4.2" />
+                  <rect class="f4-lid" id="f4-lid-l" x="3" y="3" width="20" height="20"
+                    clip-path="url(#f4-lidclip-l)" />
+                  <rect class="f4-lid" id="f4-lid-r" x="29" y="3" width="20" height="20"
+                    clip-path="url(#f4-lidclip-r)" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/vendor/gsap.min.js"></script>
+      <script>
+        (function () {
+          window.__timelines = window.__timelines || {};
+
+          var $ = function (id) { return document.getElementById(id); };
+          var shake = $("f4-shake");
+          var qcount = $("f4-qcount");
+          var question = $("f4-question");
+          var climb = $("f4-line-climb");
+          var drop = $("f4-line-drop");
+          var alertChip = $("f4-alert");
+          var sellChip = $("f4-chip-sell");
+          var holdChip = $("f4-chip-hold");
+          var buyChip = $("f4-chip-buy");
+          var tap = $("f4-tap");
+          var ripples = [$("f4-ripple-a"), $("f4-ripple-b")];
+          var tag = $("f4-tag");
+          var lids = [$("f4-lid-l"), $("f4-lid-r")];
+
+          // svg-path-draw: measure real geometry, dash = full length (invisible at t=0)
+          var climbLen = climb.getTotalLength();
+          var dropLen = drop.getTotalLength();
+          climb.style.strokeDasharray = String(climbLen);
+          climb.style.strokeDashoffset = String(climbLen);
+          drop.style.strokeDasharray = String(dropLen);
+          drop.style.strokeDashoffset = String(dropLen);
+
+          var tl = gsap.timeline({ paused: true });
+
+          /* ============ Scene 1 (0.0–2.3s) — the chart acts it out ============
+             VO 0.06–2.94: "Then: how you'd actually feel watching it drop 20%
+             in a rough month" — cues: "drop" 1.61, "20%" 1.76–2.32 */
+
+          // header chrome settles quietly
+          tl.fromTo(qcount, { opacity: 0, y: -14 },
+            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.05);
+
+          // the question line lands as the VO starts asking
+          tl.fromTo(question, { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.10);
+
+          // the green climb draws steadily on "Then:" — pen-on-ground, constant speed
+          tl.fromTo(climb, { strokeDashoffset: climbLen },
+            { strokeDashoffset: 0, duration: 1.48, ease: "none" }, 0.12);
+
+          // "drop 20%" (1.61–2.32): the PLUNGE draws fast, accelerating like a fall,
+          // bottoming out mid-"20%"; its stroke runs green→orange via the
+          // userSpaceOnUse gradient
+          tl.fromTo(drop, { strokeDashoffset: dropLen },
+            { strokeDashoffset: 0, duration: 0.38, ease: "power2.in" }, 1.61);
+
+          // the tiny orange "!" pops at the cliff edge on the "20%" onset
+          tl.fromTo(alertChip, { opacity: 0, scale: 0 },
+            { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, 1.76);
+
+          // impact: one deterministic 6px canvas shake — 3 oscillations, then still
+          tl.to(shake, { x: 6, y: 2, duration: 0.06, ease: "power1.out" }, 1.97);
+          tl.to(shake, { x: -5, y: -2, duration: 0.07, ease: "power1.inOut" }, 2.03);
+          tl.to(shake, { x: 4, y: 1, duration: 0.07, ease: "power1.inOut" }, 2.10);
+          tl.to(shake, { x: 0, y: 0, duration: 0.12, ease: "power2.out" }, 2.17);
+
+          /* ============ Scene 2 (2.4–3.9s) — the chips react in character ============
+             Chips enter AFTER the plunge, on "in a rough month" (2.32–2.94);
+             the tap commits "Hold on" as the VO reaches "risk tolerance" */
+
+          // three answer chips slide up beneath the chart, staggered
+          tl.fromTo(sellChip, { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.42);
+          tl.fromTo(holdChip, { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.56);
+          tl.fromTo(buyChip, { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.70);
+
+          // "Sell it" trembles nervously — finite x-jitter, 4 oscillations, then still
+          tl.to(sellChip, { x: 7, duration: 0.05, ease: "power1.inOut" }, 2.88);
+          tl.to(sellChip, { x: -6, duration: 0.06, ease: "power1.inOut" }, 2.93);
+          tl.to(sellChip, { x: 5, duration: 0.06, ease: "power1.inOut" }, 2.99);
+          tl.to(sellChip, { x: -4, duration: 0.06, ease: "power1.inOut" }, 3.05);
+          tl.to(sellChip, { x: 0, duration: 0.10, ease: "power2.out" }, 3.11);
+
+          // "Buy more" leans in toward the chart, eager… then eases back to rest
+          tl.to(buyChip, { rotation: -4, y: -8, duration: 0.35, ease: "back.out(1.8)" }, 3.10);
+          tl.to(buyChip, { rotation: 0, y: 0, duration: 0.40, ease: "power2.inOut" }, 3.60);
+
+          // ("Hold on" stays perfectly still — that IS its character.)
+
+          // the tap-highlight fades in slightly off-target, hovering…
+          tl.fromTo(tap, { opacity: 0, scale: 0.9, x: -22, y: -92 },
+            { opacity: 1, scale: 1, x: -14, y: -62, duration: 0.28, ease: "power2.out" }, 2.98);
+
+          // …then commits — drifts onto the chip center
+          tl.to(tap, { x: 0, y: 0, duration: 0.26, ease: "power2.inOut" }, 3.30);
+
+          // press — linear compression, tap dot + chip compress together
+          tl.to(tap, { scale: 0.82, duration: 0.09, ease: "power1.in" }, 3.58);
+          tl.to(holdChip, { scale: 0.955, duration: 0.09, ease: "power1.in" }, 3.58);
+
+          // release — spring recovery, state-continuous with the press
+          tl.to(tap, { scale: 1, duration: 0.2, ease: "power2.out" }, 3.67);
+          tl.to(holdChip, { scale: 1, duration: 0.4, ease: "back.out(1.4)" }, 3.67);
+
+          // green fill commit — the chip locks in
+          tl.to(holdChip, {
+            backgroundColor: "#2BD97C",
+            color: "#06231A",
+            borderColor: "#2BD97C",
+            duration: 0.22,
+            ease: "power1.out",
+          }, 3.67);
+
+          // ripple rings radiate from the tap point (held invisible until now)
+          ripples.forEach(function (r, k) {
+            tl.fromTo(r, { scale: 0.35, opacity: 0.75 },
+              { scale: 2.3, opacity: 0, duration: 0.5, ease: "power2.out",
+                immediateRender: false }, 3.63 + k * 0.08);
+          });
+
+          // tap-highlight lifts off
+          tl.to(tap, { opacity: 0, scale: 0.8, duration: 0.22, ease: "power1.in" }, 3.90);
+
+          /* ============ Scene 3 (3.6–5.888s) — the tag, one blink, the HOLD ============
+             VO 3.27–4.22: "your real risk tolerance" → tag pops on "risk" (3.58).
+             VO 4.22–5.52: "not the brave one in your head." → blink, then dead still. */
+
+          // "your real one" spring-pops beneath the chips (sanctioned pop #1)
+          tl.fromTo(tag, { opacity: 0, scale: 0.6, y: 26, rotation: -3 },
+            { opacity: 1, scale: 1, y: 0, rotation: -2, duration: 0.5,
+              ease: "back.out(1.6)" }, 3.60);
+
+          // the eyes BLINK once — two eyelid rects close then open (sanctioned pop #2)
+          // fromTo immediateRender keeps the lids open (scaleY 0) from t=0
+          tl.fromTo(lids, { scaleY: 0, transformOrigin: "50% 0%" },
+            { scaleY: 1, duration: 0.10, ease: "power2.in" }, 4.30);
+          tl.to(lids, { scaleY: 0, duration: 0.14, ease: "power2.out" }, 4.44);
+
+          // 4.58 → 5.888: DEAD STILL. The stretched beat of stillness is the frame's
+          // point — no tweens past this line.
+
+          window.__timelines["04-question-risk"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
