@@ -3,17 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <!-- Frame 2 — One sentence into Buddi · "thoughts collect into the message"
-         Scene 1 (0.0–2.8s): stepper chrome + dark input bar settle; on "instead of you guessing"
+         Scene 1 (0.0–2.5s): stepper chrome + dark input bar settle; on "instead of you guessing"
            six muted, blurred WORD FRAGMENTS (stocks? ETFs? crypto? savings? later? risky?) float
            in a slow-rotating 3D depth cloud (depth-scatter-assemble scattered state — golden-angle
            deterministic, no Math.random).
-         Scene 2 (2.8–5.5s): on "one sentence:" the fragments condense INTO the input bar (shrink +
-           fade, index-staggered) while the real sentence TYPES fast (~0.04s keystrokes, fixed
+         Scene 2 (2.5–4.85s): on "one sentence:" the fragments condense INTO the input bar (shrink +
+           fade, index-staggered) while the real sentence TYPES fast (~0.03s keystrokes, fixed
            jitter, ticker-push pinned caret) — the guessing chaos distilled into one line.
-         Scene 3 (5.5–6.955s): the green send button compresses and FIRES (press-release-spring);
+         Scene 3 (4.85–6.1s): the green send button compresses and FIRES (press-release-spring);
            the typed line squashes horizontally into the button, which ejects the right-aligned
            green-tinted user bubble (card-morph-anchor, white text); Buddi typing dots land
-           lower-left; settle. Duration 6.955s synced to assets/voice/02.wav; content above y≈1250. -->
+           lower-left; still by 6.1s. Voice assets/voice/03.wav is 6.208s; duration 6.708s
+           (6.208 + 0.5s push-slide overlap tail); content above y≈1250. -->
   </head>
   <body>
     <template>
@@ -272,10 +273,11 @@
         data-composition-id="02-one-sentence"
         data-width="1080"
         data-height="1920"
+        data-duration="6.708"
       >
-        <div class="f2-bg clip" data-start="0" data-duration="6.955" data-track-index="0"></div>
+        <div class="f2-bg clip" data-start="0" data-duration="6.708" data-track-index="0"></div>
 
-        <div class="f2-cam clip" data-start="0" data-duration="6.955" data-track-index="1">
+        <div class="f2-cam clip" data-start="0" data-duration="6.708" data-track-index="1">
           <!-- TOP STEPPER: first check green, later steps muted -->
           <div class="f2-stepper" id="f2-stepper">
             <div class="f2-step">
@@ -376,24 +378,25 @@
         window.__timelines = window.__timelines || {};
         const tl = gsap.timeline({ paused: true });
 
-        const D = 6.955; // frame duration, synced to voice 02.wav
+        const D = 6.708; // voice 03.wav (6.208s) + 0.5s push-slide overlap tail
 
-        /* ---- key voice cues (audio_meta.json, frame 2) ----
-           "Here's the move."                     0.10–0.83 → chrome + input settle
-           "Instead of you guessing…"             1.09–1.98 → fog of guesses fades in, cloud drifts
-           "…you tell an AI called Buddi"         1.98–3.20 → cloud tumbles, camera leans in
-           "one sentence:"                        3.20–3.89 → fragments CONDENSE into the bar,
-                                                              typing begins (~0.04s keystrokes)
-           "I've got $1,000 … what to do with it" 4.03–6.50 → typed line runs under the spoken one,
-                                                              send FIRES → bubble → Buddi dots */
-        const FOG_IN = 1.1;
-        const CONDENSE_AT = 3.26;
-        const TYPE_START = 3.5;
-        const FIRE = 5.56; // send press begins; caret + typed line die here
+        /* ---- key voice cues (audio_meta.json, frame 3, re-recorded VO) ----
+           "Here's the move."                     0.10–0.75 → chrome + input settle
+           "Instead of you guessing,"             0.98–1.77 → fog of guesses fades in, cloud drifts
+           "you tell an AI called Buddi"          1.77–2.86 → cloud tumbles, camera leans in
+           "one sentence:"                        2.86–3.46 → fragments CONDENSE into the bar,
+                                                              typing begins (~0.03s keystrokes)
+           "I've got $1,000 … to do with it."     3.59–5.78 → typed line runs under the spoken one,
+                                                              send FIRES → bubble → Buddi dots,
+                                                              all still by 6.1s */
+        const FOG_IN = 0.98;
+        const CONDENSE_AT = 2.9;
+        const TYPE_START = 3.15;
+        const FIRE = 4.85; // send press begins; caret + typed line die here
         const PRESS_DUR = 0.1;
         const RELEASE_AT = FIRE + PRESS_DUR;
-        const MORPH_START = 5.74;
-        const MORPH_DUR = 0.68;
+        const MORPH_START = 5.0;
+        const MORPH_DUR = 0.62;
 
         /* ================= FOG OF GUESSES — depth-scatter-assemble ==================
            Scattered state per fragment is pure trig on its index (golden angle) — no
@@ -445,18 +448,19 @@
           });
         });
 
-        /* ---- discrete-text-sequence: fast keystroke schedule (~0.04s, fixed jitter) ---- */
+        /* ---- discrete-text-sequence: fast keystroke schedule (~0.03s, fixed jitter) —
+           runs slightly faster than before so the full line lands before FIRE ---- */
         const TXT = "I've got $1,000 and no idea what to do with it"; // matches bubble text
         const JIT = [0.010, -0.008, 0.012, 0.002, -0.010, 0.011, -0.004, 0.006]; // fixed table — no Math.random
         const SEQ = [{ t: 0, n: 0 }];
         let acc = TYPE_START;
         for (let i = 1; i <= TXT.length; i++) {
-          let d = 0.034 + JIT[i % JIT.length];
-          if (TXT[i - 1] === " ") d += 0.014; // short word-break breath
+          let d = 0.028 + JIT[i % JIT.length];
+          if (TXT[i - 1] === " ") d += 0.010; // short word-break breath
           acc += d;
           SEQ.push({ t: acc, n: i });
-          if (i === 15) acc += 0.1; // micro pause after "$1,000"
-          if (i === 27) acc += 0.06; // micro pause after "idea"
+          if (i === 15) acc += 0.08; // micro pause after "$1,000"
+          if (i === 27) acc += 0.05; // micro pause after "idea"
         }
 
         const typedEl = document.getElementById("f2-typed");
@@ -506,7 +510,7 @@
           0,
         );
 
-        /* ---- Scene 1 (0–2.8s): chrome + input settle, then the fog of guesses ---- */
+        /* ---- Scene 1 (0–2.5s): chrome + input settle, then the fog of guesses ---- */
         tl.fromTo(
           "#f2-pill",
           { opacity: 0, y: 26 },
@@ -545,7 +549,7 @@
               y: s.y + s.driftY,
               rotationX: s.rotationX * 0.72,
               rotationY: s.rotationY * 0.72,
-              duration: 2.1,
+              duration: 1.9, // per-fragment drift ends just before its condense pickup
               ease: "sine.inOut",
             },
             FOG_IN + i * 0.05,
@@ -555,18 +559,18 @@
         tl.fromTo(
           "#f2-fog-stage",
           { rotationY: 0 },
-          { rotationY: 12, duration: 2.3, ease: "sine.inOut" },
+          { rotationY: 12, duration: 1.9, ease: "sine.inOut" },
           FOG_IN,
         );
-        tl.to("#f2-fog-stage", { rotationY: 0, duration: 0.7, ease: "power2.out" }, FOG_IN + 2.3);
+        tl.to("#f2-fog-stage", { rotationY: 0, duration: 0.6, ease: "power2.out" }, FOG_IN + 1.9);
 
-        /* ---- Scene 2 (2.8–5.5s): guesses CONDENSE into the bar + the sentence types ---- */
+        /* ---- Scene 2 (2.5–4.85s): guesses CONDENSE into the bar + the sentence types ---- */
         // camera leans in for the typing push
         tl.fromTo(
           ".f2-cam",
           { x: 0, scale: 1 },
-          { x: -24, scale: 1.02, duration: 2.9, ease: "power1.inOut" },
-          2.35,
+          { x: -24, scale: 1.02, duration: 2.5, ease: "power1.inOut" },
+          2.0,
         );
         // each fragment is sucked into the input bar mouth — shrink + fade, index stagger
         frags.forEach((el, i) => {
@@ -587,8 +591,8 @@
           );
         });
         // the bar "absorbs" them — tiny swell as the guesses land
-        tl.to("#f2-pill", { scale: 1.015, duration: 0.3, ease: "power1.out" }, 3.42);
-        tl.to("#f2-pill", { scale: 1, duration: 0.4, ease: "power2.out" }, 3.72);
+        tl.to("#f2-pill", { scale: 1.015, duration: 0.3, ease: "power1.out" }, 3.06);
+        tl.to("#f2-pill", { scale: 1, duration: 0.4, ease: "power2.out" }, 3.36);
         // placeholder yields to the typed line
         tl.to(
           "#f2-placeholder",
@@ -598,11 +602,11 @@
         // input border warms green as the distilled sentence fills
         tl.to(
           "#f2-pill",
-          { borderColor: "rgba(43,217,124,0.75)", duration: 1.9, ease: "power1.inOut" },
+          { borderColor: "rgba(43,217,124,0.75)", duration: 1.6, ease: "power1.inOut" },
           TYPE_START,
         );
 
-        /* ---- Scene 3 (5.5–6.955s): the send button FIRES ---- */
+        /* ---- Scene 3 (4.85–6.1s): the send button FIRES ---- */
         // press-release-spring: linear compression in, spring recovery out (sanctioned pop)
         tl.to("#f2-send", { scale: 0.82, duration: PRESS_DUR, ease: "power1.in" }, FIRE);
         tl.to("#f2-send", { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, RELEASE_AT);
@@ -662,18 +666,18 @@
         tl.fromTo(
           "#f2-placeholder",
           { opacity: 0 },
-          { opacity: 1, duration: 0.4, ease: "power1.out", immediateRender: false },
-          6.1,
+          { opacity: 1, duration: 0.35, ease: "power1.out", immediateRender: false },
+          5.55,
         );
 
-        /* ---- Buddi typing indicator — the handoff to Frame 3. Settle otherwise. ---- */
+        /* ---- Buddi typing indicator — the handoff to the next frame. Settle otherwise. ---- */
         tl.fromTo(
           "#f2-indicator",
           { opacity: 0, y: 16, scale: 0.92 },
           { opacity: 1, y: 0, scale: 1, duration: 0.36, ease: "power3.out" },
-          6.45,
+          5.6,
         );
-        // finite staggered dot pulse (no loop) — ends inside the frame
+        // finite staggered dot pulse (no loop) — ends by 6.1s, inside the frame
         tl.fromTo(
           ".f2-dot",
           { opacity: 0.25 },
@@ -686,7 +690,7 @@
             stagger: 0.07,
             immediateRender: false,
           },
-          6.58,
+          5.72,
         );
 
         window.__timelines["02-one-sentence"] = tl;

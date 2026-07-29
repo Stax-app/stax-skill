@@ -3,20 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <!-- Frame 2 — Follow beat: the strategy shelf · grid-card-assemble (scrolling list + counter)
-         Voice 02.wav (10.411s) is time-compressed to the frame's 6.848s → cue = word_start × 0.6578.
-         Scene 1 (0.0–2.74s): "MY STRATEGIES" eyebrow chrome lands upper-third; the big green
-           counter rolls 0→40 (deterministic object-value fromTo, integer) landing on the "40"
-           cue (~2.07s) and the "+" pops; beneath, five dark strategy cards cascade in
-           (stagger-assemble, short-path directly into slot) with green tick circles + checks
-           DRAWING (svg-path-draw). Generic names only — NO tickers / companies / numbers.
-         Scene 2 (2.74–5.25s): on "without ever picking a stock on gut" the list SCROLLS
-           slowly upward — ONE finite translate (2.80→4.32s) — revealing five more cards;
-           each passing card's tick draws, staggered. The volume IS the message.
-         Scene 3 (5.25–6.848s): on "hit follow" a solid-green "Follow" pill slides in
+         Voice 02.wav re-record, 8.171s at native speed → cue = word_start directly (no compression).
+         Scene 0 (0.2–1.6s): on "I'm Max, the CMO here at Stax" a compact NAME BADGE chip
+           spring-pops upper-center (dark card, teal avatar circle, "MAX" / "CMO · STAX"),
+           then SLIDES UP (one fromTo) to sit compactly above the MY STRATEGIES header —
+           present but out of the way for the rest of the frame.
+         Scene 1 (1.5–3.9s): "MY STRATEGIES" eyebrow chrome lands upper-third on "and this
+           year"; the big green counter rolls 0→40 (deterministic object-value fromTo,
+           integer) landing on the end of the "40" cue (~3.2s) and the "+" pops on "tested".
+           Generic names only — NO tickers / companies / performance numbers ("MAX" +
+           "CMO · STAX" allowed: Stax is the company name per the storyboard naming rule).
+         Scene 2 (3.5–5.65s): during "without ever picking a stock on gut" five dark strategy
+           cards cascade in (stagger-assemble, short-path directly into slot) with green tick
+           circles + checks DRAWING (svg-path-draw), then the list SCROLLS slowly upward —
+           ONE finite translate (4.40→5.65s) — revealing five more cards; each passing
+           card's tick draws, staggered. The volume IS the message.
+         Scene 3 (5.66–8.171s): on "hit follow" a solid-green "Follow" pill slides in
            bottom-right of the content zone; a finger-tap disc lands it (cursor-click-ripple +
            press-release-spring — the frame's sanctioned pop) and the pill FLIPS to the dark
-           bordered "Following ✓" state with a drawn check; ambient settle glow, still hold.
-         Canvas 1080×1920 · duration 6.848s · ALL content above y≈1250 (captions at y1290+). -->
+           bordered "Following ✓" state with a drawn check; ambient settle glow lands by
+           ~7.6s, then stillness.
+         Canvas 1080×1920 · duration 8.171s (+0.5s crossfade tail → clips 8.671) ·
+         ALL content above y≈1250 (captions at y1290+). -->
   </head>
   <body>
     <template>
@@ -68,6 +76,60 @@
           position: absolute;
           inset: 0;
           will-change: transform;
+        }
+
+        /* ---- NAME BADGE: pops upper-center on "I'm Max…", slides up above the header ----
+           Base position IS the final compact slot (top strip, above the eyebrow at y100);
+           the pop happens at a +y offset so the slide-up is one clean fromTo back to 0. */
+        .f2b-badge {
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 340px;
+          height: 116px;
+          margin-left: -170px;
+          background: #1A222A;
+          border: 1.5px solid rgba(43, 217, 124, 0.45);
+          border-radius: 14px;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          gap: 22px;
+          padding: 0 30px;
+          transform-origin: 50% 50%;
+          will-change: transform;
+          opacity: 0;
+        }
+        .f2b-badge-avatar {
+          flex: none;
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          background: #2BD97C;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 36px;
+          font-weight: 700;
+          color: #0B0E11;
+        }
+        .f2b-badge-name {
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 40px;
+          font-weight: 700;
+          line-height: 1.1;
+          letter-spacing: 0.02em;
+          color: #FFFFFF;
+        }
+        .f2b-badge-role {
+          margin-top: 2px;
+          font-family: "Space Grotesk", sans-serif;
+          font-size: 22px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #2BD97C;
         }
 
         /* ---- HEADER CHROME: eyebrow + rolling counter ---- */
@@ -326,13 +388,23 @@
         data-composition-id="02-follow-dashboard"
         data-width="1080"
         data-height="1920"
+        data-duration="8.671"
       >
-        <div class="f2b-bg clip" data-start="0" data-duration="7.348" data-track-index="0">
+        <div class="f2b-bg clip" data-start="0" data-duration="8.671" data-track-index="0">
           <div class="f2b-bg-tint"></div>
         </div>
 
-        <div class="f2b-cam clip" data-start="0" data-duration="7.348" data-track-index="1">
+        <div class="f2b-cam clip" data-start="0" data-duration="8.671" data-track-index="1">
           <div class="f2b-settle-glow" id="f2b-settle-glow"></div>
+
+          <!-- NAME BADGE: "I'm Max, the CMO here at Stax" — pops, then parks above the header -->
+          <div class="f2b-badge" id="f2b-badge">
+            <div class="f2b-badge-avatar">M</div>
+            <div>
+              <div class="f2b-badge-name">MAX</div>
+              <div class="f2b-badge-role">CMO &middot; STAX</div>
+            </div>
+          </div>
 
           <!-- HEADER: uppercase tracked green eyebrow + rolling counter -->
           <div class="f2b-eyebrow" id="f2b-eyebrow">My Strategies</div>
