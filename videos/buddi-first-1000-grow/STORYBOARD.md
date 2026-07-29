@@ -19,7 +19,7 @@ music: none available offline — logged as gap; SFX only
 
 - scene: Big "$1,000" motion text with a blinking green cursor; it types out "→ where does it go?" beneath. On-screen text: "$1,000 →"
 - voiceover: "Here's exactly how to put your first $1,000 to work in 2026 — without picking a single stock yourself."
-- duration: 5.824s
+- duration: 5.013s
 - transition_in: cut
 - status: animated
 - src: compositions/frames/01-thousand-hook.html
@@ -43,8 +43,8 @@ keyMessage: There's a way to deploy your first $1,000 without stock-picking.
 ## Frame 2 — Follow beat: the strategy shelf
 
 - scene: A strategy dashboard flashes — a scrolling list of strategy cards (generic names, NO tickers) with green "tested" ticks; a counter rolls to "40+ strategies tested"; a follow button gets tapped and flips to "Following ✓".
-- voiceover: "I'm Max, and this year I've built over 40 tested strategies without ever picking a stock on gut — so hit follow if you want your money actually working."
-- duration: 6.848s
+- voiceover: "I'm Max, the CMO here at Stax — and this year I've built over 40 tested strategies without ever picking a stock on gut. So hit follow if you want your money actually working."
+- duration: 8.171s
 - transition_in: crossfade
 - status: outline
 - src: compositions/frames/02-follow-dashboard.html
@@ -69,7 +69,7 @@ keyMessage: This guy tests strategies for a living — follow.
 
 - scene: The product input bar; the exact sentence "I've got $1,000 and no idea what to do with it" types in fast (~1.5× speed-ramp) and sends as the green-tinted user bubble. Top stepper chrome appears.
 - voiceover: "Here's the move. Instead of you guessing, you tell an AI called Buddi one sentence: 'I've got $1,000 and no idea what to do with it.'"
-- duration: 6.955s
+- duration: 6.208s
 - transition_in: crossfade
 - status: animated
 - src: compositions/frames/02-one-sentence.html
@@ -194,7 +194,7 @@ keyMessage: The questions aren't a quiz — they're how it locks onto you.
 
 - scene: Strategy rule cards assemble (NO tickers, no named companies) → a 0.5s HOLD → the results chart draws under a "Backtest Result" label — chart is SHAPE ONLY, no numeric values anywhere. Fine print: "For educational purposes only. Backtested results do not represent actual trading outcomes. Past performance is not indicative of future results. Not investment advice."
 - voiceover: "Answer those, and it builds the whole thing for you — a complete, diversified strategy for your $1,000 — and shows you how it would have performed on real past prices before you risk a cent."
-- duration: 9.515s
+- duration: 8.789s
 - transition_in: zoom-through
 - status: animated
 - src: compositions/frames/07-build-backtest.html

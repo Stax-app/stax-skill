@@ -4,6 +4,7 @@
 **Voice settings:** speed 1.45 (≈ the brief's fast, casual read)
 **Voice direction:** Sharp friend in finance, not a narrator. Casual, quick, confident.
 
+> VO note: read "$1,000" as "one thousand dollars" (the scratch TTS does).
 > Tuesday updates: follow beat restored with the provided count (40); "in 2026" added to the hook;
 > risk line now says "drop 20%"; CTA keyword is BUDDI. Talking-head beats are rendered as
 > motion-text stand-ins (no camera footage available — capture gap).
@@ -22,7 +23,7 @@
 **Time:** 3 – 9s
 **Delivery:** Credential without bragging; "actually working" lands the follow ask.
 
-    I'm Max, and this year I've built over 40 tested strategies without ever picking a stock on gut — so hit follow if you want your money actually working.
+    I'm Max, the CMO here at Stax — and this year I've built over 40 tested strategies without ever picking a stock on gut. So hit follow if you want your money actually working.
 
 ## Line 3 — One sentence into Buddi (Frame 3)
 

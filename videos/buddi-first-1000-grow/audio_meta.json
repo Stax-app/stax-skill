@@ -4,391 +4,416 @@
   {
    "frame": 1,
    "path": "assets/voice/01.wav",
-   "duration_s": 5.824,
+   "duration_s": 5.013,
    "words": [
     {
      "text": "Here's",
      "start": 0.1,
-     "end": 0.407
+     "end": 0.362
     },
     {
      "text": "exactly",
-     "start": 0.407,
-     "end": 0.842
+     "start": 0.362,
+     "end": 0.733
     },
     {
      "text": "how",
-     "start": 0.842,
-     "end": 1.021
+     "start": 0.733,
+     "end": 0.886
     },
     {
      "text": "to",
-     "start": 1.021,
-     "end": 1.2
+     "start": 0.886,
+     "end": 1.038
     },
     {
      "text": "put",
-     "start": 1.2,
-     "end": 1.379
+     "start": 1.038,
+     "end": 1.191
     },
     {
      "text": "your",
-     "start": 1.379,
-     "end": 1.558
+     "start": 1.191,
+     "end": 1.344
     },
     {
      "text": "first",
-     "start": 1.558,
-     "end": 1.737
+     "start": 1.344,
+     "end": 1.497
     },
     {
      "text": "$1,000",
-     "start": 1.737,
-     "end": 2.376
+     "start": 1.497,
+     "end": 2.042
     },
     {
      "text": "to",
-     "start": 2.376,
-     "end": 2.555
+     "start": 2.042,
+     "end": 2.195
     },
     {
      "text": "work",
-     "start": 2.555,
-     "end": 2.734
+     "start": 2.195,
+     "end": 2.348
     },
     {
      "text": "in",
-     "start": 2.734,
-     "end": 2.913
+     "start": 2.348,
+     "end": 2.5
     },
     {
      "text": "2026",
-     "start": 2.913,
-     "end": 3.553
+     "start": 2.5,
+     "end": 3.046
     },
     {
      "text": "\u2014",
-     "start": 3.553,
-     "end": 3.553
+     "start": 3.046,
+     "end": 3.046
     },
     {
      "text": "without",
-     "start": 3.757,
-     "end": 4.064
+     "start": 3.22,
+     "end": 3.482
     },
     {
      "text": "picking",
-     "start": 4.064,
-     "end": 4.371
+     "start": 3.482,
+     "end": 3.744
     },
     {
      "text": "a",
-     "start": 4.371,
-     "end": 4.55
+     "start": 3.744,
+     "end": 3.897
     },
     {
      "text": "single",
-     "start": 4.55,
-     "end": 4.857
+     "start": 3.897,
+     "end": 4.159
     },
     {
      "text": "stock",
-     "start": 4.857,
-     "end": 5.036
+     "start": 4.159,
+     "end": 4.311
     },
     {
      "text": "yourself.",
-     "start": 5.036,
-     "end": 5.343
+     "start": 4.311,
+     "end": 4.573
     }
    ]
   },
   {
    "frame": 2,
    "path": "assets/voice/02.wav",
-   "duration_s": 6.848,
+   "duration_s": 8.171,
    "words": [
     {
      "text": "I'm",
      "start": 0.1,
-     "end": 0.254
+     "end": 0.258
     },
     {
      "text": "Max,",
-     "start": 0.254,
-     "end": 0.408
+     "start": 0.258,
+     "end": 0.416
     },
     {
-     "text": "and",
-     "start": 0.408,
-     "end": 0.561
+     "text": "the",
+     "start": 0.416,
+     "end": 0.574
     },
     {
-     "text": "this",
-     "start": 0.561,
-     "end": 0.715
+     "text": "CMO",
+     "start": 0.574,
+     "end": 0.731
     },
     {
-     "text": "year",
-     "start": 0.715,
-     "end": 0.869
+     "text": "here",
+     "start": 0.731,
+     "end": 1.002
     },
     {
-     "text": "I've",
-     "start": 0.869,
-     "end": 1.133
+     "text": "at",
+     "start": 1.002,
+     "end": 1.16
     },
     {
-     "text": "built",
-     "start": 1.133,
-     "end": 1.287
-    },
-    {
-     "text": "over",
-     "start": 1.287,
-     "end": 1.55
-    },
-    {
-     "text": "40",
-     "start": 1.55,
-     "end": 2.1
-    },
-    {
-     "text": "tested",
-     "start": 2.1,
-     "end": 2.363
-    },
-    {
-     "text": "strategies",
-     "start": 2.363,
-     "end": 2.737
-    },
-    {
-     "text": "without",
-     "start": 2.737,
-     "end": 3.0
-    },
-    {
-     "text": "ever",
-     "start": 3.0,
-     "end": 3.264
-    },
-    {
-     "text": "picking",
-     "start": 3.264,
-     "end": 3.528
-    },
-    {
-     "text": "a",
-     "start": 3.528,
-     "end": 3.682
-    },
-    {
-     "text": "stock",
-     "start": 3.682,
-     "end": 3.835
-    },
-    {
-     "text": "on",
-     "start": 3.835,
-     "end": 3.989
-    },
-    {
-     "text": "gut",
-     "start": 3.989,
-     "end": 4.143
+     "text": "Stax",
+     "start": 1.16,
+     "end": 1.318
     },
     {
      "text": "\u2014",
-     "start": 4.143,
-     "end": 4.143
+     "start": 1.318,
+     "end": 1.318
     },
     {
-     "text": "so",
-     "start": 4.319,
-     "end": 4.473
+     "text": "and",
+     "start": 1.498,
+     "end": 1.656
+    },
+    {
+     "text": "this",
+     "start": 1.656,
+     "end": 1.814
+    },
+    {
+     "text": "year",
+     "start": 1.814,
+     "end": 1.972
+    },
+    {
+     "text": "I've",
+     "start": 1.972,
+     "end": 2.242
+    },
+    {
+     "text": "built",
+     "start": 2.242,
+     "end": 2.4
+    },
+    {
+     "text": "over",
+     "start": 2.4,
+     "end": 2.671
+    },
+    {
+     "text": "40",
+     "start": 2.671,
+     "end": 3.235
+    },
+    {
+     "text": "tested",
+     "start": 3.235,
+     "end": 3.505
+    },
+    {
+     "text": "strategies",
+     "start": 3.505,
+     "end": 3.889
+    },
+    {
+     "text": "without",
+     "start": 3.889,
+     "end": 4.159
+    },
+    {
+     "text": "ever",
+     "start": 4.159,
+     "end": 4.43
+    },
+    {
+     "text": "picking",
+     "start": 4.43,
+     "end": 4.701
+    },
+    {
+     "text": "a",
+     "start": 4.701,
+     "end": 4.858
+    },
+    {
+     "text": "stock",
+     "start": 4.858,
+     "end": 5.016
+    },
+    {
+     "text": "on",
+     "start": 5.016,
+     "end": 5.174
+    },
+    {
+     "text": "gut.",
+     "start": 5.174,
+     "end": 5.332
+    },
+    {
+     "text": "So",
+     "start": 5.58,
+     "end": 5.738
     },
     {
      "text": "hit",
-     "start": 4.473,
-     "end": 4.626
+     "start": 5.738,
+     "end": 5.896
     },
     {
      "text": "follow",
-     "start": 4.626,
-     "end": 4.89
+     "start": 5.896,
+     "end": 6.167
     },
     {
      "text": "if",
-     "start": 4.89,
-     "end": 5.044
+     "start": 6.167,
+     "end": 6.324
     },
     {
      "text": "you",
-     "start": 5.044,
-     "end": 5.198
+     "start": 6.324,
+     "end": 6.482
     },
     {
      "text": "want",
-     "start": 5.198,
-     "end": 5.352
+     "start": 6.482,
+     "end": 6.64
     },
     {
      "text": "your",
-     "start": 5.352,
-     "end": 5.505
+     "start": 6.64,
+     "end": 6.798
     },
     {
      "text": "money",
-     "start": 5.505,
-     "end": 5.769
+     "start": 6.798,
+     "end": 7.069
     },
     {
      "text": "actually",
-     "start": 5.769,
-     "end": 6.143
+     "start": 7.069,
+     "end": 7.452
     },
     {
      "text": "working.",
-     "start": 6.143,
-     "end": 6.406
+     "start": 7.452,
+     "end": 7.723
     }
    ]
   },
   {
    "frame": 3,
    "path": "assets/voice/03.wav",
-   "duration_s": 6.955,
+   "duration_s": 6.208,
    "words": [
     {
      "text": "Here's",
      "start": 0.1,
-     "end": 0.382
+     "end": 0.351
     },
     {
      "text": "the",
-     "start": 0.382,
-     "end": 0.547
+     "start": 0.351,
+     "end": 0.497
     },
     {
      "text": "move.",
-     "start": 0.547,
-     "end": 0.829
+     "start": 0.497,
+     "end": 0.747
     },
     {
      "text": "Instead",
-     "start": 1.088,
-     "end": 1.37
+     "start": 0.977,
+     "end": 1.227
     },
     {
      "text": "of",
-     "start": 1.37,
-     "end": 1.534
+     "start": 1.227,
+     "end": 1.373
     },
     {
      "text": "you",
-     "start": 1.534,
-     "end": 1.699
+     "start": 1.373,
+     "end": 1.52
     },
     {
      "text": "guessing,",
-     "start": 1.699,
-     "end": 1.981
+     "start": 1.52,
+     "end": 1.77
     },
     {
      "text": "you",
-     "start": 1.981,
-     "end": 2.146
+     "start": 1.77,
+     "end": 1.916
     },
     {
      "text": "tell",
-     "start": 2.146,
-     "end": 2.31
+     "start": 1.916,
+     "end": 2.062
     },
     {
      "text": "an",
-     "start": 2.31,
-     "end": 2.475
+     "start": 2.062,
+     "end": 2.209
     },
     {
      "text": "AI",
-     "start": 2.475,
-     "end": 2.64
+     "start": 2.209,
+     "end": 2.355
     },
     {
      "text": "called",
-     "start": 2.64,
-     "end": 2.922
+     "start": 2.355,
+     "end": 2.605
     },
     {
      "text": "Buddi",
-     "start": 2.922,
-     "end": 3.204
+     "start": 2.605,
+     "end": 2.856
     },
     {
      "text": "one",
-     "start": 3.204,
-     "end": 3.486
+     "start": 2.856,
+     "end": 3.106
     },
     {
      "text": "sentence:",
-     "start": 3.486,
-     "end": 3.886
+     "start": 3.106,
+     "end": 3.461
     },
     {
      "text": "I've",
-     "start": 4.027,
-     "end": 4.309
+     "start": 3.586,
+     "end": 3.837
     },
     {
      "text": "got",
-     "start": 4.309,
-     "end": 4.474
+     "start": 3.837,
+     "end": 3.983
     },
     {
      "text": "$1,000",
-     "start": 4.474,
-     "end": 5.062
+     "start": 3.983,
+     "end": 4.505
     },
     {
      "text": "and",
-     "start": 5.062,
-     "end": 5.226
+     "start": 4.505,
+     "end": 4.651
     },
     {
      "text": "no",
-     "start": 5.226,
-     "end": 5.391
+     "start": 4.651,
+     "end": 4.797
     },
     {
      "text": "idea",
-     "start": 5.391,
-     "end": 5.673
+     "start": 4.797,
+     "end": 5.048
     },
     {
      "text": "what",
-     "start": 5.673,
-     "end": 5.838
+     "start": 5.048,
+     "end": 5.194
     },
     {
      "text": "to",
-     "start": 5.838,
-     "end": 6.002
+     "start": 5.194,
+     "end": 5.34
     },
     {
      "text": "do",
-     "start": 6.002,
-     "end": 6.167
+     "start": 5.34,
+     "end": 5.486
     },
     {
      "text": "with",
-     "start": 6.167,
-     "end": 6.331
+     "start": 5.486,
+     "end": 5.632
     },
     {
      "text": "it.",
-     "start": 6.331,
-     "end": 6.496
+     "start": 5.632,
+     "end": 5.778
     }
    ]
   },
@@ -933,187 +958,187 @@
   {
    "frame": 8,
    "path": "assets/voice/08.wav",
-   "duration_s": 9.515,
+   "duration_s": 8.789,
    "words": [
     {
      "text": "Answer",
      "start": 0.1,
-     "end": 0.405
+     "end": 0.381
     },
     {
      "text": "those,",
-     "start": 0.405,
-     "end": 0.709
+     "start": 0.381,
+     "end": 0.661
     },
     {
      "text": "and",
-     "start": 0.709,
-     "end": 0.887
+     "start": 0.661,
+     "end": 0.825
     },
     {
      "text": "it",
-     "start": 0.887,
-     "end": 1.065
+     "start": 0.825,
+     "end": 0.989
     },
     {
      "text": "builds",
-     "start": 1.065,
-     "end": 1.242
+     "start": 0.989,
+     "end": 1.152
     },
     {
      "text": "the",
-     "start": 1.242,
-     "end": 1.42
+     "start": 1.152,
+     "end": 1.316
     },
     {
      "text": "whole",
-     "start": 1.42,
-     "end": 1.725
+     "start": 1.316,
+     "end": 1.597
     },
     {
      "text": "thing",
-     "start": 1.725,
-     "end": 1.902
+     "start": 1.597,
+     "end": 1.76
     },
     {
      "text": "for",
-     "start": 1.902,
-     "end": 2.08
+     "start": 1.76,
+     "end": 1.924
     },
     {
      "text": "you",
-     "start": 2.08,
-     "end": 2.258
+     "start": 1.924,
+     "end": 2.088
     },
     {
      "text": "\u2014",
-     "start": 2.258,
-     "end": 2.258
+     "start": 2.088,
+     "end": 2.088
     },
     {
      "text": "a",
-     "start": 2.461,
-     "end": 2.638
+     "start": 2.275,
+     "end": 2.439
     },
     {
      "text": "complete,",
-     "start": 2.638,
-     "end": 3.07
+     "start": 2.439,
+     "end": 2.836
     },
     {
      "text": "diversified",
-     "start": 3.07,
-     "end": 3.628
+     "start": 2.836,
+     "end": 3.351
     },
     {
      "text": "strategy",
-     "start": 3.628,
-     "end": 4.06
+     "start": 3.351,
+     "end": 3.748
     },
     {
      "text": "for",
-     "start": 4.06,
-     "end": 4.238
+     "start": 3.748,
+     "end": 3.912
     },
     {
      "text": "your",
-     "start": 4.238,
-     "end": 4.415
+     "start": 3.912,
+     "end": 4.076
     },
     {
      "text": "$1,000",
-     "start": 4.415,
-     "end": 5.05
+     "start": 4.076,
+     "end": 4.66
     },
     {
      "text": "\u2014",
-     "start": 5.05,
-     "end": 5.05
+     "start": 4.66,
+     "end": 4.66
     },
     {
      "text": "and",
-     "start": 5.253,
-     "end": 5.431
+     "start": 4.847,
+     "end": 5.011
     },
     {
      "text": "shows",
-     "start": 5.431,
-     "end": 5.608
+     "start": 5.011,
+     "end": 5.175
     },
     {
      "text": "you",
-     "start": 5.608,
-     "end": 5.786
+     "start": 5.175,
+     "end": 5.339
     },
     {
      "text": "how",
-     "start": 5.786,
-     "end": 5.964
+     "start": 5.339,
+     "end": 5.502
     },
     {
      "text": "it",
-     "start": 5.964,
-     "end": 6.142
+     "start": 5.502,
+     "end": 5.666
     },
     {
      "text": "would",
-     "start": 6.142,
-     "end": 6.319
+     "start": 5.666,
+     "end": 5.83
     },
     {
      "text": "have",
-     "start": 6.319,
-     "end": 6.624
+     "start": 5.83,
+     "end": 6.11
     },
     {
      "text": "performed",
-     "start": 6.624,
-     "end": 7.055
+     "start": 6.11,
+     "end": 6.508
     },
     {
      "text": "on",
-     "start": 7.055,
-     "end": 7.233
+     "start": 6.508,
+     "end": 6.672
     },
     {
      "text": "real",
-     "start": 7.233,
-     "end": 7.411
+     "start": 6.672,
+     "end": 6.835
     },
     {
      "text": "past",
-     "start": 7.411,
-     "end": 7.589
+     "start": 6.835,
+     "end": 6.999
     },
     {
      "text": "prices",
-     "start": 7.589,
-     "end": 7.893
+     "start": 6.999,
+     "end": 7.28
     },
     {
      "text": "before",
-     "start": 7.893,
-     "end": 8.325
+     "start": 7.28,
+     "end": 7.677
     },
     {
      "text": "you",
-     "start": 8.325,
-     "end": 8.502
+     "start": 7.677,
+     "end": 7.841
     },
     {
      "text": "risk",
-     "start": 8.502,
-     "end": 8.68
+     "start": 7.841,
+     "end": 8.005
     },
     {
      "text": "a",
-     "start": 8.68,
-     "end": 8.858
+     "start": 8.005,
+     "end": 8.168
     },
     {
      "text": "cent.",
-     "start": 8.858,
-     "end": 9.035
+     "start": 8.168,
+     "end": 8.332
     }
    ]
   },
