@@ -36,7 +36,8 @@ regs() { # sum complete_registration from an actions array on stdin row
 row() { # row <file> -> summary line for a single-row insights response
   jq -r 'if (.data | length) == 0 then "no delivery" else .data[0] |
     ( [.actions[]? | select(.action_type=="complete_registration") | .value | tonumber] | add // 0 ) as $regs |
-    "spend $\(.spend) | impr \(.impressions) | CPM $\(.cpm | tonumber * 100 | round / 100) | link clicks \(.inline_link_clicks // "0") | link CTR \((.inline_link_click_ctr // "0") | tonumber * 100 | round / 100)% | CPC(link) $\(.cost_per_inline_link_click // "-") | REGISTRATIONS \($regs) | cost/reg \(if $regs > 0 then "$" + ((.spend | tonumber) / $regs * 100 | round / 100 | tostring) else "n/a" end)"
+    ( [.actions[]? | select(.action_type=="offsite_conversion.fb_pixel_lead") | .value | tonumber] | add // 0 ) as $leads |
+    "spend $\(.spend) | impr \(.impressions) | CPM $\(.cpm | tonumber * 100 | round / 100) | link clicks \(.inline_link_clicks // "0") | link CTR \((.inline_link_click_ctr // "0") | tonumber * 100 | round / 100)% | CPC(link) $\(.cost_per_inline_link_click // "-") | REGISTRATIONS \($regs) | pixel leads \($leads) | cost/reg \(if $regs > 0 then "$" + ((.spend | tonumber) / $regs * 100 | round / 100 | tostring) else "n/a" end)"
     end' "$1"
 }
 
